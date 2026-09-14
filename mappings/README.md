@@ -1,6 +1,6 @@
 # External Vocabulary Mappings
 
-This directory contains SKOS alignments between ATLAS concepts and external controlled vocabularies. These are informational cross-references, not ontology imports — they do not affect the ATLAS class hierarchy.
+This directory contains SKOS alignments between CAVEAT concepts and external controlled vocabularies. These are informational cross-references, not ontology imports — they do not affect the CAVEAT class hierarchy.
 
 ## Files
 

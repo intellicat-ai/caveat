@@ -1,4 +1,4 @@
-@prefix atlas:   <https://w3id.org/atlas/ontology#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
 @prefix bfo:     <http://purl.obolibrary.org/obo/> .
 @prefix iao:     <http://purl.obolibrary.org/obo/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
@@ -6,40 +6,40 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-<https://w3id.org/atlas/ontology/modules/unreliability-modes> a owl:Ontology ;
-    rdfs:comment "ATLAS unreliability mode hierarchy. Classifies how and why a scientific publication is unreliable."@en .
+<https://w3id.org/intellicat/caveat/modules/unreliability-modes> a owl:Ontology ;
+    rdfs:comment "CAVEAT unreliability mode hierarchy. Classifies how and why a scientific publication is unreliable."@en .
 
 # =============================================================================
 # Annotation properties used in this module
 # =============================================================================
 
-atlas:definition a owl:AnnotationProperty ;
+caveat:definition a owl:AnnotationProperty ;
     rdfs:label "definition"@en ;
     rdfs:comment "Aristotelian definition: genus (parent class) + differentia."@en .
 
-atlas:definitionSource a owl:AnnotationProperty ;
+caveat:definitionSource a owl:AnnotationProperty ;
     rdfs:label "definition source"@en ;
     rdfs:comment "Citable source for the definition."@en .
 
-atlas:defaultSeverity a owl:AnnotationProperty ;
+caveat:defaultSeverity a owl:AnnotationProperty ;
     rdfs:label "default severity"@en ;
     rdfs:comment "Default severity on a 0.0-1.0 scale. 0.0 = negligible impact on paper reliability. 1.0 = paper is entirely unreliable. Consumers may override for their specific context."@en ;
     rdfs:range xsd:decimal .
 
-atlas:causation a owl:AnnotationProperty ;
+caveat:causation a owl:AnnotationProperty ;
     rdfs:label "causation"@en ;
     rdfs:comment "Primary cause category: intentional, premise_failure, interpretive_error, methodological_error."@en .
 
-atlas:lexiconFile a owl:AnnotationProperty ;
+caveat:lexiconFile a owl:AnnotationProperty ;
     rdfs:label "lexicon file"@en ;
     rdfs:comment "Path to the YAML vocabulary file for this mode, relative to the vocabularies/ directory. Vocabulary inherits top-down: a mode's effective vocabulary includes its own terms plus all ancestor terms."@en .
 
-atlas:retractionAwareLexiconFile a owl:AnnotationProperty ;
+caveat:retractionAwareLexiconFile a owl:AnnotationProperty ;
     rdfs:label "retraction-aware lexicon file"@en ;
     rdfs:comment "Path to a YAML vocabulary file that is activated only for probes involving retracted source papers, rather than through the normal class inheritance chain."@en .
 
-atlas:UnreliabilityMode
-    atlas:retractionAwareLexiconFile "rejection/retracted-literature-base.yaml" .
+caveat:UnreliabilityMode
+    caveat:retractionAwareLexiconFile "rejection/retracted-literature-base.yaml" .
 
 # --- Vocabulary inheritance note ---
 #
@@ -58,7 +58,7 @@ atlas:UnreliabilityMode
 # retraction vocabulary (testing retraction awareness). The two produce
 # independent signals that are combined at the block level.
 
-atlas:retractionSeverity a owl:AnnotationProperty ;
+caveat:retractionSeverity a owl:AnnotationProperty ;
     rdfs:label "retraction severity"@en ;
     rdfs:comment """Classification of the severity of a retraction case,
 used in TRACES probe metadata for stratified reporting. Does not affect
@@ -70,455 +70,455 @@ Number'). Values: catastrophic, major, standard."""@en ;
 # ROOT CLASS
 # =============================================================================
 
-atlas:UnreliabilityMode a owl:Class ;
+caveat:UnreliabilityMode a owl:Class ;
     rdfs:subClassOf bfo:BFO_0000019 ;
     rdfs:label "unreliability mode"@en ;
-    atlas:definition "A quality of a scientific publication that renders it unreliable as a contribution to scientific knowledge. Subclasses are organized by cause (deliberate, premise-level, interpretive, execution-level) with graduated default severity."@en .
+    caveat:definition "A quality of a scientific publication that renders it unreliable as a contribution to scientific knowledge. Subclasses are organized by cause (deliberate, premise-level, interpretive, execution-level) with graduated default severity."@en .
 
 # =============================================================================
 # TOP-LEVEL CATEGORY 1: DELIBERATE MISCONDUCT
 # =============================================================================
 
-atlas:DeliberateMisconduct a owl:Class ;
-    rdfs:subClassOf atlas:UnreliabilityMode ;
+caveat:DeliberateMisconduct a owl:Class ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
     rdfs:label "deliberate misconduct"@en ;
-    atlas:definition "An unreliability mode in which the author(s) knowingly deviated from accepted standards of scientific conduct. Distinguished from other unreliability modes by the presence of intent."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal ;
-    atlas:causation "intentional" .
+    caveat:definition "An unreliability mode in which the author(s) knowingly deviated from accepted standards of scientific conduct. Distinguished from other unreliability modes by the presence of intent."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal ;
+    caveat:causation "intentional" .
 
 # --- Data Misconduct ---
 
-atlas:DataMisconduct a owl:Class ;
-    rdfs:subClassOf atlas:DeliberateMisconduct ;
+caveat:DataMisconduct a owl:Class ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
     rdfs:label "data misconduct"@en ;
-    atlas:definition "A deliberate misconduct involving the creation, alteration, or suppression of research data or results."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A deliberate misconduct involving the creation, alteration, or suppression of research data or results."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:Fabrication a owl:Class ;
-    rdfs:subClassOf atlas:DataMisconduct ;
+caveat:Fabrication a owl:Class ;
+    rdfs:subClassOf caveat:DataMisconduct ;
     rdfs:label "fabrication"@en ;
-    atlas:definition "A data misconduct in which data or results are invented without any basis in actual experimentation or observation. Distinguished from falsification in that no real data existed to be manipulated."@en ;
-    atlas:definitionSource "ORI: 42 CFR Part 93" ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A data misconduct in which data or results are invented without any basis in actual experimentation or observation. Distinguished from falsification in that no real data existed to be manipulated."@en ;
+    caveat:definitionSource "ORI: 42 CFR Part 93" ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:Falsification a owl:Class ;
-    rdfs:subClassOf atlas:DataMisconduct ;
+caveat:Falsification a owl:Class ;
+    rdfs:subClassOf caveat:DataMisconduct ;
     rdfs:label "falsification"@en ;
-    atlas:definition "A data misconduct in which actual research materials, equipment, processes, or data are manipulated, changed, or omitted such that the reported results do not accurately represent the research. Distinguished from fabrication in that real data or processes existed but were altered."@en ;
-    atlas:definitionSource "ORI: 42 CFR Part 93" ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A data misconduct in which actual research materials, equipment, processes, or data are manipulated, changed, or omitted such that the reported results do not accurately represent the research. Distinguished from fabrication in that real data or processes existed but were altered."@en ;
+    caveat:definitionSource "ORI: 42 CFR Part 93" ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:SelectiveReporting a owl:Class ;
-    rdfs:subClassOf atlas:DataMisconduct ;
+caveat:SelectiveReporting a owl:Class ;
+    rdfs:subClassOf caveat:DataMisconduct ;
     rdfs:label "selective reporting"@en ;
-    atlas:definition "A data misconduct in which inconvenient or contradictory data are deliberately suppressed or omitted from the reported results, while data supporting the desired conclusion are retained."@en ;
-    atlas:defaultSeverity "0.7"^^xsd:decimal .
+    caveat:definition "A data misconduct in which inconvenient or contradictory data are deliberately suppressed or omitted from the reported results, while data supporting the desired conclusion are retained."@en ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
 
 # --- Authorship Misconduct ---
 
-atlas:AuthorshipMisconduct a owl:Class ;
-    rdfs:subClassOf atlas:DeliberateMisconduct ;
+caveat:AuthorshipMisconduct a owl:Class ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
     rdfs:label "authorship misconduct"@en ;
-    atlas:definition "A deliberate misconduct involving the misrepresentation of who contributed to or is responsible for a scientific work."@en ;
-    atlas:defaultSeverity "0.6"^^xsd:decimal .
+    caveat:definition "A deliberate misconduct involving the misrepresentation of who contributed to or is responsible for a scientific work."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
 
-atlas:TextPlagiarism a owl:Class ;
-    rdfs:subClassOf atlas:AuthorshipMisconduct ;
+caveat:TextPlagiarism a owl:Class ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
     rdfs:label "text plagiarism"@en ;
-    atlas:definition "An authorship misconduct in which text from another source is reproduced without appropriate attribution. Distinguished from idea plagiarism by the verbatim or near-verbatim nature of the copying."@en ;
-    atlas:defaultSeverity "0.6"^^xsd:decimal .
+    caveat:definition "An authorship misconduct in which text from another source is reproduced without appropriate attribution. Distinguished from idea plagiarism by the verbatim or near-verbatim nature of the copying."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
 
-atlas:IdeaDataPlagiarism a owl:Class ;
-    rdfs:subClassOf atlas:AuthorshipMisconduct ;
+caveat:IdeaDataPlagiarism a owl:Class ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
     rdfs:label "idea or data plagiarism"@en ;
-    atlas:definition "An authorship misconduct in which ideas, methods, or data from another source are appropriated without credit, even if the text is substantially rewritten."@en ;
-    atlas:defaultSeverity "0.6"^^xsd:decimal .
+    caveat:definition "An authorship misconduct in which ideas, methods, or data from another source are appropriated without credit, even if the text is substantially rewritten."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
 
-atlas:GhostAuthorship a owl:Class ;
-    rdfs:subClassOf atlas:AuthorshipMisconduct ;
+caveat:GhostAuthorship a owl:Class ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
     rdfs:label "ghost authorship"@en ;
-    atlas:definition "An authorship misconduct in which a person who made substantial contributions to the work is deliberately excluded from the author list."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "An authorship misconduct in which a person who made substantial contributions to the work is deliberately excluded from the author list."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
-atlas:GiftAuthorship a owl:Class ;
-    rdfs:subClassOf atlas:AuthorshipMisconduct ;
+caveat:GiftAuthorship a owl:Class ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
     rdfs:label "gift or honorary authorship"@en ;
-    atlas:definition "An authorship misconduct in which a person is included in the author list despite not having made substantial contributions, typically for reasons of prestige, seniority, or reciprocity."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "An authorship misconduct in which a person is included in the author list despite not having made substantial contributions, typically for reasons of prestige, seniority, or reciprocity."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
-atlas:CitationManipulation a owl:Class ;
-    rdfs:subClassOf atlas:AuthorshipMisconduct ;
+caveat:CitationManipulation a owl:Class ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
     rdfs:label "citation manipulation"@en ;
-    atlas:definition "An authorship misconduct in which citations are added, removed, or directed for purposes unrelated to scholarly merit, including coercive citation by editors or reviewers and citation rings among collaborating authors."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "An authorship misconduct in which citations are added, removed, or directed for purposes unrelated to scholarly merit, including coercive citation by editors or reviewers and citation rings among collaborating authors."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
 # --- Publication Process Misconduct ---
 
-atlas:PublicationProcessMisconduct a owl:Class ;
-    rdfs:subClassOf atlas:DeliberateMisconduct ;
+caveat:PublicationProcessMisconduct a owl:Class ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
     rdfs:label "publication process misconduct"@en ;
-    atlas:definition "A deliberate misconduct involving corruption of the publication or peer review process."@en ;
-    atlas:defaultSeverity "0.6"^^xsd:decimal .
+    caveat:definition "A deliberate misconduct involving corruption of the publication or peer review process."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
 
-atlas:PredatoryJournalPublication a owl:Class ;
-    rdfs:subClassOf atlas:PublicationProcessMisconduct ;
+caveat:PredatoryJournalPublication a owl:Class ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
     rdfs:label "predatory journal publication"@en ;
-    atlas:definition "A publication process misconduct in which a work is published in a venue that charges fees without providing meaningful editorial or peer review services. Distinguished from legitimate open access by the absence of genuine quality control."@en ;
-    atlas:defaultSeverity "0.3"^^xsd:decimal .
+    caveat:definition "A publication process misconduct in which a work is published in a venue that charges fees without providing meaningful editorial or peer review services. Distinguished from legitimate open access by the absence of genuine quality control."@en ;
+    caveat:defaultSeverity "0.3"^^xsd:decimal .
 
-atlas:CompromisedPeerReview a owl:Class ;
-    rdfs:subClassOf atlas:PublicationProcessMisconduct ;
+caveat:CompromisedPeerReview a owl:Class ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
     rdfs:label "compromised or fake peer review"@en ;
-    atlas:definition "A publication process misconduct in which the peer review process is subverted, including fabricated reviewer identities, self-review via manipulated submission systems, or collusion between authors and reviewers."@en ;
-    atlas:defaultSeverity "0.7"^^xsd:decimal .
+    caveat:definition "A publication process misconduct in which the peer review process is subverted, including fabricated reviewer identities, self-review via manipulated submission systems, or collusion between authors and reviewers."@en ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
 
-atlas:DuplicatePublication a owl:Class ;
-    rdfs:subClassOf atlas:PublicationProcessMisconduct ;
+caveat:DuplicatePublication a owl:Class ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
     rdfs:label "duplicate or redundant publication"@en ;
-    atlas:definition "A publication process misconduct in which substantially the same work is published in multiple venues without appropriate cross-referencing or disclosure, in order to inflate publication counts."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "A publication process misconduct in which substantially the same work is published in multiple venues without appropriate cross-referencing or disclosure, in order to inflate publication counts."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
-atlas:UndisclosedConflictOfInterest a owl:Class ;
-    rdfs:subClassOf atlas:PublicationProcessMisconduct ;
+caveat:UndisclosedConflictOfInterest a owl:Class ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
     rdfs:label "undisclosed conflict of interest"@en ;
-    atlas:definition "A publication process misconduct in which financial, personal, or institutional relationships that could bias the research are not disclosed as required by the publication venue."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "A publication process misconduct in which financial, personal, or institutional relationships that could bias the research are not disclosed as required by the publication venue."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
 # --- Systematic Fraudulent Production ---
 
-atlas:SystematicFraudulentProduction a owl:Class ;
-    rdfs:subClassOf atlas:DeliberateMisconduct ;
+caveat:SystematicFraudulentProduction a owl:Class ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
     rdfs:label "systematic fraudulent production"@en ;
-    atlas:definition "A deliberate misconduct characterized by organized, repeated production of fraudulent scientific literature, typically for commercial gain. Distinguished from isolated misconduct by its industrial scale and systematic nature."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A deliberate misconduct characterized by organized, repeated production of fraudulent scientific literature, typically for commercial gain. Distinguished from isolated misconduct by its industrial scale and systematic nature."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:PapermillOperation a owl:Class ;
-    rdfs:subClassOf atlas:SystematicFraudulentProduction ;
+caveat:PapermillOperation a owl:Class ;
+    rdfs:subClassOf caveat:SystematicFraudulentProduction ;
     rdfs:label "papermill operation"@en ;
-    atlas:definition "A systematic fraudulent production in which a commercial entity produces fabricated scientific papers for sale, typically using template-based generation, fabricated data, and tortured phrases to evade detection."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A systematic fraudulent production in which a commercial entity produces fabricated scientific papers for sale, typically using template-based generation, fabricated data, and tortured phrases to evade detection."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:RetractionResistantNetwork a owl:Class ;
-    rdfs:subClassOf atlas:SystematicFraudulentProduction ;
+caveat:RetractionResistantNetwork a owl:Class ;
+    rdfs:subClassOf caveat:SystematicFraudulentProduction ;
     rdfs:label "retraction-resistant network"@en ;
-    atlas:definition "A systematic fraudulent production in which a coordinated group of authors, editors, or institutions acts to maintain fraudulent literature in the published record by resisting retraction requests, manipulating editorial processes, or republishing retracted work."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A systematic fraudulent production in which a coordinated group of authors, editors, or institutions acts to maintain fraudulent literature in the published record by resisting retraction requests, manipulating editorial processes, or republishing retracted work."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 # =============================================================================
 # TOP-LEVEL CATEGORY 2: PREMISE-LEVEL FAILURE
 # =============================================================================
 
-atlas:PremiseLevelFailure a owl:Class ;
-    rdfs:subClassOf atlas:UnreliabilityMode ;
+caveat:PremiseLevelFailure a owl:Class ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
     rdfs:label "premise-level failure"@en ;
-    atlas:definition "An unreliability mode in which the foundational hypothesis or theoretical framework of the work has no basis in established science. The work may be internally consistent but starts from a premise that is demonstrably false or unfalsifiable. Distinguished from interpretive failure in that the premise itself, not just the interpretation, is wrong."@en ;
-    atlas:defaultSeverity "0.95"^^xsd:decimal ;
-    atlas:causation "premise_failure" .
+    caveat:definition "An unreliability mode in which the foundational hypothesis or theoretical framework of the work has no basis in established science. The work may be internally consistent but starts from a premise that is demonstrably false or unfalsifiable. Distinguished from interpretive failure in that the premise itself, not just the interpretation, is wrong."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal ;
+    caveat:causation "premise_failure" .
 
 # --- Pseudoscience ---
 
-atlas:Pseudoscience a owl:Class ;
-    rdfs:subClassOf atlas:PremiseLevelFailure ;
+caveat:Pseudoscience a owl:Class ;
+    rdfs:subClassOf caveat:PremiseLevelFailure ;
     rdfs:label "pseudoscience"@en ;
-    atlas:definition "A premise-level failure in which the central claims invoke mechanisms or entities that have been specifically investigated and found baseless. Distinguished from pathological science by the existence of positive evidence of absence, not merely absence of evidence. Distinguished from denialism in that pseudoscience asserts false positives rather than denying established positives."@en ;
-    atlas:defaultSeverity "0.95"^^xsd:decimal ;
-    atlas:lexiconFile "rejection/pseudoscience-base.yaml" .
+    caveat:definition "A premise-level failure in which the central claims invoke mechanisms or entities that have been specifically investigated and found baseless. Distinguished from pathological science by the existence of positive evidence of absence, not merely absence of evidence. Distinguished from denialism in that pseudoscience asserts false positives rather than denying established positives."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal ;
+    caveat:lexiconFile "rejection/pseudoscience-base.yaml" .
 
-atlas:VitalistEnergyMedicine a owl:Class ;
-    rdfs:subClassOf atlas:Pseudoscience ;
+caveat:VitalistEnergyMedicine a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience ;
     rdfs:label "vitalist or energy medicine"@en ;
-    atlas:definition "A pseudoscience that claims a non-physical 'energy', 'vital force', or 'biofield' can be directed by practitioners to cause measurable biological or physical effects. Distinguished from other pseudosciences by the invocation of vitalist mechanisms."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal ;
-    atlas:lexiconFile "engagement/vitalist-energy-medicine.yaml" .
+    caveat:definition "A pseudoscience that claims a non-physical 'energy', 'vital force', or 'biofield' can be directed by practitioners to cause measurable biological or physical effects. Distinguished from other pseudosciences by the invocation of vitalist mechanisms."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal ;
+    caveat:lexiconFile "engagement/vitalist-energy-medicine.yaml" .
 
-atlas:BiofieldEnergyHealing a owl:Class ;
-    rdfs:subClassOf atlas:VitalistEnergyMedicine ;
+caveat:BiofieldEnergyHealing a owl:Class ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
     rdfs:label "biofield energy healing"@en ;
-    atlas:definition "A vitalist energy medicine pseudoscience that claims a human 'biofield' can be transmitted to alter material properties, biological processes, or health outcomes, including at a distance. Distinguished from other vitalist pseudosciences by the specific invocation of 'biofield' terminology and claims of remote transmission."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal ;
-    atlas:lexiconFile "engagement/biofield-energy-healing.yaml" .
+    caveat:definition "A vitalist energy medicine pseudoscience that claims a human 'biofield' can be transmitted to alter material properties, biological processes, or health outcomes, including at a distance. Distinguished from other vitalist pseudosciences by the specific invocation of 'biofield' terminology and claims of remote transmission."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal ;
+    caveat:lexiconFile "engagement/biofield-energy-healing.yaml" .
 
-atlas:ReikiMechanismStudies a owl:Class ;
-    rdfs:subClassOf atlas:VitalistEnergyMedicine ;
+caveat:ReikiMechanismStudies a owl:Class ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
     rdfs:label "Reiki mechanism studies"@en ;
-    atlas:definition "A vitalist energy medicine pseudoscience that claims to identify physical or biological mechanisms for Reiki healing effects. Distinguished from clinical Reiki studies (which may be methodologically flawed but at least measure outcomes) by the assertion of specific causal mechanisms for the purported energy transfer."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A vitalist energy medicine pseudoscience that claims to identify physical or biological mechanisms for Reiki healing effects. Distinguished from clinical Reiki studies (which may be methodologically flawed but at least measure outcomes) by the assertion of specific causal mechanisms for the purported energy transfer."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:TherapeuticTouchMechanism a owl:Class ;
-    rdfs:subClassOf atlas:VitalistEnergyMedicine ;
+caveat:TherapeuticTouchMechanism a owl:Class ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
     rdfs:label "therapeutic touch mechanism claims"@en ;
-    atlas:definition "A vitalist energy medicine pseudoscience that claims to identify mechanisms by which a practitioner's hands, held near but not touching a patient, alter physiological processes. Distinguished from other vitalist pseudosciences by the specific claim of non-contact manual manipulation of a 'human energy field'."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A vitalist energy medicine pseudoscience that claims to identify mechanisms by which a practitioner's hands, held near but not touching a patient, alter physiological processes. Distinguished from other vitalist pseudosciences by the specific claim of non-contact manual manipulation of a 'human energy field'."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:OrgoneEnergy a owl:Class ;
-    rdfs:subClassOf atlas:VitalistEnergyMedicine ;
+caveat:OrgoneEnergy a owl:Class ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
     rdfs:label "orgone energy"@en ;
-    atlas:definition "A vitalist energy medicine pseudoscience based on Wilhelm Reich's claim of a universal 'orgone energy' that can be accumulated and directed for biological effects. Distinguished from other vitalist pseudosciences by the specific theoretical framework derived from Reich."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A vitalist energy medicine pseudoscience based on Wilhelm Reich's claim of a universal 'orgone energy' that can be accumulated and directed for biological effects. Distinguished from other vitalist pseudosciences by the specific theoretical framework derived from Reich."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:UltraHighDilution a owl:Class ;
-    rdfs:subClassOf atlas:Pseudoscience ;
+caveat:UltraHighDilution a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience ;
     rdfs:label "ultra-high dilution or memory of water"@en ;
-    atlas:definition "A pseudoscience that claims substances retain biological or chemical activity at dilutions beyond Avogadro's limit, where no molecules of the original substance remain. Distinguished from other pseudosciences by the specific claim that water or other solvents retain a 'memory' of dissolved substances."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A pseudoscience that claims substances retain biological or chemical activity at dilutions beyond Avogadro's limit, where no molecules of the original substance remain. Distinguished from other pseudosciences by the specific claim that water or other solvents retain a 'memory' of dissolved substances."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:HomeopathicPharmacology a owl:Class ;
-    rdfs:subClassOf atlas:UltraHighDilution ;
+caveat:HomeopathicPharmacology a owl:Class ;
+    rdfs:subClassOf caveat:UltraHighDilution ;
     rdfs:label "homeopathic pharmacology"@en ;
-    atlas:definition "An ultra-high dilution pseudoscience that claims homeopathic preparations (produced by serial dilution and succussion) have pharmacological activity attributable to the original substance. Distinguished from clinical homeopathy studies by the assertion of specific pharmacological mechanisms."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "An ultra-high dilution pseudoscience that claims homeopathic preparations (produced by serial dilution and succussion) have pharmacological activity attributable to the original substance. Distinguished from clinical homeopathy studies by the assertion of specific pharmacological mechanisms."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:WaterMemory a owl:Class ;
-    rdfs:subClassOf atlas:UltraHighDilution ;
+caveat:WaterMemory a owl:Class ;
+    rdfs:subClassOf caveat:UltraHighDilution ;
     rdfs:label "water memory"@en ;
-    atlas:definition "An ultra-high dilution pseudoscience that claims water retains structural or informational properties of substances previously dissolved in it, even after dilution beyond molecular presence. Distinguished from homeopathic pharmacology by being the proposed underlying mechanism rather than an application."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "An ultra-high dilution pseudoscience that claims water retains structural or informational properties of substances previously dissolved in it, even after dilution beyond molecular presence. Distinguished from homeopathic pharmacology by being the proposed underlying mechanism rather than an application."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:MagnetizedWater a owl:Class ;
-    rdfs:subClassOf atlas:Pseudoscience ;
+caveat:MagnetizedWater a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience ;
     rdfs:label "magnetized water"@en ;
-    atlas:definition "A pseudoscience that claims liquid water water can be permanently or semi-permanently magnetized."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal ;
-    atlas:lexiconFile "engagement/magnetized-water.yaml" .
+    caveat:definition "A pseudoscience that claims liquid water water can be permanently or semi-permanently magnetized."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal ;
+    caveat:lexiconFile "engagement/magnetized-water.yaml" .
 
-atlas:Parapsychology a owl:Class ;
-    rdfs:subClassOf atlas:Pseudoscience ;
+caveat:Parapsychology a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience ;
     rdfs:label "parapsychology"@en ;
-    atlas:definition "A pseudoscience that claims humans possess abilities to perceive or influence the physical world through mechanisms not accounted for by established physics or neuroscience. Distinguished from other pseudosciences by the invocation of mental or psychic causation."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A pseudoscience that claims humans possess abilities to perceive or influence the physical world through mechanisms not accounted for by established physics or neuroscience. Distinguished from other pseudosciences by the invocation of mental or psychic causation."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:ESPPrecognition a owl:Class ;
-    rdfs:subClassOf atlas:Parapsychology ;
+caveat:ESPPrecognition a owl:Class ;
+    rdfs:subClassOf caveat:Parapsychology ;
     rdfs:label "ESP or precognition"@en ;
-    atlas:definition "A parapsychology pseudoscience that claims humans can perceive information without the use of known sensory channels, including perception of future events."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A parapsychology pseudoscience that claims humans can perceive information without the use of known sensory channels, including perception of future events."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:Psychokinesis a owl:Class ;
-    rdfs:subClassOf atlas:Parapsychology ;
+caveat:Psychokinesis a owl:Class ;
+    rdfs:subClassOf caveat:Parapsychology ;
     rdfs:label "psychokinesis"@en ;
-    atlas:definition "A parapsychology pseudoscience that claims humans can influence physical objects or processes through mental intention alone."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A parapsychology pseudoscience that claims humans can influence physical objects or processes through mental intention alone."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:RemoteViewing a owl:Class ;
-    rdfs:subClassOf atlas:Parapsychology ;
+caveat:RemoteViewing a owl:Class ;
+    rdfs:subClassOf caveat:Parapsychology ;
     rdfs:label "remote viewing"@en ;
-    atlas:definition "A parapsychology pseudoscience that claims humans can perceive detailed information about distant or hidden targets through mental means alone."@en ;
-    atlas:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:definition "A parapsychology pseudoscience that claims humans can perceive detailed information about distant or hidden targets through mental means alone."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
 
-atlas:AntiEvidenceMedicine a owl:Class ;
-    rdfs:subClassOf atlas:Pseudoscience ;
+caveat:AntiEvidenceMedicine a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience ;
     rdfs:label "anti-evidence medicine"@en ;
-    atlas:definition "A pseudoscience that asserts mechanisms for medical harms that have been specifically investigated and refuted, or that asserts therapeutic mechanisms for interventions demonstrated to be inert. Distinguished from other pseudosciences by the direct contradiction of established medical evidence."@en ;
-    atlas:defaultSeverity "0.95"^^xsd:decimal .
+    caveat:definition "A pseudoscience that asserts mechanisms for medical harms that have been specifically investigated and refuted, or that asserts therapeutic mechanisms for interventions demonstrated to be inert. Distinguished from other pseudosciences by the direct contradiction of established medical evidence."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
 
-atlas:AntiVaxMechanismClaims a owl:Class ;
-    rdfs:subClassOf atlas:AntiEvidenceMedicine ;
+caveat:AntiVaxMechanismClaims a owl:Class ;
+    rdfs:subClassOf caveat:AntiEvidenceMedicine ;
     rdfs:label "anti-vaccination mechanism claims"@en ;
-    atlas:definition "An anti-evidence medicine pseudoscience that asserts specific biological mechanisms by which vaccines cause harms (such as autism) that have been extensively investigated and refuted."@en ;
-    atlas:defaultSeverity "0.95"^^xsd:decimal .
+    caveat:definition "An anti-evidence medicine pseudoscience that asserts specific biological mechanisms by which vaccines cause harms (such as autism) that have been extensively investigated and refuted."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
 
-atlas:DetoxPseudoscience a owl:Class ;
-    rdfs:subClassOf atlas:AntiEvidenceMedicine ;
+caveat:DetoxPseudoscience a owl:Class ;
+    rdfs:subClassOf caveat:AntiEvidenceMedicine ;
     rdfs:label "detoxification pseudoscience"@en ;
-    atlas:definition "An anti-evidence medicine pseudoscience that claims specific interventions (ionic foot baths, chelation for non-indicated conditions, juice cleanses, etc.) remove unnamed 'toxins' from the body through mechanisms that have no physiological basis."@en ;
-    atlas:defaultSeverity "0.95"^^xsd:decimal .
+    caveat:definition "An anti-evidence medicine pseudoscience that claims specific interventions (ionic foot baths, chelation for non-indicated conditions, juice cleanses, etc.) remove unnamed 'toxins' from the body through mechanisms that have no physiological basis."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
 
 # --- Denialism ---
 
-atlas:Denialism a owl:Class ;
-    rdfs:subClassOf atlas:PremiseLevelFailure ;
+caveat:Denialism a owl:Class ;
+    rdfs:subClassOf caveat:PremiseLevelFailure ;
     rdfs:label "denialism"@en ;
-    atlas:definition "A premise-level failure characterized by rejection of established scientific consensus, typically through selective citation, manufactured doubt, conspiracy theories, or impossible demands for evidence. Distinguished from pseudoscience in that denialism denies established positives rather than asserting false positives."@en ;
-    atlas:defaultSeverity "0.9"^^xsd:decimal .
+    caveat:definition "A premise-level failure characterized by rejection of established scientific consensus, typically through selective citation, manufactured doubt, conspiracy theories, or impossible demands for evidence. Distinguished from pseudoscience in that denialism denies established positives rather than asserting false positives."@en ;
+    caveat:defaultSeverity "0.9"^^xsd:decimal .
 
-atlas:ClimateScienceDenial a owl:Class ;
-    rdfs:subClassOf atlas:Denialism ;
+caveat:ClimateScienceDenial a owl:Class ;
+    rdfs:subClassOf caveat:Denialism ;
     rdfs:label "climate science denial"@en ;
-    atlas:definition "A denialism that rejects the established scientific consensus on anthropogenic climate change."@en ;
-    atlas:defaultSeverity "0.9"^^xsd:decimal .
+    caveat:definition "A denialism that rejects the established scientific consensus on anthropogenic climate change."@en ;
+    caveat:defaultSeverity "0.9"^^xsd:decimal .
 
-atlas:EvolutionDenial a owl:Class ;
-    rdfs:subClassOf atlas:Denialism ;
+caveat:EvolutionDenial a owl:Class ;
+    rdfs:subClassOf caveat:Denialism ;
     rdfs:label "evolution denial"@en ;
-    atlas:definition "A denialism that rejects the established scientific consensus on biological evolution by natural selection."@en ;
-    atlas:defaultSeverity "0.9"^^xsd:decimal .
+    caveat:definition "A denialism that rejects the established scientific consensus on biological evolution by natural selection."@en ;
+    caveat:defaultSeverity "0.9"^^xsd:decimal .
 
-atlas:GermTheoryDenial a owl:Class ;
-    rdfs:subClassOf atlas:Denialism ;
+caveat:GermTheoryDenial a owl:Class ;
+    rdfs:subClassOf caveat:Denialism ;
     rdfs:label "germ theory denial"@en ;
-    atlas:definition "A denialism that rejects the established scientific consensus that specific microorganisms cause specific diseases."@en ;
-    atlas:defaultSeverity "0.9"^^xsd:decimal .
+    caveat:definition "A denialism that rejects the established scientific consensus that specific microorganisms cause specific diseases."@en ;
+    caveat:defaultSeverity "0.9"^^xsd:decimal .
 
 # =============================================================================
 # TOP-LEVEL CATEGORY 3: INTERPRETIVE FAILURE
 # =============================================================================
 
-atlas:InterpretiveFailure a owl:Class ;
-    rdfs:subClassOf atlas:UnreliabilityMode ;
+caveat:InterpretiveFailure a owl:Class ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
     rdfs:label "interpretive failure"@en ;
-    atlas:definition "An unreliability mode in which the experiments are real but the interpretation of results is systematically wrong, typically due to self-deception or cognitive biases rather than deliberate fraud. Distinguished from execution-level failure in that the methodology may be sound but the conclusions drawn from it are not."@en ;
-    atlas:defaultSeverity "0.6"^^xsd:decimal ;
-    atlas:causation "interpretive_error" .
+    caveat:definition "An unreliability mode in which the experiments are real but the interpretation of results is systematically wrong, typically due to self-deception or cognitive biases rather than deliberate fraud. Distinguished from execution-level failure in that the methodology may be sound but the conclusions drawn from it are not."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal ;
+    caveat:causation "interpretive_error" .
 
-atlas:PathologicalScience a owl:Class ;
-    rdfs:subClassOf atlas:InterpretiveFailure ;
+caveat:PathologicalScience a owl:Class ;
+    rdfs:subClassOf caveat:InterpretiveFailure ;
     rdfs:label "pathological science"@en ;
-    atlas:definition "An interpretive failure meeting Langmuir's criteria: maximum effect from barely detectable cause; effect magnitude near limit of detectability; claims of great accuracy; fantastic theories contrary to experience; criticisms met by ad hoc excuses; ratio of supporters to critics approaches zero over time."@en ;
-    atlas:definitionSource "Langmuir, I. (1953/1989). Pathological Science." ;
-    atlas:defaultSeverity "0.7"^^xsd:decimal .
+    caveat:definition "An interpretive failure meeting Langmuir's criteria: maximum effect from barely detectable cause; effect magnitude near limit of detectability; claims of great accuracy; fantastic theories contrary to experience; criticisms met by ad hoc excuses; ratio of supporters to critics approaches zero over time."@en ;
+    caveat:definitionSource "Langmuir, I. (1953/1989). Pathological Science." ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
 
-atlas:ColdFusionLENR a owl:Class ;
-    rdfs:subClassOf atlas:PathologicalScience ;
+caveat:ColdFusionLENR a owl:Class ;
+    rdfs:subClassOf caveat:PathologicalScience ;
     rdfs:label "cold fusion or LENR"@en ;
-    atlas:definition "A pathological science claiming nuclear fusion reactions at or near room temperature in electrochemical cells or other low-energy systems."@en ;
-    atlas:defaultSeverity "0.7"^^xsd:decimal .
+    caveat:definition "A pathological science claiming nuclear fusion reactions at or near room temperature in electrochemical cells or other low-energy systems."@en ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
 
-atlas:NRays a owl:Class ;
-    rdfs:subClassOf atlas:PathologicalScience ;
+caveat:NRays a owl:Class ;
+    rdfs:subClassOf caveat:PathologicalScience ;
     rdfs:label "N-rays"@en ;
-    atlas:definition "A pathological science involving the claimed detection of a novel form of radiation (N-rays) by Prosper-René Blondlot in 1903, subsequently shown to be an artifact of observer expectation."@en ;
-    atlas:definitionSource "Wood, R.W. (1904). Nature 70:530-531." ;
-    atlas:defaultSeverity "0.7"^^xsd:decimal .
+    caveat:definition "A pathological science involving the claimed detection of a novel form of radiation (N-rays) by Prosper-René Blondlot in 1903, subsequently shown to be an artifact of observer expectation."@en ;
+    caveat:definitionSource "Wood, R.W. (1904). Nature 70:530-531." ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
 
-atlas:SystematicMisinterpretation a owl:Class ;
-    rdfs:subClassOf atlas:InterpretiveFailure ;
+caveat:SystematicMisinterpretation a owl:Class ;
+    rdfs:subClassOf caveat:InterpretiveFailure ;
     rdfs:label "systematic misinterpretation"@en ;
-    atlas:definition "An interpretive failure in which valid data are consistently interpreted through an incorrect causal framework, leading to wrong conclusions despite sound methodology."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "An interpretive failure in which valid data are consistently interpreted through an incorrect causal framework, leading to wrong conclusions despite sound methodology."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
-atlas:ReverseCausationClaims a owl:Class ;
-    rdfs:subClassOf atlas:SystematicMisinterpretation ;
+caveat:ReverseCausationClaims a owl:Class ;
+    rdfs:subClassOf caveat:SystematicMisinterpretation ;
     rdfs:label "reverse causation claims"@en ;
-    atlas:definition "A systematic misinterpretation in which the direction of causation between two correlated variables is asserted incorrectly."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "A systematic misinterpretation in which the direction of causation between two correlated variables is asserted incorrectly."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
-atlas:ConfoundingAsCausation a owl:Class ;
-    rdfs:subClassOf atlas:SystematicMisinterpretation ;
+caveat:ConfoundingAsCausation a owl:Class ;
+    rdfs:subClassOf caveat:SystematicMisinterpretation ;
     rdfs:label "confounding interpreted as causation"@en ;
-    atlas:definition "A systematic misinterpretation in which a correlation driven by a confounding variable is interpreted as a direct causal relationship."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "A systematic misinterpretation in which a correlation driven by a confounding variable is interpreted as a direct causal relationship."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
-atlas:ArtifactAsSignal a owl:Class ;
-    rdfs:subClassOf atlas:SystematicMisinterpretation ;
+caveat:ArtifactAsSignal a owl:Class ;
+    rdfs:subClassOf caveat:SystematicMisinterpretation ;
     rdfs:label "artifact interpreted as signal"@en ;
-    atlas:definition "A systematic misinterpretation in which an experimental or measurement artifact is interpreted as a genuine biological, physical, or statistical signal."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "A systematic misinterpretation in which an experimental or measurement artifact is interpreted as a genuine biological, physical, or statistical signal."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
 # =============================================================================
 # TOP-LEVEL CATEGORY 4: EXECUTION-LEVEL FAILURE
 # =============================================================================
 
-atlas:ExecutionLevelFailure a owl:Class ;
-    rdfs:subClassOf atlas:UnreliabilityMode ;
+caveat:ExecutionLevelFailure a owl:Class ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
     rdfs:label "execution-level failure"@en ;
-    atlas:definition "An unreliability mode in which the premise may be legitimate and the intent honest, but the methodology is flawed in ways that invalidate the conclusions. Distinguished from interpretive failure in that the problem is in how the research was done, not how the results were interpreted."@en ;
-    atlas:defaultSeverity "0.3"^^xsd:decimal ;
-    atlas:causation "methodological_error" .
+    caveat:definition "An unreliability mode in which the premise may be legitimate and the intent honest, but the methodology is flawed in ways that invalidate the conclusions. Distinguished from interpretive failure in that the problem is in how the research was done, not how the results were interpreted."@en ;
+    caveat:defaultSeverity "0.3"^^xsd:decimal ;
+    caveat:causation "methodological_error" .
 
-atlas:DesignFailures a owl:Class ;
-    rdfs:subClassOf atlas:ExecutionLevelFailure ;
+caveat:DesignFailures a owl:Class ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
     rdfs:label "design failures"@en ;
-    atlas:definition "An execution-level failure in which the experimental or study design is fundamentally flawed, rendering the results uninterpretable regardless of how well the study was otherwise conducted."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "An execution-level failure in which the experimental or study design is fundamentally flawed, rendering the results uninterpretable regardless of how well the study was otherwise conducted."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
-atlas:UnfalsifiableDesign a owl:Class ;
-    rdfs:subClassOf atlas:DesignFailures ;
+caveat:UnfalsifiableDesign a owl:Class ;
+    rdfs:subClassOf caveat:DesignFailures ;
     rdfs:label "unfalsifiable design"@en ;
-    atlas:definition "A design failure in which the study is structured such that no possible outcome could refute the hypothesis, violating the basic requirement of falsifiability."@en ;
-    atlas:defaultSeverity "0.5"^^xsd:decimal .
+    caveat:definition "A design failure in which the study is structured such that no possible outcome could refute the hypothesis, violating the basic requirement of falsifiability."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
 
-atlas:InappropriateControls a owl:Class ;
-    rdfs:subClassOf atlas:DesignFailures ;
+caveat:InappropriateControls a owl:Class ;
+    rdfs:subClassOf caveat:DesignFailures ;
     rdfs:label "inappropriate or missing controls"@en ;
-    atlas:definition "A design failure in which the study lacks appropriate control groups or conditions, making it impossible to attribute observed effects to the intervention."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "A design failure in which the study lacks appropriate control groups or conditions, making it impossible to attribute observed effects to the intervention."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
-atlas:InadequateBlinding a owl:Class ;
-    rdfs:subClassOf atlas:DesignFailures ;
+caveat:InadequateBlinding a owl:Class ;
+    rdfs:subClassOf caveat:DesignFailures ;
     rdfs:label "inadequate blinding"@en ;
-    atlas:definition "A design failure in which participants, experimenters, or analysts are not adequately blinded to treatment allocation in contexts where blinding is feasible and necessary to prevent bias."@en ;
-    atlas:defaultSeverity "0.35"^^xsd:decimal .
+    caveat:definition "A design failure in which participants, experimenters, or analysts are not adequately blinded to treatment allocation in contexts where blinding is feasible and necessary to prevent bias."@en ;
+    caveat:defaultSeverity "0.35"^^xsd:decimal .
 
-atlas:SelectionBias a owl:Class ;
-    rdfs:subClassOf atlas:DesignFailures ;
+caveat:SelectionBias a owl:Class ;
+    rdfs:subClassOf caveat:DesignFailures ;
     rdfs:label "selection bias in sampling"@en ;
-    atlas:definition "A design failure in which the sampling method systematically excludes or overrepresents certain subpopulations, producing results that do not generalize to the intended target population."@en ;
-    atlas:defaultSeverity "0.35"^^xsd:decimal .
+    caveat:definition "A design failure in which the sampling method systematically excludes or overrepresents certain subpopulations, producing results that do not generalize to the intended target population."@en ;
+    caveat:defaultSeverity "0.35"^^xsd:decimal .
 
-atlas:StatisticalMalpractice a owl:Class ;
-    rdfs:subClassOf atlas:ExecutionLevelFailure ;
+caveat:StatisticalMalpractice a owl:Class ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
     rdfs:label "statistical malpractice"@en ;
-    atlas:definition "An execution-level failure in which statistical methods are applied incorrectly or inappropriately, leading to invalid inferences from the data."@en ;
-    atlas:defaultSeverity "0.35"^^xsd:decimal .
+    caveat:definition "An execution-level failure in which statistical methods are applied incorrectly or inappropriately, leading to invalid inferences from the data."@en ;
+    caveat:defaultSeverity "0.35"^^xsd:decimal .
 
-atlas:PHackingHARKing a owl:Class ;
-    rdfs:subClassOf atlas:StatisticalMalpractice ;
+caveat:PHackingHARKing a owl:Class ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
     rdfs:label "p-hacking or HARKing"@en ;
-    atlas:definition "A statistical malpractice in which multiple analyses are conducted and only significant results are reported (p-hacking), or hypotheses are formulated after examining results and presented as if they were a priori (Hypothesizing After Results are Known)."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "A statistical malpractice in which multiple analyses are conducted and only significant results are reported (p-hacking), or hypotheses are formulated after examining results and presented as if they were a priori (Hypothesizing After Results are Known)."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
-atlas:MultipleComparisonsUncorrected a owl:Class ;
-    rdfs:subClassOf atlas:StatisticalMalpractice ;
+caveat:MultipleComparisonsUncorrected a owl:Class ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
     rdfs:label "multiple comparisons without correction"@en ;
-    atlas:definition "A statistical malpractice in which multiple statistical tests are performed without appropriate correction for the inflated false positive rate."@en ;
-    atlas:defaultSeverity "0.3"^^xsd:decimal .
+    caveat:definition "A statistical malpractice in which multiple statistical tests are performed without appropriate correction for the inflated false positive rate."@en ;
+    caveat:defaultSeverity "0.3"^^xsd:decimal .
 
-atlas:UnderpoweredStudy a owl:Class ;
-    rdfs:subClassOf atlas:StatisticalMalpractice ;
+caveat:UnderpoweredStudy a owl:Class ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
     rdfs:label "underpowered study claiming significance"@en ;
-    atlas:definition "A statistical malpractice in which a study with insufficient sample size to detect the claimed effect reports statistically significant results, suggesting either a false positive or inflated effect size."@en ;
-    atlas:defaultSeverity "0.3"^^xsd:decimal .
+    caveat:definition "A statistical malpractice in which a study with insufficient sample size to detect the claimed effect reports statistically significant results, suggesting either a false positive or inflated effect size."@en ;
+    caveat:defaultSeverity "0.3"^^xsd:decimal .
 
-atlas:InappropriateStatisticalTests a owl:Class ;
-    rdfs:subClassOf atlas:StatisticalMalpractice ;
+caveat:InappropriateStatisticalTests a owl:Class ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
     rdfs:label "inappropriate statistical tests"@en ;
-    atlas:definition "A statistical malpractice in which statistical tests are applied to data that violate their assumptions, producing unreliable p-values and confidence intervals."@en ;
-    atlas:defaultSeverity "0.3"^^xsd:decimal .
+    caveat:definition "A statistical malpractice in which statistical tests are applied to data that violate their assumptions, producing unreliable p-values and confidence intervals."@en ;
+    caveat:defaultSeverity "0.3"^^xsd:decimal .
 
-atlas:ReproducibilityFailures a owl:Class ;
-    rdfs:subClassOf atlas:ExecutionLevelFailure ;
+caveat:ReproducibilityFailures a owl:Class ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
     rdfs:label "reproducibility failures"@en ;
-    atlas:definition "An execution-level failure in which the work cannot be independently reproduced or verified due to insufficient documentation, unavailable data, or non-replicable results."@en ;
-    atlas:defaultSeverity "0.25"^^xsd:decimal .
+    caveat:definition "An execution-level failure in which the work cannot be independently reproduced or verified due to insufficient documentation, unavailable data, or non-replicable results."@en ;
+    caveat:defaultSeverity "0.25"^^xsd:decimal .
 
-atlas:InsufficientMethodDetail a owl:Class ;
-    rdfs:subClassOf atlas:ReproducibilityFailures ;
+caveat:InsufficientMethodDetail a owl:Class ;
+    rdfs:subClassOf caveat:ReproducibilityFailures ;
     rdfs:label "insufficient methodological detail"@en ;
-    atlas:definition "A reproducibility failure in which the methods section lacks sufficient detail for an independent researcher to reproduce the study."@en ;
-    atlas:defaultSeverity "0.2"^^xsd:decimal .
+    caveat:definition "A reproducibility failure in which the methods section lacks sufficient detail for an independent researcher to reproduce the study."@en ;
+    caveat:defaultSeverity "0.2"^^xsd:decimal .
 
-atlas:FailedReplication a owl:Class ;
-    rdfs:subClassOf atlas:ReproducibilityFailures ;
+caveat:FailedReplication a owl:Class ;
+    rdfs:subClassOf caveat:ReproducibilityFailures ;
     rdfs:label "failed independent replication"@en ;
-    atlas:definition "A reproducibility failure in which one or more independent attempts to replicate the study's key findings have failed, suggesting the original results were artifactual."@en ;
-    atlas:defaultSeverity "0.4"^^xsd:decimal .
+    caveat:definition "A reproducibility failure in which one or more independent attempts to replicate the study's key findings have failed, suggesting the original results were artifactual."@en ;
+    caveat:defaultSeverity "0.4"^^xsd:decimal .
 
-atlas:NonShareableDataCode a owl:Class ;
-    rdfs:subClassOf atlas:ReproducibilityFailures ;
+caveat:NonShareableDataCode a owl:Class ;
+    rdfs:subClassOf caveat:ReproducibilityFailures ;
     rdfs:label "non-shareable data or code"@en ;
-    atlas:definition "A reproducibility failure in which the raw data, analysis code, or both are unavailable for verification, despite no legitimate reason for restriction."@en ;
-    atlas:defaultSeverity "0.2"^^xsd:decimal .
+    caveat:definition "A reproducibility failure in which the raw data, analysis code, or both are unavailable for verification, despite no legitimate reason for restriction."@en ;
+    caveat:defaultSeverity "0.2"^^xsd:decimal .
 
-atlas:Overreach a owl:Class ;
-    rdfs:subClassOf atlas:ExecutionLevelFailure ;
+caveat:Overreach a owl:Class ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
     rdfs:label "overreach"@en ;
-    atlas:definition "An execution-level failure in which the conclusions stated in the paper are not supported by the evidence presented, going beyond what the data and methods justify."@en ;
-    atlas:defaultSeverity "0.3"^^xsd:decimal .
+    caveat:definition "An execution-level failure in which the conclusions stated in the paper are not supported by the evidence presented, going beyond what the data and methods justify."@en ;
+    caveat:defaultSeverity "0.3"^^xsd:decimal .
 
-atlas:ConclusionsNotSupported a owl:Class ;
-    rdfs:subClassOf atlas:Overreach ;
+caveat:ConclusionsNotSupported a owl:Class ;
+    rdfs:subClassOf caveat:Overreach ;
     rdfs:label "conclusions not supported by data"@en ;
-    atlas:definition "An overreach in which the stated conclusions do not logically follow from the results presented."@en ;
-    atlas:defaultSeverity "0.35"^^xsd:decimal .
+    caveat:definition "An overreach in which the stated conclusions do not logically follow from the results presented."@en ;
+    caveat:defaultSeverity "0.35"^^xsd:decimal .
 
-atlas:InappropriateGeneralization a owl:Class ;
-    rdfs:subClassOf atlas:Overreach ;
+caveat:InappropriateGeneralization a owl:Class ;
+    rdfs:subClassOf caveat:Overreach ;
     rdfs:label "inappropriate generalization"@en ;
-    atlas:definition "An overreach in which results from a specific context are generalized to populations, conditions, or settings not supported by the study design."@en ;
-    atlas:defaultSeverity "0.25"^^xsd:decimal .
+    caveat:definition "An overreach in which results from a specific context are generalized to populations, conditions, or settings not supported by the study design."@en ;
+    caveat:defaultSeverity "0.25"^^xsd:decimal .
 
-atlas:StatisticalClinicalConflation a owl:Class ;
-    rdfs:subClassOf atlas:Overreach ;
+caveat:StatisticalClinicalConflation a owl:Class ;
+    rdfs:subClassOf caveat:Overreach ;
     rdfs:label "conflation of statistical and clinical significance"@en ;
-    atlas:definition "An overreach in which a statistically significant result is presented as clinically, practically, or scientifically meaningful without consideration of effect size or practical relevance."@en ;
-    atlas:defaultSeverity "0.25"^^xsd:decimal .
+    caveat:definition "An overreach in which a statistically significant result is presented as clinically, practically, or scientifically meaningful without consideration of effect size or practical relevance."@en ;
+    caveat:defaultSeverity "0.25"^^xsd:decimal .

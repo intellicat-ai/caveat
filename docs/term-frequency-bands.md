@@ -1,4 +1,4 @@
-# Term Frequency Bands in ATLAS Vocabularies
+# Term Frequency Bands in CAVEAT Vocabularies
 
 ## Purpose
 
@@ -8,7 +8,7 @@ The `general_frequency` field on vocabulary terms captures how common or unusual
 
 ### `level` — Where in the pseudoscience taxonomy is this term diagnostic?
 
-This field is **internal to the ATLAS hierarchy**. It answers: "Does this term identify a broad pseudoscience family, a specific subtopic, or a single corpus?"
+This field is **internal to the CAVEAT hierarchy**. It answers: "Does this term identify a broad pseudoscience family, a specific subtopic, or a single corpus?"
 
 | Value | Question it answers | Example |
 |-------|-------------------|---------|
@@ -18,7 +18,7 @@ This field is **internal to the ATLAS hierarchy**. It answers: "Does this term i
 
 ### `general_frequency` — How surprising is this phrase in ordinary text?
 
-This field is **external to ATLAS**. It answers: "If I encountered this phrase in a random document, how unusual would it be?" It says nothing about pseudoscience — it's a property of the phrase in general language.
+This field is **external to CAVEAT**. It answers: "If I encountered this phrase in a random document, how unusual would it be?" It says nothing about pseudoscience — it's a property of the phrase in general language.
 
 | Value | Question it answers | Example |
 |-------|-------------------|---------|
@@ -115,6 +115,6 @@ For large-scale vocabulary development, the Wikipedia lookup can be partially au
 
 The field is optional. Omit it when:
 
-- The term is a **rejection or sanewashing term** (e.g., "pseudoscience", "controversial"). These are general English words whose frequency in general corpora is irrelevant to their function in ATLAS. Their diagnostic value comes from their classification, not their rarity.
+- The term is a **rejection or sanewashing term** (e.g., "pseudoscience", "controversial"). These are general English words whose frequency in general corpora is irrelevant to their function in CAVEAT. Their diagnostic value comes from their classification, not their rarity.
 
 - **The assignment has not yet been performed.** It is better to leave the field absent than to guess. The field can be backfilled later without changing any other property of the term.

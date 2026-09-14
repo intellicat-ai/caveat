@@ -2,8 +2,8 @@
 # Adds terms specific to this subtopic on top of parent
 # (magnetized-water.yaml) and grandparent (pseudoscience-base.yaml).
 ---
-domain: "atlas:MagnetizedWater"
-inherits_from: "atlas:Pseudoscience"
+domain: "caveat:MagnetizedWater"
+inherits_from: "caveat:Pseudoscience"
 extraction_method:
   source: "OpenAlex title/abstract search: magnetized water NOT (relaxation OR NMR OR resonance)"
   method: "Term extraction from source corpus, supplemented by manual review"

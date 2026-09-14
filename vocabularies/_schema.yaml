@@ -1,4 +1,4 @@
-# ATLAS Lexicon File Schema
+# CAVEAT Lexicon File Schema
 # All vocabulary YAML files must conform to this structure.
 # See docs/term-classifications.md for classification semantics.
 # See docs/term-frequency-bands.md for general_frequency band definitions.
@@ -51,7 +51,7 @@ x-classification-metadata:
 # Schema proper
 # ===========================================================================
 $schema: "https://json-schema.org/draft/2020-12/schema"
-title: "ATLAS Lexicon File"
+title: "CAVEAT Lexicon File"
 type: object
 required:
   - domain
@@ -62,13 +62,13 @@ properties:
   domain:
     type: string
     description: >
-      The ATLAS class URI this lexicon belongs to.
-      Example: "atlas:BiofieldEnergyHealing"
+      The CAVEAT class URI this lexicon belongs to.
+      Example: "caveat:BiofieldEnergyHealing"
   inherits_from:
     type: string
     description: >
       The parent class whose vocabulary is inherited.
-      Example: "atlas:VitalistEnergyMedicine"
+      Example: "caveat:VitalistEnergyMedicine"
       Use "none" for root-level vocabularies.
   extraction_method:
     type: object

@@ -1,0 +1,22 @@
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/intellicat/caveat> a owl:Ontology ;
+    owl:versionInfo "0.2.0" ;
+    dcterms:title "CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types"@en ;
+    dcterms:description "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."@en ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:created "2026-04-08"^^xsd:date ;
+    dcterms:modified "2026-09-14"^^xsd:date ;
+    rdfs:seeAlso <https://github.com/intellicat-ai/caveat> ;
+    owl:imports <https://w3id.org/intellicat/caveat/imports/bfo-excerpt> ;
+    owl:imports <https://w3id.org/intellicat/caveat/imports/iao-excerpt> ;
+    owl:imports <https://w3id.org/intellicat/caveat/modules/unreliability-modes> ;
+    owl:imports <https://w3id.org/intellicat/caveat/modules/detection-markers> ;
+    owl:imports <https://w3id.org/intellicat/caveat/modules/marker-evidence> ;
+    owl:imports <https://w3id.org/intellicat/caveat/modules/scientific-domains> ;
+    owl:imports <https://w3id.org/intellicat/caveat/modules/document-schema> .

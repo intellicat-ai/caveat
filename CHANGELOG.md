@@ -1,8 +1,17 @@
-# ATLAS Changelog
+# CAVEAT Changelog
 
 All notable changes to this ontology will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/).
+
+## [0.2.0] — 2026-09-14
+
+### Changed
+- Project rename to CAVEAT (Controlled Annotation Vocabulary for Epistemic Aberration Types)
+- Organization transfer and repository rename to `intellicat-ai/caveat`
+- Updated base IRI to `https://w3id.org/intellicat/caveat#` and ontology IRI to `https://w3id.org/intellicat/caveat`
+- Updated CURIE prefix to `caveat:`
+- Renamed root ontology file to `src/ontology/caveat.ttl`
 
 ## [0.1.0] — 2026-04-08
 

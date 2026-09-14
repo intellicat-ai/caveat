@@ -1,12 +1,12 @@
-# Vocabulary Inheritance in ATLAS
+# Vocabulary Inheritance in CAVEAT
 
 ## Principle
 
-Each unreliability mode in the ATLAS hierarchy may have an associated vocabulary file (linked via `atlas:lexiconFile`). A mode's **effective vocabulary** is the union of its own terms and all ancestor terms, collected by traversing the `rdfs:subClassOf` chain from the mode to the root.
+Each unreliability mode in the CAVEAT hierarchy may have an associated vocabulary file (linked via `caveat:lexiconFile`). A mode's **effective vocabulary** is the union of its own terms and all ancestor terms, collected by traversing the `rdfs:subClassOf` chain from the mode to the root.
 
 ## Example
 
-For `atlas:BiofieldEnergyHealing`, the inheritance chain is:
+For `caveat:BiofieldEnergyHealing`, the inheritance chain is:
 
 ```
 BiofieldEnergyHealing
@@ -33,15 +33,15 @@ def resolve_vocabulary(mode_uri, graph):
     lexicon_files = []
     current = mode_uri
     while current:
-        lexicon = graph.value(current, ATLAS.lexiconFile)
+        lexicon = graph.value(current, CAVEAT.lexiconFile)
         if lexicon:
             lexicon_files.append(str(lexicon))
         parents = list(graph.objects(current, RDFS.subClassOf))
-        # Follow only the ATLAS hierarchy (skip BFO parents)
+        # Follow only the CAVEAT hierarchy (skip BFO parents)
         current = next(
             (p for p in parents
-             if (p, RDFS.subClassOf, ATLAS.UnreliabilityMode) in graph
-             or p == ATLAS.UnreliabilityMode),
+             if (p, RDFS.subClassOf, CAVEAT.UnreliabilityMode) in graph
+             or p == CAVEAT.UnreliabilityMode),
             None
         )
     return lexicon_files

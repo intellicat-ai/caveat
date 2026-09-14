@@ -3,7 +3,7 @@
 # These terms classify language used when a model responds to
 # pseudoscientific premises.
 ---
-domain: "atlas:Pseudoscience"
+domain: "caveat:Pseudoscience"
 inherits_from: "none"
 extraction_method:
   source: "Cochrane systematic reviews, Science-Based Medicine editorial language, ORI guidance documents"

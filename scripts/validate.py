@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Validate ATLAS ontology for basic consistency.
+"""Validate CAVEAT ontology for basic consistency.
 
 Checks:
 1. All .ttl files parse without errors
 2. Every class has an rdfs:label
-3. Every UnreliabilityMode subclass has an atlas:definition
-4. Every UnreliabilityMode subclass has an atlas:defaultSeverity
-5. Every DetectionMarker with atlas:evidenceFor has atlas:evidenceStrength
+3. Every UnreliabilityMode subclass has an caveat:definition
+4. Every UnreliabilityMode subclass has an caveat:defaultSeverity
+5. Every DetectionMarker with caveat:evidenceFor has caveat:evidenceStrength
 6. No orphan classes (every non-root class has rdfs:subClassOf)
 7. lexiconFile references point to files that exist
 
@@ -23,7 +23,7 @@ try:
 except ImportError:
     sys.exit("rdflib required: pip install rdflib")
 
-ATLAS = Namespace("https://w3id.org/atlas/ontology#")
+CAVEAT = Namespace("https://w3id.org/intellicat/caveat#")
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ONTOLOGY_DIR = REPO_ROOT / "src" / "ontology"
 VOCAB_DIR = REPO_ROOT / "vocabularies"
@@ -46,7 +46,7 @@ def check_labels(g: Graph):
     for cls in g.subjects(RDF.type, OWL.Class):
         if not isinstance(cls, URIRef):
             continue
-        if not str(cls).startswith(str(ATLAS)):
+        if not str(cls).startswith(str(CAVEAT)):
             continue
         label = g.value(cls, RDFS.label)
         if not label:
@@ -55,37 +55,37 @@ def check_labels(g: Graph):
 
 def check_definitions(g: Graph):
     for cls in g.subjects(RDF.type, OWL.Class):
-        if not isinstance(cls, URIRef) or not str(cls).startswith(str(ATLAS)):
+        if not isinstance(cls, URIRef) or not str(cls).startswith(str(CAVEAT)):
             continue
         # Check if it's an unreliability mode or detection marker
         parents = set(g.transitive_objects(cls, RDFS.subClassOf))
-        if ATLAS.UnreliabilityMode in parents or cls == ATLAS.UnreliabilityMode:
-            defn = g.value(cls, ATLAS.definition)
+        if CAVEAT.UnreliabilityMode in parents or cls == CAVEAT.UnreliabilityMode:
+            defn = g.value(cls, CAVEAT.definition)
             if not defn:
-                errors.append(f"Missing atlas:definition on unreliability mode {cls}")
-            severity = g.value(cls, ATLAS.defaultSeverity)
-            if not severity and cls != ATLAS.UnreliabilityMode:
-                warnings.append(f"Missing atlas:defaultSeverity on {cls}")
-        if ATLAS.DetectionMarker in parents or cls == ATLAS.DetectionMarker:
-            defn = g.value(cls, ATLAS.definition)
+                errors.append(f"Missing caveat:definition on unreliability mode {cls}")
+            severity = g.value(cls, CAVEAT.defaultSeverity)
+            if not severity and cls != CAVEAT.UnreliabilityMode:
+                warnings.append(f"Missing caveat:defaultSeverity on {cls}")
+        if CAVEAT.DetectionMarker in parents or cls == CAVEAT.DetectionMarker:
+            defn = g.value(cls, CAVEAT.definition)
             if not defn:
-                errors.append(f"Missing atlas:definition on detection marker {cls}")
+                errors.append(f"Missing caveat:definition on detection marker {cls}")
 
 
 def check_evidence_links(g: Graph):
-    for s, p, o in g.triples((None, ATLAS.evidenceFor, None)):
-        strength = g.value(s, ATLAS.evidenceStrength)
+    for s, p, o in g.triples((None, CAVEAT.evidenceFor, None)):
+        strength = g.value(s, CAVEAT.evidenceStrength)
         if not strength:
             errors.append(
-                f"Missing atlas:evidenceStrength on {s} "
+                f"Missing caveat:evidenceStrength on {s} "
                 f"(has evidenceFor {o})"
             )
 
 
 def check_lexicon_files(g: Graph):
     lexicon_properties = (
-        ATLAS.lexiconFile,
-        ATLAS.retractionAwareLexiconFile,
+        CAVEAT.lexiconFile,
+        CAVEAT.retractionAwareLexiconFile,
     )
     for prop in lexicon_properties:
         for s, p, o in g.triples((None, prop, None)):
@@ -97,7 +97,7 @@ def check_lexicon_files(g: Graph):
 
 
 def main():
-    print("Loading ATLAS ontology...", flush=True)
+    print("Loading CAVEAT ontology...", flush=True)
     g = load_all()
     print(f"Loaded {len(g)} triples from {ONTOLOGY_DIR}", flush=True)
 

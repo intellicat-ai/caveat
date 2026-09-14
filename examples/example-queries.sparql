@@ -1,38 +1,38 @@
-# ATLAS Example SPARQL Queries
+# CAVEAT Example SPARQL Queries
 # Run these against the example data in this directory to verify
 # competency questions are answerable.
 
 # ============================================================
 # CQ1: What unreliability modes does a document have?
 # ============================================================
-PREFIX atlas: <https://w3id.org/atlas/ontology#>
-PREFIX ex: <https://w3id.org/atlas/examples/>
+PREFIX caveat: <https://w3id.org/intellicat/caveat#>
+PREFIX ex: <https://w3id.org/intellicat/caveat/examples/>
 
 SELECT ?mode ?role WHERE {
   {
-    ex:trivedi_2016_splenocyte atlas:primaryUnreliabilityMode ?mode .
+    ex:trivedi_2016_splenocyte caveat:primaryUnreliabilityMode ?mode .
     BIND("primary" AS ?role)
   } UNION {
-    ex:trivedi_2016_splenocyte atlas:secondaryUnreliabilityMode ?mode .
+    ex:trivedi_2016_splenocyte caveat:secondaryUnreliabilityMode ?mode .
     BIND("secondary" AS ?role)
   }
 }
 
 # Expected:
-# atlas:BiofieldEnergyHealing  | primary
-# atlas:PredatoryJournalPublication | secondary
-# atlas:PapermillOperation | secondary
+# caveat:BiofieldEnergyHealing  | primary
+# caveat:PredatoryJournalPublication | secondary
+# caveat:PapermillOperation | secondary
 
 
 # ============================================================
 # CQ2: Default severity of document's primary mode?
 # ============================================================
-PREFIX atlas: <https://w3id.org/atlas/ontology#>
-PREFIX ex: <https://w3id.org/atlas/examples/>
+PREFIX caveat: <https://w3id.org/intellicat/caveat#>
+PREFIX ex: <https://w3id.org/intellicat/caveat/examples/>
 
 SELECT ?severity WHERE {
-  ex:trivedi_2016_splenocyte atlas:primaryUnreliabilityMode ?mode .
-  ?mode atlas:defaultSeverity ?severity .
+  ex:trivedi_2016_splenocyte caveat:primaryUnreliabilityMode ?mode .
+  ?mode caveat:defaultSeverity ?severity .
 }
 
 # Expected: 0.95
@@ -41,34 +41,34 @@ SELECT ?severity WHERE {
 # ============================================================
 # CQ5: What markers are evidence for papermill operation?
 # ============================================================
-PREFIX atlas: <https://w3id.org/atlas/ontology#>
+PREFIX caveat: <https://w3id.org/intellicat/caveat#>
 
 SELECT ?marker ?strength WHERE {
-  ?marker atlas:evidenceFor atlas:PapermillOperation .
-  ?marker atlas:evidenceStrength ?strength .
+  ?marker caveat:evidenceFor caveat:PapermillOperation .
+  ?marker caveat:evidenceStrength ?strength .
 }
 
 # Expected:
-# atlas:TorturedPhrases | strong
-# atlas:BoilerplateTemplateText | moderate
-# atlas:VerbatimOverlap | moderate
-# atlas:ClonedImages | strong
-# atlas:DuplicatedDataTables | strong
-# atlas:AuthorClusterAnomaly | moderate
+# caveat:TorturedPhrases | strong
+# caveat:BoilerplateTemplateText | moderate
+# caveat:VerbatimOverlap | moderate
+# caveat:ClonedImages | strong
+# caveat:DuplicatedDataTables | strong
+# caveat:AuthorClusterAnomaly | moderate
 
 
 # ============================================================
 # CQ9: Full inherited vocabulary chain for BiofieldEnergyHealing
 # ============================================================
-PREFIX atlas: <https://w3id.org/atlas/ontology#>
+PREFIX caveat: <https://w3id.org/intellicat/caveat#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?ancestor ?lexiconFile WHERE {
-  atlas:BiofieldEnergyHealing rdfs:subClassOf* ?ancestor .
-  ?ancestor atlas:lexiconFile ?lexiconFile .
+  caveat:BiofieldEnergyHealing rdfs:subClassOf* ?ancestor .
+  ?ancestor caveat:lexiconFile ?lexiconFile .
 }
 
 # Expected:
-# atlas:BiofieldEnergyHealing | engagement/biofield-energy-healing.yaml
-# atlas:VitalistEnergyMedicine | engagement/vitalist-energy-medicine.yaml
-# atlas:Pseudoscience | rejection/pseudoscience-base.yaml
+# caveat:BiofieldEnergyHealing | engagement/biofield-energy-healing.yaml
+# caveat:VitalistEnergyMedicine | engagement/vitalist-energy-medicine.yaml
+# caveat:Pseudoscience | rejection/pseudoscience-base.yaml

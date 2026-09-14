@@ -1,4 +1,4 @@
-"""ATLAS ontology test suite.
+"""CAVEAT ontology test suite.
 
 Run with: python -m pytest tests/
 Requires: pip install rdflib pyyaml pytest
@@ -11,7 +11,7 @@ from pathlib import Path
 from rdflib import Graph, Namespace, URIRef
 from rdflib.namespace import RDFS, OWL, RDF
 
-ATLAS = Namespace("https://w3id.org/atlas/ontology#")
+CAVEAT = Namespace("https://w3id.org/intellicat/caveat#")
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ONTOLOGY_DIR = REPO_ROOT / "src" / "ontology"
 VOCAB_DIR = REPO_ROOT / "vocabularies"
@@ -19,17 +19,17 @@ VOCAB_DIR = REPO_ROOT / "vocabularies"
 
 @pytest.fixture(scope="session")
 def graph():
-    """Load full ATLAS ontology."""
+    """Load full CAVEAT ontology."""
     g = Graph()
     for ttl_file in ONTOLOGY_DIR.rglob("*.ttl"):
         g.parse(ttl_file, format="turtle")
     return g
 
 
-def get_atlas_classes(g):
-    """Get all OWL classes in the ATLAS namespace."""
+def get_caveat_classes(g):
+    """Get all OWL classes in the CAVEAT namespace."""
     for cls in g.subjects(RDF.type, OWL.Class):
-        if isinstance(cls, URIRef) and str(cls).startswith(str(ATLAS)):
+        if isinstance(cls, URIRef) and str(cls).startswith(str(CAVEAT)):
             yield cls
 
 
@@ -46,58 +46,58 @@ class TestParsing:
 
 class TestLabelsAndDefinitions:
     def test_all_classes_have_labels(self, graph):
-        for cls in get_atlas_classes(graph):
+        for cls in get_caveat_classes(graph):
             label = graph.value(cls, RDFS.label)
             assert label is not None, f"Missing rdfs:label on {cls}"
 
     def test_unreliability_modes_have_definitions(self, graph):
-        for cls in get_atlas_classes(graph):
+        for cls in get_caveat_classes(graph):
             parents = set(graph.transitive_objects(cls, RDFS.subClassOf))
-            if ATLAS.UnreliabilityMode in parents:
-                defn = graph.value(cls, ATLAS.definition)
+            if CAVEAT.UnreliabilityMode in parents:
+                defn = graph.value(cls, CAVEAT.definition)
                 assert defn is not None, f"Missing definition on {cls}"
 
     def test_detection_markers_have_definitions(self, graph):
-        for cls in get_atlas_classes(graph):
+        for cls in get_caveat_classes(graph):
             parents = set(graph.transitive_objects(cls, RDFS.subClassOf))
-            if ATLAS.DetectionMarker in parents:
-                defn = graph.value(cls, ATLAS.definition)
+            if CAVEAT.DetectionMarker in parents:
+                defn = graph.value(cls, CAVEAT.definition)
                 assert defn is not None, f"Missing definition on {cls}"
 
 
 class TestHierarchy:
     def test_four_top_level_categories(self, graph):
         """There should be exactly 4 direct children of UnreliabilityMode."""
-        children = list(graph.subjects(RDFS.subClassOf, ATLAS.UnreliabilityMode))
-        atlas_children = [c for c in children if str(c).startswith(str(ATLAS))]
-        assert len(atlas_children) == 4, (
-            f"Expected 4 top-level categories, got {len(atlas_children)}: "
-            f"{[str(c) for c in atlas_children]}"
+        children = list(graph.subjects(RDFS.subClassOf, CAVEAT.UnreliabilityMode))
+        caveat_children = [c for c in children if str(c).startswith(str(CAVEAT))]
+        assert len(caveat_children) == 4, (
+            f"Expected 4 top-level categories, got {len(caveat_children)}: "
+            f"{[str(c) for c in caveat_children]}"
         )
 
     def test_top_level_categories_correct(self, graph):
         expected = {
-            ATLAS.DeliberateMisconduct,
-            ATLAS.PremiseLevelFailure,
-            ATLAS.InterpretiveFailure,
-            ATLAS.ExecutionLevelFailure,
+            CAVEAT.DeliberateMisconduct,
+            CAVEAT.PremiseLevelFailure,
+            CAVEAT.InterpretiveFailure,
+            CAVEAT.ExecutionLevelFailure,
         }
-        children = set(graph.subjects(RDFS.subClassOf, ATLAS.UnreliabilityMode))
-        atlas_children = {c for c in children if str(c).startswith(str(ATLAS))}
-        assert atlas_children == expected
+        children = set(graph.subjects(RDFS.subClassOf, CAVEAT.UnreliabilityMode))
+        caveat_children = {c for c in children if str(c).startswith(str(CAVEAT))}
+        assert caveat_children == expected
 
 
 class TestEvidenceLinks:
     def test_all_evidence_links_have_strength(self, graph):
-        for s, p, o in graph.triples((None, ATLAS.evidenceFor, None)):
-            strength = graph.value(s, ATLAS.evidenceStrength)
+        for s, p, o in graph.triples((None, CAVEAT.evidenceFor, None)):
+            strength = graph.value(s, CAVEAT.evidenceStrength)
             assert strength is not None, (
                 f"Missing evidenceStrength on {s} -> {o}"
             )
 
     def test_evidence_strength_values_valid(self, graph):
         valid = {"definitive", "strong", "moderate", "weak"}
-        for s, p, o in graph.triples((None, ATLAS.evidenceStrength, None)):
+        for s, p, o in graph.triples((None, CAVEAT.evidenceStrength, None)):
             assert str(o) in valid, (
                 f"Invalid evidenceStrength '{o}' on {s}. "
                 f"Must be one of: {valid}"
@@ -107,8 +107,8 @@ class TestEvidenceLinks:
 class TestLexiconFiles:
     def test_referenced_lexicon_files_exist(self, graph):
         lexicon_properties = (
-            ATLAS.lexiconFile,
-            ATLAS.retractionAwareLexiconFile,
+            CAVEAT.lexiconFile,
+            CAVEAT.retractionAwareLexiconFile,
         )
         for prop in lexicon_properties:
             for s, p, o in graph.triples((None, prop, None)):
@@ -143,7 +143,7 @@ class TestLexiconFiles:
 
 class TestSeverity:
     def test_severity_values_in_range(self, graph):
-        for s, p, o in graph.triples((None, ATLAS.defaultSeverity, None)):
+        for s, p, o in graph.triples((None, CAVEAT.defaultSeverity, None)):
             val = float(str(o))
             assert 0.0 <= val <= 1.0, (
                 f"Severity {val} out of range [0,1] on {s}"

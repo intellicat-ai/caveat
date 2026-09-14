@@ -18,7 +18,7 @@
 # the default ENG block score. Only terms that *deviate* from silent
 # engagement are captured here.
 ---
-domain: "atlas:RetractedLiterature"
+domain: "caveat:RetractedLiterature"
 inherits_from: "none"
 applies_when: "source paper retraction_status is not null"
 extraction_method:

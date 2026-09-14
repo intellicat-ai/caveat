@@ -1,6 +1,6 @@
-# ATLAS Competency Questions
+# CAVEAT Competency Questions
 
-These questions define what ATLAS should be able to answer. They guide ontology development and serve as acceptance criteria. Each question is paired with a SPARQL query sketch that should return correct results when run against a conformant ATLAS knowledge base.
+These questions define what CAVEAT should be able to answer. They guide ontology development and serve as acceptance criteria. Each question is paired with a SPARQL query sketch that should return correct results when run against a conformant CAVEAT knowledge base.
 
 ## Core Classification
 
@@ -8,10 +8,10 @@ These questions define what ATLAS should be able to answer. They guide ontology 
 
 ```sparql
 SELECT ?mode ?role WHERE {
-  ex:doc_X atlas:primaryUnreliabilityMode ?mode .
+  ex:doc_X caveat:primaryUnreliabilityMode ?mode .
   BIND("primary" AS ?role)
 } UNION {
-  ex:doc_X atlas:secondaryUnreliabilityMode ?mode .
+  ex:doc_X caveat:secondaryUnreliabilityMode ?mode .
   BIND("secondary" AS ?role)
 }
 ```
@@ -20,8 +20,8 @@ SELECT ?mode ?role WHERE {
 
 ```sparql
 SELECT ?severity WHERE {
-  ex:doc_X atlas:primaryUnreliabilityMode ?mode .
-  ?mode atlas:defaultSeverity ?severity .
+  ex:doc_X caveat:primaryUnreliabilityMode ?mode .
+  ?mode caveat:defaultSeverity ?severity .
 }
 ```
 
@@ -30,8 +30,8 @@ SELECT ?severity WHERE {
 ```sparql
 SELECT ?category WHERE {
   ?mode rdfs:subClassOf+ ?category .
-  ?category rdfs:subClassOf atlas:UnreliabilityMode .
-  FILTER(?mode = atlas:BiofieldEnergyHealing)
+  ?category rdfs:subClassOf caveat:UnreliabilityMode .
+  FILTER(?mode = caveat:BiofieldEnergyHealing)
   BIND(?category AS ?category)
 }
 ```
@@ -42,7 +42,7 @@ SELECT ?category WHERE {
 
 ```sparql
 SELECT ?marker WHERE {
-  ex:doc_X atlas:detectionMarkerObserved ?marker .
+  ex:doc_X caveat:detectionMarkerObserved ?marker .
 }
 ```
 
@@ -50,9 +50,9 @@ SELECT ?marker WHERE {
 
 ```sparql
 SELECT ?marker ?strength WHERE {
-  ?marker atlas:evidenceFor ?mode .
-  ?marker atlas:evidenceStrength ?strength .
-  FILTER(?mode = atlas:PapermillOperation)
+  ?marker caveat:evidenceFor ?mode .
+  ?marker caveat:evidenceStrength ?strength .
+  FILTER(?mode = caveat:PapermillOperation)
 }
 ```
 
@@ -60,7 +60,7 @@ SELECT ?marker ?strength WHERE {
 
 ```sparql
 SELECT ?mode WHERE {
-  atlas:TorturedPhrases atlas:evidenceFor ?mode .
+  caveat:TorturedPhrases caveat:evidenceFor ?mode .
 }
 ```
 
@@ -70,10 +70,10 @@ SELECT ?mode WHERE {
 
 ```sparql
 SELECT ?topic ?subfield ?field ?domain WHERE {
-  ex:doc_X atlas:claimedDomain ?topic .
-  ?topic atlas:parentSubfield ?subfield .
-  ?subfield atlas:parentField ?field .
-  ?field atlas:parentDomain ?domain .
+  ex:doc_X caveat:claimedDomain ?topic .
+  ?topic caveat:parentSubfield ?subfield .
+  ?subfield caveat:parentField ?field .
+  ?field caveat:parentDomain ?domain .
 }
 ```
 
@@ -81,7 +81,7 @@ SELECT ?topic ?subfield ?field ?domain WHERE {
 
 ```sparql
 SELECT ?sibling WHERE {
-  atlas:oa_topic_T12345 atlas:siblingTopic ?sibling .
+  caveat:oa_topic_T12345 caveat:siblingTopic ?sibling .
 }
 ```
 
@@ -93,8 +93,8 @@ This requires traversing the class hierarchy and collecting lexicon file referen
 
 ```sparql
 SELECT ?mode ?lexiconFile WHERE {
-  atlas:BiofieldEnergyHealing rdfs:subClassOf* ?mode .
-  ?mode atlas:lexiconFile ?lexiconFile .
+  caveat:BiofieldEnergyHealing rdfs:subClassOf* ?mode .
+  ?mode caveat:lexiconFile ?lexiconFile .
 }
 ```
 
@@ -104,8 +104,8 @@ The downstream consumer then loads and merges all referenced lexicon files.
 
 ```sparql
 SELECT ?ancestor WHERE {
-  atlas:BiofieldEnergyHealing rdfs:subClassOf+ ?ancestor .
-  ?ancestor rdfs:subClassOf* atlas:UnreliabilityMode .
+  caveat:BiofieldEnergyHealing rdfs:subClassOf+ ?ancestor .
+  ?ancestor rdfs:subClassOf* caveat:UnreliabilityMode .
 }
 ORDER BY DESC(?depth)
 ```
@@ -116,8 +116,8 @@ ORDER BY DESC(?depth)
 
 ```sparql
 SELECT ?doc WHERE {
-  ?doc atlas:claimedDomain atlas:oa_topic_T12345 .
-  ?doc atlas:primaryUnreliabilityMode atlas:Pseudoscience .
+  ?doc caveat:claimedDomain caveat:oa_topic_T12345 .
+  ?doc caveat:primaryUnreliabilityMode caveat:Pseudoscience .
 }
 ```
 
@@ -125,6 +125,6 @@ SELECT ?doc WHERE {
 
 ```sparql
 SELECT ?family WHERE {
-  ex:doc_X atlas:corpusFamily ?family .
+  ex:doc_X caveat:corpusFamily ?family .
 }
 ```

@@ -2,8 +2,8 @@
 # Inherited by ALL children: biofield, reiki, therapeutic touch, orgone.
 # Terms at this level are shared across the vitalist pseudoscience family.
 ---
-domain: "atlas:VitalistEnergyMedicine"
-inherits_from: "atlas:Pseudoscience"
+domain: "caveat:VitalistEnergyMedicine"
+inherits_from: "caveat:Pseudoscience"
 extraction_method:
   source: "PubMed title/abstract search: 'energy healing' OR 'vital force' OR 'biofield' OR 'subtle energy', filtered to exclude legitimate biophysics"
   method: "Term extraction from source corpus, filtered by manual review for pseudoscience-specificity"

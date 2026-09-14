@@ -2,13 +2,13 @@
 
 ## Why BFO?
 
-ATLAS aligns to the Basic Formal Ontology (BFO) and the Information Artifact Ontology (IAO) for interoperability with the large ecosystem of scientific ontologies that use BFO as their upper ontology, including the OBO Foundry ontologies, the Common Core Ontologies (CCO), and the Open Energy Ontology (OEO).
+CAVEAT aligns to the Basic Formal Ontology (BFO) and the Information Artifact Ontology (IAO) for interoperability with the large ecosystem of scientific ontologies that use BFO as their upper ontology, including the OBO Foundry ontologies, the Common Core Ontologies (CCO), and the Open Energy Ontology (OEO).
 
 ## Alignment Decisions
 
 ### Unreliability Modes → BFO Quality
 
-`atlas:UnreliabilityMode rdfs:subClassOf bfo:BFO_0000019` (quality)
+`caveat:UnreliabilityMode rdfs:subClassOf bfo:BFO_0000019` (quality)
 
 An unreliability mode is a quality that inheres in an information content entity (a scientific publication). It is a specifically dependent continuant: it exists only because the publication exists, and it characterizes a property of that publication.
 
@@ -16,13 +16,13 @@ Alternative considered: modeling modes as `bfo:BFO_0000015` (process). This was 
 
 ### Detection Markers → BFO Quality
 
-`atlas:DetectionMarker rdfs:subClassOf bfo:BFO_0000019` (quality)
+`caveat:DetectionMarker rdfs:subClassOf bfo:BFO_0000019` (quality)
 
 A detection marker is also a quality of the publication — an observable feature that inheres in the document. The same reasoning as for unreliability modes applies.
 
 ### Annotated Documents → IAO Information Content Entity
 
-`atlas:AnnotatedDocument rdfs:subClassOf iao:IAO_0000030` (information content entity)
+`caveat:AnnotatedDocument rdfs:subClassOf iao:IAO_0000030` (information content entity)
 
 A scientific publication is an information content entity: it is generically dependent on some artifact (a PDF, a web page, a printed copy) and stands in a relation of aboutness to some research.
 
@@ -41,4 +41,4 @@ We import only the specific BFO and IAO classes we directly subclass from:
 - `bfo:BFO_0000031` (generically dependent continuant)
 - `iao:IAO_0000030` (information content entity)
 
-This keeps ATLAS lightweight while maintaining correct alignment. Projects that need the full BFO or IAO can import them alongside ATLAS without conflict, because our excerpt uses the same URIs.
+This keeps CAVEAT lightweight while maintaining correct alignment. Projects that need the full BFO or IAO can import them alongside CAVEAT without conflict, because our excerpt uses the same URIs.

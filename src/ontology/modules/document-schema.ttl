@@ -1,112 +1,112 @@
-@prefix atlas:   <https://w3id.org/atlas/ontology#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
 @prefix iao:     <http://purl.obolibrary.org/obo/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-<https://w3id.org/atlas/ontology/modules/document-schema> a owl:Ontology ;
-    rdfs:comment "Schema for annotating scientific documents with ATLAS classifications. Defines the AnnotatedDocument class and properties for linking documents to unreliability modes, detection markers, scientific domains, and corpus families. This module defines the schema (TBox); specific document annotations are ABox data maintained by consumers."@en .
+<https://w3id.org/intellicat/caveat/modules/document-schema> a owl:Ontology ;
+    rdfs:comment "Schema for annotating scientific documents with CAVEAT classifications. Defines the AnnotatedDocument class and properties for linking documents to unreliability modes, detection markers, scientific domains, and corpus families. This module defines the schema (TBox); specific document annotations are ABox data maintained by consumers."@en .
 
 # =============================================================================
 # DOCUMENT CLASS
 # =============================================================================
 
-atlas:AnnotatedDocument a owl:Class ;
+caveat:AnnotatedDocument a owl:Class ;
     rdfs:subClassOf iao:IAO_0000030 ;
     rdfs:label "annotated document"@en ;
-    atlas:definition "An information content entity representing a scientific publication that has been annotated with one or more ATLAS unreliability modes, detection markers, and/or scientific domain classifications."@en .
+    caveat:definition "An information content entity representing a scientific publication that has been annotated with one or more CAVEAT unreliability modes, detection markers, and/or scientific domain classifications."@en .
 
-atlas:CorpusFamily a owl:Class ;
+caveat:CorpusFamily a owl:Class ;
     rdfs:label "corpus family"@en ;
-    atlas:definition "A collection of annotated documents that share a common origin, production method, or thematic pattern, and are analyzed as a group. Examples: all papers from a specific papermill, all publications by a specific fraudulent author, all papers in a specific pseudoscience domain."@en .
+    caveat:definition "A collection of annotated documents that share a common origin, production method, or thematic pattern, and are analyzed as a group. Examples: all papers from a specific papermill, all publications by a specific fraudulent author, all papers in a specific pseudoscience domain."@en .
 
 # =============================================================================
 # CLASSIFICATION PROPERTIES
 # =============================================================================
 
-atlas:primaryUnreliabilityMode a owl:ObjectProperty ;
+caveat:primaryUnreliabilityMode a owl:ObjectProperty ;
     rdfs:label "primary unreliability mode"@en ;
     rdfs:comment "The principal unreliability mode for this document. Each document should have exactly one primary mode."@en ;
-    rdfs:domain atlas:AnnotatedDocument ;
-    rdfs:range atlas:UnreliabilityMode .
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:UnreliabilityMode .
 
-atlas:secondaryUnreliabilityMode a owl:ObjectProperty ;
+caveat:secondaryUnreliabilityMode a owl:ObjectProperty ;
     rdfs:label "secondary unreliability mode"@en ;
     rdfs:comment "An additional unreliability mode for this document. A document may have zero or more secondary modes."@en ;
-    rdfs:domain atlas:AnnotatedDocument ;
-    rdfs:range atlas:UnreliabilityMode .
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:UnreliabilityMode .
 
-atlas:detectionMarkerObserved a owl:ObjectProperty ;
+caveat:detectionMarkerObserved a owl:ObjectProperty ;
     rdfs:label "detection marker observed"@en ;
     rdfs:comment "A detection marker that has been observed in this document."@en ;
-    rdfs:domain atlas:AnnotatedDocument ;
-    rdfs:range atlas:DetectionMarker .
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:DetectionMarker .
 
-atlas:claimedDomain a owl:ObjectProperty ;
+caveat:claimedDomain a owl:ObjectProperty ;
     rdfs:label "claimed domain"@en ;
     rdfs:comment "The scientific domain (OpenAlex topic) that this document claims to contribute to."@en ;
-    rdfs:domain atlas:AnnotatedDocument ;
-    rdfs:range atlas:OpenAlexTopic .
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:OpenAlexTopic .
 
-atlas:corpusFamily a owl:ObjectProperty ;
+caveat:corpusFamily a owl:ObjectProperty ;
     rdfs:label "corpus family"@en ;
     rdfs:comment "The corpus family to which this document belongs."@en ;
-    rdfs:domain atlas:AnnotatedDocument ;
-    rdfs:range atlas:CorpusFamily .
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:CorpusFamily .
 
 # =============================================================================
 # CORPUS FAMILY PROPERTIES
 # =============================================================================
 
-atlas:estimatedSize a owl:DatatypeProperty ;
+caveat:estimatedSize a owl:DatatypeProperty ;
     rdfs:label "estimated corpus size"@en ;
     rdfs:comment "Approximate number of documents in this corpus family."@en ;
-    rdfs:domain atlas:CorpusFamily .
+    rdfs:domain caveat:CorpusFamily .
 
 # =============================================================================
 # RETRACTION PROPERTIES
 # =============================================================================
 
-atlas:RetractionRecord a owl:Class ;
+caveat:RetractionRecord a owl:Class ;
     rdfs:label "retraction record"@en ;
     rdfs:comment "Structured record of a paper's retraction status, including date, reason, severity, and any associated consequences."@en .
 
-atlas:retractionStatus a owl:ObjectProperty ;
+caveat:retractionStatus a owl:ObjectProperty ;
     rdfs:label "retraction status"@en ;
-    rdfs:domain atlas:AnnotatedDocument ;
-    rdfs:range atlas:RetractionRecord .
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:RetractionRecord .
 
-atlas:retractionDate a owl:DatatypeProperty ;
+caveat:retractionDate a owl:DatatypeProperty ;
     rdfs:label "retraction date"@en ;
-    rdfs:domain atlas:RetractionRecord ;
+    rdfs:domain caveat:RetractionRecord ;
     rdfs:range xsd:date .
 
-atlas:retractionReason a owl:DatatypeProperty ;
+caveat:retractionReason a owl:DatatypeProperty ;
     rdfs:label "retraction reason"@en ;
-    rdfs:domain atlas:RetractionRecord ;
+    rdfs:domain caveat:RetractionRecord ;
     rdfs:range xsd:string .
 
-atlas:retractionSeverityValue a owl:DatatypeProperty ;
+caveat:retractionSeverityValue a owl:DatatypeProperty ;
     rdfs:label "retraction severity value"@en ;
     rdfs:comment "Severity classification for this retraction record, used for document-level annotation and stratified reporting. Expected values: catastrophic, major, standard."@en ;
-    rdfs:domain atlas:RetractionRecord ;
+    rdfs:domain caveat:RetractionRecord ;
     rdfs:range xsd:string .
 
-atlas:retractionNoticeDOI a owl:DatatypeProperty ;
+caveat:retractionNoticeDOI a owl:DatatypeProperty ;
     rdfs:label "retraction notice DOI"@en ;
-    rdfs:domain atlas:RetractionRecord ;
+    rdfs:domain caveat:RetractionRecord ;
     rdfs:range xsd:string .
 
-atlas:associatedPerson a owl:ObjectProperty ;
+caveat:associatedPerson a owl:ObjectProperty ;
     rdfs:label "associated person"@en ;
-    rdfs:domain atlas:RetractionRecord ;
+    rdfs:domain caveat:RetractionRecord ;
     rdfs:comment "Person associated with the misconduct, used for named-person scoring in TRACES."@en .
 
-atlas:personName a owl:DatatypeProperty ;
+caveat:personName a owl:DatatypeProperty ;
     rdfs:label "person name"@en ;
     rdfs:range xsd:string .
 
-atlas:legalConsequences a owl:DatatypeProperty ;
+caveat:legalConsequences a owl:DatatypeProperty ;
     rdfs:label "legal consequences"@en ;
     rdfs:range xsd:string ;
     rdfs:comment "Free text describing legal consequences: 'none', 'criminal conviction', 'civil settlement', etc."@en .

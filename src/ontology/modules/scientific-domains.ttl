@@ -1,71 +1,71 @@
-@prefix atlas:   <https://w3id.org/atlas/ontology#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
 @prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-<https://w3id.org/atlas/ontology/modules/scientific-domains> a owl:Ontology ;
+<https://w3id.org/intellicat/caveat/modules/scientific-domains> a owl:Ontology ;
     rdfs:comment "Scientific domain classification via alignment to OpenAlex topics. Defines the schema for representing the four-level OpenAlex hierarchy (domain > field > subfield > topic) and sibling relationships."@en .
 
 # =============================================================================
 # OPENALEX HIERARCHY CLASSES
 # =============================================================================
 
-atlas:OpenAlexDomain a owl:Class ;
+caveat:OpenAlexDomain a owl:Class ;
     rdfs:label "OpenAlex domain"@en ;
-    atlas:definition "The highest level of the OpenAlex topic hierarchy. Approximately 4 domains exist (e.g., Life Sciences, Physical Sciences, Social Sciences, Health Sciences)."@en .
+    caveat:definition "The highest level of the OpenAlex topic hierarchy. Approximately 4 domains exist (e.g., Life Sciences, Physical Sciences, Social Sciences, Health Sciences)."@en .
 
-atlas:OpenAlexField a owl:Class ;
+caveat:OpenAlexField a owl:Class ;
     rdfs:label "OpenAlex field"@en ;
-    atlas:definition "The second level of the OpenAlex topic hierarchy, a child of a domain. Approximately 25 fields exist (e.g., Medicine, Physics, Chemistry)."@en .
+    caveat:definition "The second level of the OpenAlex topic hierarchy, a child of a domain. Approximately 25 fields exist (e.g., Medicine, Physics, Chemistry)."@en .
 
-atlas:OpenAlexSubfield a owl:Class ;
+caveat:OpenAlexSubfield a owl:Class ;
     rdfs:label "OpenAlex subfield"@en ;
-    atlas:definition "The third level of the OpenAlex topic hierarchy, a child of a field. Approximately 250 subfields exist (e.g., Immunology, Nuclear Physics)."@en .
+    caveat:definition "The third level of the OpenAlex topic hierarchy, a child of a field. Approximately 250 subfields exist (e.g., Immunology, Nuclear Physics)."@en .
 
-atlas:OpenAlexTopic a owl:Class ;
+caveat:OpenAlexTopic a owl:Class ;
     rdfs:label "OpenAlex topic"@en ;
-    atlas:definition "The most granular level of the OpenAlex topic hierarchy. Approximately 4500 topics exist. This is the level at which ATLAS anchors its scientific domain classification."@en .
+    caveat:definition "The most granular level of the OpenAlex topic hierarchy. Approximately 4500 topics exist. This is the level at which CAVEAT anchors its scientific domain classification."@en .
 
 # =============================================================================
 # HIERARCHY PROPERTIES
 # =============================================================================
 
-atlas:parentDomain a owl:ObjectProperty ;
+caveat:parentDomain a owl:ObjectProperty ;
     rdfs:label "parent domain"@en ;
-    rdfs:domain atlas:OpenAlexField ;
-    rdfs:range atlas:OpenAlexDomain .
+    rdfs:domain caveat:OpenAlexField ;
+    rdfs:range caveat:OpenAlexDomain .
 
-atlas:parentField a owl:ObjectProperty ;
+caveat:parentField a owl:ObjectProperty ;
     rdfs:label "parent field"@en ;
-    rdfs:domain atlas:OpenAlexSubfield ;
-    rdfs:range atlas:OpenAlexField .
+    rdfs:domain caveat:OpenAlexSubfield ;
+    rdfs:range caveat:OpenAlexField .
 
-atlas:parentSubfield a owl:ObjectProperty ;
+caveat:parentSubfield a owl:ObjectProperty ;
     rdfs:label "parent subfield"@en ;
-    rdfs:domain atlas:OpenAlexTopic ;
-    rdfs:range atlas:OpenAlexSubfield .
+    rdfs:domain caveat:OpenAlexTopic ;
+    rdfs:range caveat:OpenAlexSubfield .
 
 # =============================================================================
 # SIBLING RELATIONSHIP
 # =============================================================================
 
-atlas:siblingTopic a owl:ObjectProperty, owl:SymmetricProperty ;
+caveat:siblingTopic a owl:ObjectProperty, owl:SymmetricProperty ;
     rdfs:label "sibling topic"@en ;
-    rdfs:domain atlas:OpenAlexTopic ;
-    rdfs:range atlas:OpenAlexTopic ;
-    atlas:definition "Two OpenAlex topics that share a parent subfield and are designated as siblings in the OpenAlex topic taxonomy. Useful for identifying related fields where similar unreliability patterns may occur, and for constructing matched controls."@en .
+    rdfs:domain caveat:OpenAlexTopic ;
+    rdfs:range caveat:OpenAlexTopic ;
+    caveat:definition "Two OpenAlex topics that share a parent subfield and are designated as siblings in the OpenAlex topic taxonomy. Useful for identifying related fields where similar unreliability patterns may occur, and for constructing matched controls."@en .
 
 # =============================================================================
 # OPENALEX METADATA PROPERTIES
 # =============================================================================
 
-atlas:openAlexId a owl:DatatypeProperty ;
+caveat:openAlexId a owl:DatatypeProperty ;
     rdfs:label "OpenAlex ID"@en ;
     rdfs:comment "The OpenAlex identifier for this entity (e.g., 'T12345' for a topic)."@en ;
     rdfs:range xsd:string .
 
-atlas:openAlexSnapshotDate a owl:AnnotationProperty ;
+caveat:openAlexSnapshotDate a owl:AnnotationProperty ;
     rdfs:label "OpenAlex snapshot date"@en ;
     rdfs:comment "The date on which OpenAlex data was retrieved for this import. Since OpenAlex is actively maintained, topic assignments may change."@en ;
     rdfs:range xsd:date .

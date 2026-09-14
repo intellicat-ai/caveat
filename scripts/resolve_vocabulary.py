@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Resolve the full inherited vocabulary for a given ATLAS unreliability mode.
+"""Resolve the full inherited vocabulary for a given CAVEAT unreliability mode.
 
 Usage:
-    python resolve_vocabulary.py atlas:BiofieldEnergyHealing
+    python resolve_vocabulary.py caveat:BiofieldEnergyHealing
 
 Traverses the rdfs:subClassOf chain from the given mode to the root,
 collects all referenced lexicon files, loads and merges them, and outputs
@@ -25,14 +25,14 @@ try:
 except ImportError:
     sys.exit("rdflib required: pip install rdflib")
 
-ATLAS = Namespace("https://w3id.org/atlas/ontology#")
+CAVEAT = Namespace("https://w3id.org/intellicat/caveat#")
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ONTOLOGY_DIR = REPO_ROOT / "src" / "ontology"
 VOCAB_DIR = REPO_ROOT / "vocabularies"
 
 
 def load_ontology() -> Graph:
-    """Load all ATLAS ontology modules into a single graph."""
+    """Load all CAVEAT ontology modules into a single graph."""
     g = Graph()
     modules_dir = ONTOLOGY_DIR / "modules"
     for ttl_file in modules_dir.glob("*.ttl"):
@@ -48,12 +48,12 @@ def get_ancestor_chain(g: Graph, mode_uri: URIRef) -> list[URIRef]:
     while current and current not in visited:
         visited.add(current)
         parents = list(g.objects(current, RDFS.subClassOf))
-        atlas_parents = [
+        caveat_parents = [
             p for p in parents
-            if isinstance(p, URIRef) and str(p).startswith(str(ATLAS))
+            if isinstance(p, URIRef) and str(p).startswith(str(CAVEAT))
         ]
-        if atlas_parents:
-            current = atlas_parents[0]
+        if caveat_parents:
+            current = caveat_parents[0]
             chain.append(current)
         else:
             break
@@ -65,7 +65,7 @@ def resolve_lexicon_files(g: Graph, mode_uri: URIRef) -> list[str]:
     chain = get_ancestor_chain(g, mode_uri)
     files = []
     for ancestor in chain:
-        lexicon = g.value(ancestor, ATLAS.lexiconFile)
+        lexicon = g.value(ancestor, CAVEAT.lexiconFile)
         if lexicon:
             files.append(str(lexicon))
     return files
@@ -94,12 +94,12 @@ def load_and_merge_lexicons(files: list[str]) -> dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Resolve ATLAS vocabulary inheritance")
-    parser.add_argument("mode", help="ATLAS mode URI, e.g. atlas:BiofieldEnergyHealing")
+    parser = argparse.ArgumentParser(description="Resolve CAVEAT vocabulary inheritance")
+    parser.add_argument("mode", help="CAVEAT mode URI, e.g. caveat:BiofieldEnergyHealing")
     args = parser.parse_args()
 
-    mode_local = args.mode.replace("atlas:", "")
-    mode_uri = ATLAS[mode_local]
+    mode_local = args.mode.replace("caveat:", "")
+    mode_uri = CAVEAT[mode_local]
 
     g = load_ontology()
     files = resolve_lexicon_files(g, mode_uri)

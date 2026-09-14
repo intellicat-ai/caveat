@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-title: "ATLAS: Analytical Taxonomy for Literature Assessment in Science"
+title: "CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types"
 message: "If you use this ontology, please cite it using the metadata from this file."
 type: dataset
 license: CC-BY-4.0
-version: 0.1.0
-date-released: "2026-04-08"
-url: "https://w3id.org/atlas/"
-repository-code: "https://github.com/TODO/atlas-ontology"
+version: 0.2.0
+date-released: "2026-09-14"
+url: "https://w3id.org/intellicat/caveat"
+repository-code: "https://github.com/intellicat-ai/caveat"
 keywords:
   - ontology
   - research integrity

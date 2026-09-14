@@ -2,12 +2,12 @@
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# Minimal BFO 2020 excerpt for ATLAS alignment.
-# Only the classes that ATLAS directly subclasses from are included.
+# Minimal BFO 2020 excerpt for CAVEAT alignment.
+# Only the classes that CAVEAT directly subclasses from are included.
 # Full BFO: https://basic-formal-ontology.org/
 
-<https://w3id.org/atlas/ontology/imports/bfo-excerpt> a owl:Ontology ;
-    rdfs:comment "Minimal excerpt from Basic Formal Ontology (BFO 2020) imported by ATLAS. Contains only those BFO classes from which ATLAS classes directly inherit."@en .
+<https://w3id.org/intellicat/caveat/imports/bfo-excerpt> a owl:Ontology ;
+    rdfs:comment "Minimal excerpt from Basic Formal Ontology (BFO 2020) imported by CAVEAT. Contains only those BFO classes from which CAVEAT classes directly inherit."@en .
 
 bfo:BFO_0000001 a owl:Class ;
     rdfs:label "entity"@en .

@@ -1,21 +1,21 @@
-@prefix atlas:   <https://w3id.org/atlas/ontology#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 
-<https://w3id.org/atlas/ontology/modules/marker-evidence> a owl:Ontology ;
+<https://w3id.org/intellicat/caveat/modules/marker-evidence> a owl:Ontology ;
     rdfs:comment "Links between detection markers and unreliability modes. Each link asserts that observing the marker is evidence for the mode, with a strength qualifier."@en .
 
 # =============================================================================
 # EVIDENCE PROPERTIES
 # =============================================================================
 
-atlas:evidenceFor a owl:ObjectProperty ;
+caveat:evidenceFor a owl:ObjectProperty ;
     rdfs:label "evidence for"@en ;
     rdfs:comment "Asserts that observing this detection marker is evidence for the linked unreliability mode."@en ;
-    rdfs:domain atlas:DetectionMarker ;
-    rdfs:range atlas:UnreliabilityMode .
+    rdfs:domain caveat:DetectionMarker ;
+    rdfs:range caveat:UnreliabilityMode .
 
-atlas:evidenceStrength a owl:AnnotationProperty ;
+caveat:evidenceStrength a owl:AnnotationProperty ;
     rdfs:label "evidence strength"@en ;
     rdfs:comment "Strength of the evidential link. Values: 'definitive' (marker alone is sufficient), 'strong' (high positive predictive value), 'moderate' (suggestive, needs corroboration), 'weak' (possible indicator, high false positive rate)."@en .
 
@@ -23,130 +23,130 @@ atlas:evidenceStrength a owl:AnnotationProperty ;
 # TEXTUAL MARKER LINKS
 # =============================================================================
 
-atlas:TorturedPhrases
-    atlas:evidenceFor atlas:PapermillOperation ;
-    atlas:evidenceStrength "strong" .
+caveat:TorturedPhrases
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "strong" .
 
-atlas:BoilerplateTemplateText
-    atlas:evidenceFor atlas:PapermillOperation ;
-    atlas:evidenceStrength "moderate" .
+caveat:BoilerplateTemplateText
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:BoilerplateTemplateText
-    atlas:evidenceFor atlas:DuplicatePublication ;
-    atlas:evidenceStrength "moderate" .
+caveat:BoilerplateTemplateText
+    caveat:evidenceFor caveat:DuplicatePublication ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:VerbatimOverlap
-    atlas:evidenceFor atlas:TextPlagiarism ;
-    atlas:evidenceStrength "strong" .
+caveat:VerbatimOverlap
+    caveat:evidenceFor caveat:TextPlagiarism ;
+    caveat:evidenceStrength "strong" .
 
-atlas:VerbatimOverlap
-    atlas:evidenceFor atlas:PapermillOperation ;
-    atlas:evidenceStrength "moderate" .
+caveat:VerbatimOverlap
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "moderate" .
 
 # =============================================================================
 # DATA / FIGURE MARKER LINKS
 # =============================================================================
 
-atlas:ClonedImages
-    atlas:evidenceFor atlas:Falsification ;
-    atlas:evidenceStrength "strong" .
+caveat:ClonedImages
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "strong" .
 
-atlas:ClonedImages
-    atlas:evidenceFor atlas:PapermillOperation ;
-    atlas:evidenceStrength "strong" .
+caveat:ClonedImages
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "strong" .
 
-atlas:ImageManipulationArtifacts
-    atlas:evidenceFor atlas:Falsification ;
-    atlas:evidenceStrength "strong" .
+caveat:ImageManipulationArtifacts
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "strong" .
 
-atlas:SyntheticSpectra
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "strong" .
+caveat:SyntheticSpectra
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "strong" .
 
-atlas:ImpossibleStatistics
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "moderate" .
+caveat:ImpossibleStatistics
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:ImpossibleStatistics
-    atlas:evidenceFor atlas:Falsification ;
-    atlas:evidenceStrength "moderate" .
+caveat:ImpossibleStatistics
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:ImpossibleStatistics
-    atlas:evidenceFor atlas:StatisticalMalpractice ;
-    atlas:evidenceStrength "weak" .
+caveat:ImpossibleStatistics
+    caveat:evidenceFor caveat:StatisticalMalpractice ;
+    caveat:evidenceStrength "weak" .
 
-atlas:SuspiciousDataRegularity
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "moderate" .
+caveat:SuspiciousDataRegularity
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:DuplicatedDataTables
-    atlas:evidenceFor atlas:PapermillOperation ;
-    atlas:evidenceStrength "strong" .
+caveat:DuplicatedDataTables
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "strong" .
 
-atlas:DuplicatedDataTables
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "moderate" .
+caveat:DuplicatedDataTables
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "moderate" .
 
 # =============================================================================
 # METADATA MARKER LINKS
 # =============================================================================
 
-atlas:PredatoryJournalIndexing
-    atlas:evidenceFor atlas:PredatoryJournalPublication ;
-    atlas:evidenceStrength "strong" .
+caveat:PredatoryJournalIndexing
+    caveat:evidenceFor caveat:PredatoryJournalPublication ;
+    caveat:evidenceStrength "strong" .
 
-atlas:AnomalousReviewTimeline
-    atlas:evidenceFor atlas:CompromisedPeerReview ;
-    atlas:evidenceStrength "moderate" .
+caveat:AnomalousReviewTimeline
+    caveat:evidenceFor caveat:CompromisedPeerReview ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:AuthorClusterAnomaly
-    atlas:evidenceFor atlas:PapermillOperation ;
-    atlas:evidenceStrength "moderate" .
+caveat:AuthorClusterAnomaly
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:AuthorClusterAnomaly
-    atlas:evidenceFor atlas:CitationManipulation ;
-    atlas:evidenceStrength "moderate" .
+caveat:AuthorClusterAnomaly
+    caveat:evidenceFor caveat:CitationManipulation ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:CitationPatternAnomaly
-    atlas:evidenceFor atlas:CitationManipulation ;
-    atlas:evidenceStrength "definitive" .
+caveat:CitationPatternAnomaly
+    caveat:evidenceFor caveat:CitationManipulation ;
+    caveat:evidenceStrength "definitive" .
 
-atlas:RetractionNotice
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "definitive" .
+caveat:RetractionNotice
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "definitive" .
 
-atlas:RetractionNotice
-    atlas:evidenceFor atlas:Falsification ;
-    atlas:evidenceStrength "definitive" .
+caveat:RetractionNotice
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "definitive" .
 
-atlas:RetractionNotice
-    atlas:evidenceFor atlas:TextPlagiarism ;
-    atlas:evidenceStrength "definitive" .
+caveat:RetractionNotice
+    caveat:evidenceFor caveat:TextPlagiarism ;
+    caveat:evidenceStrength "definitive" .
 
-atlas:ExpressionOfConcern
-    atlas:evidenceFor atlas:Falsification ;
-    atlas:evidenceStrength "moderate" .
+caveat:ExpressionOfConcern
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "moderate" .
 
 # =============================================================================
 # REPRODUCIBILITY MARKER LINKS
 # =============================================================================
 
-atlas:FailedIndependentReplication
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "moderate" .
+caveat:FailedIndependentReplication
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:FailedIndependentReplication
-    atlas:evidenceFor atlas:PathologicalScience ;
-    atlas:evidenceStrength "moderate" .
+caveat:FailedIndependentReplication
+    caveat:evidenceFor caveat:PathologicalScience ;
+    caveat:evidenceStrength "moderate" .
 
-atlas:FailedIndependentReplication
-    atlas:evidenceFor atlas:StatisticalMalpractice ;
-    atlas:evidenceStrength "weak" .
+caveat:FailedIndependentReplication
+    caveat:evidenceFor caveat:StatisticalMalpractice ;
+    caveat:evidenceStrength "weak" .
 
-atlas:NonResponsiveAuthors
-    atlas:evidenceFor atlas:Fabrication ;
-    atlas:evidenceStrength "weak" .
+caveat:NonResponsiveAuthors
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "weak" .
 
-atlas:WithdrawnDataMethodology
-    atlas:evidenceFor atlas:Falsification ;
-    atlas:evidenceStrength "strong" .
+caveat:WithdrawnDataMethodology
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "strong" .

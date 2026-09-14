@@ -1,6 +1,6 @@
-# Contributing to ATLAS
+# Contributing to CAVEAT
 
-ATLAS follows the open ontology development workflow described in the
+CAVEAT follows the open ontology development workflow described in the
 [Scientific Ontology Network's Practical Ontology Development Guide](https://scientific-ontology-network.github.io/).
 
 ## Issue-Based Development

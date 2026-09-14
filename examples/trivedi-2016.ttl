@@ -1,47 +1,47 @@
-@prefix atlas:   <https://w3id.org/atlas/ontology#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex:      <https://w3id.org/atlas/examples/> .
+@prefix ex:      <https://w3id.org/intellicat/caveat/examples/> .
 
 # =============================================================================
 # EXAMPLE: Annotating the Trivedi 2016 splenocyte paper
 # =============================================================================
-# This file demonstrates how a downstream consumer uses ATLAS to annotate
+# This file demonstrates how a downstream consumer uses CAVEAT to annotate
 # a specific document. It is ABox data (specific individuals), not TBox
 # (class definitions). Downstream projects like TRACES maintain their own
 # ABox datasets using this pattern.
 
-ex:trivedi_2016_splenocyte a atlas:AnnotatedDocument ;
+ex:trivedi_2016_splenocyte a caveat:AnnotatedDocument ;
     dcterms:title "An Impact of the Trivedi Effect® - Biofield Energy Healing on Herbomineral Formulation for Immunomodulation of Pro-inflammatory Cytokines in Biofield Treated Mouse Splenocytes" ;
     dcterms:identifier "doi:10.11648/j.ab.20160406.12" ;
     dcterms:date "2016-12-08"^^xsd:date ;
     dcterms:publisher "Science Publishing Group" ;
 
     # Primary classification: this is pseudoscience (biofield energy healing)
-    atlas:primaryUnreliabilityMode atlas:BiofieldEnergyHealing ;
+    caveat:primaryUnreliabilityMode caveat:BiofieldEnergyHealing ;
 
     # Secondary classifications: also predatory journal, and likely fabricated data and papermill origin
-    atlas:secondaryUnreliabilityMode atlas:PredatoryJournalPublication ;
-    atlas:secondaryUnreliabilityMode atlas:Fabrication ;
-    atlas:secondaryUnreliabilityMode atlas:PapermillOperation ;
+    caveat:secondaryUnreliabilityMode caveat:PredatoryJournalPublication ;
+    caveat:secondaryUnreliabilityMode caveat:Fabrication ;
+    caveat:secondaryUnreliabilityMode caveat:PapermillOperation ;
 
     # Detection markers observed
-    atlas:detectionMarkerObserved atlas:PredatoryJournalIndexing ;
-    atlas:detectionMarkerObserved atlas:AnomalousReviewTimeline ;
-    atlas:detectionMarkerObserved atlas:BoilerplateTemplateText ;
-    atlas:detectionMarkerObserved atlas:SuspiciousDataRegularity ;
+    caveat:detectionMarkerObserved caveat:PredatoryJournalIndexing ;
+    caveat:detectionMarkerObserved caveat:AnomalousReviewTimeline ;
+    caveat:detectionMarkerObserved caveat:BoilerplateTemplateText ;
+    caveat:detectionMarkerObserved caveat:SuspiciousDataRegularity ;
 
     # Corpus family
-    atlas:corpusFamily ex:trivedi_corpus .
+    caveat:corpusFamily ex:trivedi_corpus .
 
 # =============================================================================
 # EXAMPLE: Corpus family definition
 # =============================================================================
 
-ex:trivedi_corpus a atlas:CorpusFamily ;
+ex:trivedi_corpus a caveat:CorpusFamily ;
     rdfs:label "Trivedi Effect Publication Network" ;
     rdfs:comment "Approximately 400 papers by Mahendra Kumar Trivedi and associates, published across multiple predatory journals (Science Publishing Group, Trivedi Science Research Laboratory journals), with near-identical structure and methodology. Papers claim that 'Biofield Energy Healing Treatment (The Trivedi Effect)' applied remotely by panels of healers alters material properties, biological processes, and chemical characteristics." ;
-    atlas:primaryUnreliabilityMode atlas:BiofieldEnergyHealing ;
-    atlas:secondaryUnreliabilityMode atlas:PapermillOperation ;
-    atlas:secondaryUnreliabilityMode atlas:PredatoryJournalPublication ;
-    atlas:estimatedSize 400 .
+    caveat:primaryUnreliabilityMode caveat:BiofieldEnergyHealing ;
+    caveat:secondaryUnreliabilityMode caveat:PapermillOperation ;
+    caveat:secondaryUnreliabilityMode caveat:PredatoryJournalPublication ;
+    caveat:estimatedSize 400 .

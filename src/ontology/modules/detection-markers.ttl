@@ -1,159 +1,159 @@
-@prefix atlas:   <https://w3id.org/atlas/ontology#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
 @prefix bfo:     <http://purl.obolibrary.org/obo/> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 
-<https://w3id.org/atlas/ontology/modules/detection-markers> a owl:Ontology ;
-    rdfs:comment "ATLAS detection marker hierarchy. Observable features of publications that serve as evidence for unreliability modes."@en .
+<https://w3id.org/intellicat/caveat/modules/detection-markers> a owl:Ontology ;
+    rdfs:comment "CAVEAT detection marker hierarchy. Observable features of publications that serve as evidence for unreliability modes."@en .
 
 # =============================================================================
 # ROOT CLASS
 # =============================================================================
 
-atlas:DetectionMarker a owl:Class ;
+caveat:DetectionMarker a owl:Class ;
     rdfs:subClassOf bfo:BFO_0000019 ;
     rdfs:label "detection marker"@en ;
-    atlas:definition "A quality of a scientific publication that is observable and serves as evidence for one or more unreliability modes. Distinguished from unreliability modes in that a marker is what we can see; a mode is what went wrong."@en .
+    caveat:definition "A quality of a scientific publication that is observable and serves as evidence for one or more unreliability modes. Distinguished from unreliability modes in that a marker is what we can see; a mode is what went wrong."@en .
 
 # =============================================================================
 # TEXTUAL MARKERS
 # =============================================================================
 
-atlas:TextualMarker a owl:Class ;
-    rdfs:subClassOf atlas:DetectionMarker ;
+caveat:TextualMarker a owl:Class ;
+    rdfs:subClassOf caveat:DetectionMarker ;
     rdfs:label "textual marker"@en ;
-    atlas:definition "A detection marker observable in the text of a publication."@en .
+    caveat:definition "A detection marker observable in the text of a publication."@en .
 
-atlas:TorturedPhrases a owl:Class ;
-    rdfs:subClassOf atlas:TextualMarker ;
+caveat:TorturedPhrases a owl:Class ;
+    rdfs:subClassOf caveat:TextualMarker ;
     rdfs:label "tortured phrases"@en ;
-    atlas:definition "A textual marker characterized by systematic synonym substitution that produces nonsensical phrases, such as 'bosom movement' for 'breast cancer'. Near-pathognomonic for papermill products."@en ;
-    atlas:definitionSource "Cabanac, G., Labbé, C., & Magazinov, A. (2021). Tortured phrases: A dubious writing style emerging in science. Evidence of critical issues affecting established journals. arXiv:2107.06751." .
+    caveat:definition "A textual marker characterized by systematic synonym substitution that produces nonsensical phrases, such as 'bosom movement' for 'breast cancer'. Near-pathognomonic for papermill products."@en ;
+    caveat:definitionSource "Cabanac, G., Labbé, C., & Magazinov, A. (2021). Tortured phrases: A dubious writing style emerging in science. Evidence of critical issues affecting established journals. arXiv:2107.06751." .
 
-atlas:BoilerplateTemplateText a owl:Class ;
-    rdfs:subClassOf atlas:TextualMarker ;
+caveat:BoilerplateTemplateText a owl:Class ;
+    rdfs:subClassOf caveat:TextualMarker ;
     rdfs:label "boilerplate or template text"@en ;
-    atlas:definition "A textual marker characterized by extensive verbatim or near-verbatim reuse of text across multiple papers, suggesting template-based production."@en .
+    caveat:definition "A textual marker characterized by extensive verbatim or near-verbatim reuse of text across multiple papers, suggesting template-based production."@en .
 
-atlas:InconsistentTerminology a owl:Class ;
-    rdfs:subClassOf atlas:TextualMarker ;
+caveat:InconsistentTerminology a owl:Class ;
+    rdfs:subClassOf caveat:TextualMarker ;
     rdfs:label "inconsistent terminology within paper"@en ;
-    atlas:definition "A textual marker characterized by the use of different terms for the same concept within a single paper, suggesting assembly from multiple sources or automated rewriting."@en .
+    caveat:definition "A textual marker characterized by the use of different terms for the same concept within a single paper, suggesting assembly from multiple sources or automated rewriting."@en .
 
-atlas:LLMGeneratedText a owl:Class ;
-    rdfs:subClassOf atlas:TextualMarker ;
+caveat:LLMGeneratedText a owl:Class ;
+    rdfs:subClassOf caveat:TextualMarker ;
     rdfs:label "LLM-generated text"@en ;
-    atlas:definition "A textual marker characterized by features indicative of large language model generation, such as unnaturally fluent text, characteristic hedging patterns and punctuation, hallucinations, or known LLM artifacts."@en .
+    caveat:definition "A textual marker characterized by features indicative of large language model generation, such as unnaturally fluent text, characteristic hedging patterns and punctuation, hallucinations, or known LLM artifacts."@en .
 
-atlas:VerbatimOverlap a owl:Class ;
-    rdfs:subClassOf atlas:TextualMarker ;
+caveat:VerbatimOverlap a owl:Class ;
+    rdfs:subClassOf caveat:TextualMarker ;
     rdfs:label "verbatim overlap with other papers"@en ;
-    atlas:definition "A textual marker characterized by substantial verbatim text overlap with one or more other publications, detectable by plagiarism detection tools."@en .
+    caveat:definition "A textual marker characterized by substantial verbatim text overlap with one or more other publications, detectable by plagiarism detection tools."@en .
 
 # =============================================================================
 # DATA AND FIGURE MARKERS
 # =============================================================================
 
-atlas:DataFigureMarker a owl:Class ;
-    rdfs:subClassOf atlas:DetectionMarker ;
+caveat:DataFigureMarker a owl:Class ;
+    rdfs:subClassOf caveat:DetectionMarker ;
     rdfs:label "data or figure marker"@en ;
-    atlas:definition "A detection marker observable in the data, figures, or images of a publication."@en .
+    caveat:definition "A detection marker observable in the data, figures, or images of a publication."@en .
 
-atlas:ClonedImages a owl:Class ;
-    rdfs:subClassOf atlas:DataFigureMarker ;
+caveat:ClonedImages a owl:Class ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
     rdfs:label "cloned or duplicated images"@en ;
-    atlas:definition "A data or figure marker characterized by the reuse of the same image (possibly rotated, cropped, or recolored) to represent different experimental conditions or results."@en .
+    caveat:definition "A data or figure marker characterized by the reuse of the same image (possibly rotated, cropped, or recolored) to represent different experimental conditions or results."@en .
 
-atlas:ImageManipulationArtifacts a owl:Class ;
-    rdfs:subClassOf atlas:DataFigureMarker ;
+caveat:ImageManipulationArtifacts a owl:Class ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
     rdfs:label "image manipulation artifacts"@en ;
-    atlas:definition "A data or figure marker characterized by visible signs of digital manipulation such as splicing boundaries, inconsistent noise patterns, or clone-stamp artifacts."@en .
+    caveat:definition "A data or figure marker characterized by visible signs of digital manipulation such as splicing boundaries, inconsistent noise patterns, or clone-stamp artifacts."@en .
 
-atlas:SyntheticSpectra a owl:Class ;
-    rdfs:subClassOf atlas:DataFigureMarker ;
+caveat:SyntheticSpectra a owl:Class ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
     rdfs:label "hand-drawn or synthetic spectra"@en ;
-    atlas:definition "A data or figure marker characterized by spectral data (NMR, IR, mass spectrometry, etc.) that appear to be hand-drawn or computationally generated rather than obtained from actual instruments."@en .
+    caveat:definition "A data or figure marker characterized by spectral data (NMR, IR, mass spectrometry, etc.) that appear to be hand-drawn or computationally generated rather than obtained from actual instruments."@en .
 
-atlas:ImpossibleStatistics a owl:Class ;
-    rdfs:subClassOf atlas:DataFigureMarker ;
+caveat:ImpossibleStatistics a owl:Class ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
     rdfs:label "impossible or implausible statistics"@en ;
-    atlas:definition "A data or figure marker characterized by reported statistics that are mathematically impossible given the study parameters, detectable via GRIM, SPRITE, or similar forensic tests."@en ;
-    atlas:definitionSource "Brown, N.J.L., & Heathers, J.A.J. (2017). The GRIM test." .
+    caveat:definition "A data or figure marker characterized by reported statistics that are mathematically impossible given the study parameters, detectable via GRIM, SPRITE, or similar forensic tests."@en ;
+    caveat:definitionSource "Brown, N.J.L., & Heathers, J.A.J. (2017). The GRIM test." .
 
-atlas:SuspiciousDataRegularity a owl:Class ;
-    rdfs:subClassOf atlas:DataFigureMarker ;
+caveat:SuspiciousDataRegularity a owl:Class ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
     rdfs:label "suspicious data regularity"@en ;
-    atlas:definition "A data or figure marker characterized by data that are implausibly regular, lacking the noise and variability expected from genuine measurements."@en .
+    caveat:definition "A data or figure marker characterized by data that are implausibly regular, lacking the noise and variability expected from genuine measurements."@en .
 
-atlas:DuplicatedDataTables a owl:Class ;
-    rdfs:subClassOf atlas:DataFigureMarker ;
+caveat:DuplicatedDataTables a owl:Class ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
     rdfs:label "duplicated data tables across papers"@en ;
-    atlas:definition "A data or figure marker characterized by data tables that appear in substantially identical form across multiple papers, suggesting data reuse or fabrication."@en .
+    caveat:definition "A data or figure marker characterized by data tables that appear in substantially identical form across multiple papers, suggesting data reuse or fabrication."@en .
 
 # =============================================================================
 # METADATA MARKERS
 # =============================================================================
 
-atlas:MetadataMarker a owl:Class ;
-    rdfs:subClassOf atlas:DetectionMarker ;
+caveat:MetadataMarker a owl:Class ;
+    rdfs:subClassOf caveat:DetectionMarker ;
     rdfs:label "metadata marker"@en ;
-    atlas:definition "A detection marker observable in the publication metadata, editorial history, or surrounding context rather than the content itself."@en .
+    caveat:definition "A detection marker observable in the publication metadata, editorial history, or surrounding context rather than the content itself."@en .
 
-atlas:PredatoryJournalIndexing a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:PredatoryJournalIndexing a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "predatory journal source"@en ;
-    atlas:definition "A metadata marker characterized by the publication venue appearing on established predatory journal lists similar to Beall's list or Cabell's Predatory Reports."@en .
+    caveat:definition "A metadata marker characterized by the publication venue appearing on established predatory journal lists similar to Beall's list or Cabell's Predatory Reports."@en .
 
-atlas:AnomalousReviewTimeline a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:AnomalousReviewTimeline a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "anomalous review timeline"@en ;
-    atlas:definition "A metadata marker characterized by an implausibly short interval between submission and acceptance, suggesting absent or perfunctory peer review."@en .
+    caveat:definition "A metadata marker characterized by an implausibly short interval between submission and acceptance, suggesting absent or perfunctory peer review."@en .
 
-atlas:AuthorClusterAnomaly a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:AuthorClusterAnomaly a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "author cluster anomaly"@en ;
-    atlas:definition "A metadata marker characterized by network analysis revealing suspicious patterns of co-authorship, such as implausible international collaborations or known papermill author pools."@en .
+    caveat:definition "A metadata marker characterized by network analysis revealing suspicious patterns of co-authorship, such as implausible international collaborations or known papermill author pools."@en .
 
-atlas:CitationPatternAnomaly a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:CitationPatternAnomaly a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "citation pattern anomaly"@en ;
-    atlas:definition "A metadata marker characterized by network analysis revealing suspicious patterns of citations, such as implausible interdisciplinary citations, or inclusion in citation rings."@en .
+    caveat:definition "A metadata marker characterized by network analysis revealing suspicious patterns of citations, such as implausible interdisciplinary citations, or inclusion in citation rings."@en .
 
-atlas:RetractionNotice a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:RetractionNotice a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "retraction notice"@en ;
-    atlas:definition "A metadata marker characterized by a formal retraction notice issued by the journal, indicating the paper has been withdrawn from the published record."@en .
+    caveat:definition "A metadata marker characterized by a formal retraction notice issued by the journal, indicating the paper has been withdrawn from the published record."@en .
 
-atlas:ExpressionOfConcern a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:ExpressionOfConcern a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "expression of concern"@en ;
-    atlas:definition "A metadata marker characterized by a formal editorial expression of concern regarding the integrity or validity of a published paper."@en .
+    caveat:definition "A metadata marker characterized by a formal editorial expression of concern regarding the integrity or validity of a published paper."@en .
 
-atlas:PostPublicationCritique a owl:Class ;
-    rdfs:subClassOf atlas:MetadataMarker ;
+caveat:PostPublicationCritique a owl:Class ;
+    rdfs:subClassOf caveat:MetadataMarker ;
     rdfs:label "post-publication critique"@en ;
-    atlas:definition "A metadata marker characterized by substantive published criticism of the paper's methods, data, or conclusions on platforms such as PubPeer, journal correspondence, or formal commentary."@en .
+    caveat:definition "A metadata marker characterized by substantive published criticism of the paper's methods, data, or conclusions on platforms such as PubPeer, journal correspondence, or formal commentary."@en .
 
 # =============================================================================
 # REPRODUCIBILITY MARKERS
 # =============================================================================
 
-atlas:ReproducibilityMarker a owl:Class ;
-    rdfs:subClassOf atlas:DetectionMarker ;
+caveat:ReproducibilityMarker a owl:Class ;
+    rdfs:subClassOf caveat:DetectionMarker ;
     rdfs:label "reproducibility marker"@en ;
-    atlas:definition "A detection marker relating to the reproducibility or verifiability of a publication's claims."@en .
+    caveat:definition "A detection marker relating to the reproducibility or verifiability of a publication's claims."@en .
 
-atlas:FailedIndependentReplication a owl:Class ;
-    rdfs:subClassOf atlas:ReproducibilityMarker ;
+caveat:FailedIndependentReplication a owl:Class ;
+    rdfs:subClassOf caveat:ReproducibilityMarker ;
     rdfs:label "failed independent replication"@en ;
-    atlas:definition "A reproducibility marker characterized by one or more published independent attempts to replicate the study's key findings that did not reproduce the reported results."@en .
+    caveat:definition "A reproducibility marker characterized by one or more published independent attempts to replicate the study's key findings that did not reproduce the reported results."@en .
 
-atlas:NonResponsiveAuthors a owl:Class ;
-    rdfs:subClassOf atlas:ReproducibilityMarker ;
+caveat:NonResponsiveAuthors a owl:Class ;
+    rdfs:subClassOf caveat:ReproducibilityMarker ;
     rdfs:label "non-responsive authors"@en ;
-    atlas:definition "A reproducibility marker characterized by authors who do not respond to reasonable requests for raw data, analysis code, or methodological clarification."@en .
+    caveat:definition "A reproducibility marker characterized by authors who do not respond to reasonable requests for raw data, analysis code, or methodological clarification."@en .
 
-atlas:WithdrawnDataMethodology a owl:Class ;
-    rdfs:subClassOf atlas:ReproducibilityMarker ;
+caveat:WithdrawnDataMethodology a owl:Class ;
+    rdfs:subClassOf caveat:ReproducibilityMarker ;
     rdfs:label "withdrawn data or methodology"@en ;
-    atlas:definition "A reproducibility marker characterized by the withdrawal or retraction of underlying data or methodological components after publication."@en .
+    caveat:definition "A reproducibility marker characterized by the withdrawal or retraction of underlying data or methodological components after publication."@en .

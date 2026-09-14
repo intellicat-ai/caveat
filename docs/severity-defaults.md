@@ -1,8 +1,8 @@
-# Default Severity in ATLAS
+# Default Severity in CAVEAT
 
 ## Scale Definition
 
-ATLAS assigns a `defaultSeverity` value (0.0 to 1.0) to each unreliability mode, following FMEA (Failure Mode and Effects Analysis) conventions from IEC 60812.
+CAVEAT assigns a `defaultSeverity` value (0.0 to 1.0) to each unreliability mode, following FMEA (Failure Mode and Effects Analysis) conventions from IEC 60812.
 
 | Range | Interpretation |
 |-------|---------------|
@@ -22,13 +22,13 @@ ATLAS assigns a `defaultSeverity` value (0.0 to 1.0) to each unreliability mode,
 
 ## Consumer Overrides
 
-ATLAS provides defaults. Downstream projects may override severity for their context:
+CAVEAT provides defaults. Downstream projects may override severity for their context:
 
 - A research integrity screening tool might weight `PredatoryJournalPublication` higher (0.6) because for screening purposes, venue quality is a strong signal.
 - An LLM benchmark like TRACES might weight `Pseudoscience` at 0.95 (the default) but weight `CargoCultScience` lower (0.2) because methodologically flawed but real science is less likely to produce distinctive LLM influence.
 
-The mechanism for overrides is application-specific. ATLAS does not prescribe how overrides are stored or applied.
+The mechanism for overrides is application-specific. CAVEAT does not prescribe how overrides are stored or applied.
 
 ## Current Default Values
 
-See `src/ontology/modules/unreliability-modes.ttl` for the full set of default severity assignments. The values are attached as `atlas:defaultSeverity` annotation properties on each class.
+See `src/ontology/modules/unreliability-modes.ttl` for the full set of default severity assignments. The values are attached as `caveat:defaultSeverity` annotation properties on each class.

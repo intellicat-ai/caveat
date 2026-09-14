@@ -1,6 +1,6 @@
-# ATLAS Controlled Vocabularies
+# CAVEAT Controlled Vocabularies
 
-This directory contains domain-specific terminology intrinsic to each unreliability mode in the ATLAS ontology. Vocabularies are stored as YAML files and are linked to ontology classes via the `atlas:lexiconFile` annotation property.
+This directory contains domain-specific terminology intrinsic to each unreliability mode in the CAVEAT ontology. Vocabularies are stored as YAML files and are linked to ontology classes via the `caveat:lexiconFile` annotation property.
 
 ## Structure
 

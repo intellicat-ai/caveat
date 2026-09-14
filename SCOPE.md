@@ -1,8 +1,8 @@
-# ATLAS Scope Definition
+# CAVEAT Scope Definition
 
 ## In Scope
 
-This ontology defines terms for classifying unreliable scientific literature and the markers used to detect it. Specifically, ATLAS covers:
+This ontology defines terms for classifying unreliable scientific literature and the markers used to detect it. Specifically, CAVEAT covers:
 
 1. **Unreliability modes** — a hierarchical classification of how and why a scientific publication is unreliable, organized by cause (deliberate, premise-level, interpretive, execution-level) and graduated by default severity.
 
@@ -12,22 +12,22 @@ This ontology defines terms for classifying unreliable scientific literature and
 
 4. **Scientific domain classification** — lightweight alignment to external controlled vocabularies (primarily OpenAlex topics) for classifying what field a paper claims to contribute to, including sibling relationships between topics.
 
-5. **Document annotation schema** — OWL properties for annotating individual documents or corpus families with unreliability modes, detection markers, and domain classifications. ATLAS defines the *schema* for such annotations.
+5. **Document annotation schema** — OWL properties for annotating individual documents or corpus families with unreliability modes, detection markers, and domain classifications. CAVEAT defines the *schema* for such annotations.
 
 ## Out of Scope
 
-ATLAS does **not** cover:
+CAVEAT does **not** cover:
 
 - The content of legitimate science beyond domain classification
 - General bibliometric metadata (covered by Dublin Core, SPAR ontologies)
 - Detailed research methodology description (covered by OBI, IAO)
 - Specific forensic detection algorithms or software tools
 - LLM benchmark methodology, scoring formulas, or probe construction (these are application-specific concerns for downstream consumers such as TRACES)
-- Judgments about specific individual papers (ATLAS provides the vocabulary; individual assessments are ABox data maintained by consumers)
+- Judgments about specific individual papers (CAVEAT provides the vocabulary; individual assessments are ABox data maintained by consumers)
 - Retraction decisions or editorial policy
 
 ## Boundary Cases
 
-- **Severity values**: ATLAS provides default severity annotations as guidance. Consumers may override these for their specific context. The defaults are part of the ontology; overrides are not.
-- **Lexicon scoring weights**: ATLAS classifies terms by function (engagement, rejection, sanewashing). Numerical weights for scoring formulas are application-specific and out of scope.
-- **OpenAlex topic data**: ATLAS imports and aligns to OpenAlex topics but does not replicate the full OpenAlex dataset. Only topic branches relevant to annotated documents are imported.
+- **Severity values**: CAVEAT provides default severity annotations as guidance. Consumers may override these for their specific context. The defaults are part of the ontology; overrides are not.
+- **Lexicon scoring weights**: CAVEAT classifies terms by function (engagement, rejection, sanewashing). Numerical weights for scoring formulas are application-specific and out of scope.
+- **OpenAlex topic data**: CAVEAT imports and aligns to OpenAlex topics but does not replicate the full OpenAlex dataset. Only topic branches relevant to annotated documents are imported.

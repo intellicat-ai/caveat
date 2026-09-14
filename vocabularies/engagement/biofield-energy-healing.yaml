@@ -2,8 +2,8 @@
 # Adds terms specific to this subtopic on top of parent
 # (vitalist-energy-medicine.yaml) and grandparent (pseudoscience-base.yaml).
 ---
-domain: "atlas:BiofieldEnergyHealing"
-inherits_from: "atlas:VitalistEnergyMedicine"
+domain: "caveat:BiofieldEnergyHealing"
+inherits_from: "caveat:VitalistEnergyMedicine"
 extraction_method:
   source: "PubMed/HAL/Google Scholar title/abstract search: 'biofield', plus known Trivedi Effect corpus"
   method: "Term extraction from source corpus, supplemented by manual review of Trivedi corpus"

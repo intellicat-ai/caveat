@@ -1,8 +1,8 @@
-# Term Classification in ATLAS Vocabularies
+# Term Classification in CAVEAT Vocabularies
 
 ## Overview
 
-Every term in an ATLAS vocabulary file is assigned a `classification` that describes its function when it appears in a response to a pseudoscientific premise. ATLAS defines the classification semantics and their ordinal relationships. Downstream consumers (such as TRACES) map these classifications to numerical weights for their specific scoring context.
+Every term in an CAVEAT vocabulary file is assigned a `classification` that describes its function when it appears in a response to a pseudoscientific premise. CAVEAT defines the classification semantics and their ordinal relationships. Downstream consumers (such as TRACES) map these classifications to numerical weights for their specific scoring context.
 
 ## Classification Taxonomy
 
@@ -66,13 +66,13 @@ Engagement terms have an additional `level` field:
 
 ### Mapping to Numerical Weights
 
-ATLAS does not prescribe specific numerical weights. Consumers should:
+CAVEAT does not prescribe specific numerical weights. Consumers should:
 
 1. **Preserve the ordinal ranking.** If `categorical_rejection` gets weight +1.0, then `evidence_absence` must get a value < +1.0, and `sanewashing_strong` must get the most negative value.
 
 2. **Decide the zero point.** Is `mechanism_absence` positive or neutral? For well-established pseudoscience (biofield healing), it should be positive. For frontier science controls, it might be neutral. This is a consumer decision.
 
-3. **Decide the magnitude ratio.** Is `sanewashing_strong` as bad as `categorical_rejection` is good? ATLAS suggests approximate symmetry but does not mandate it.
+3. **Decide the magnitude ratio.** Is `sanewashing_strong` as bad as `categorical_rejection` is good? CAVEAT suggests approximate symmetry but does not mandate it.
 
 ### Suggested Default Mapping
 
