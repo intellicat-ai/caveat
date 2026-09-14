@@ -1,6 +1,6 @@
-@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
 
 <https://w3id.org/intellicat/caveat/modules/marker-evidence> a owl:Ontology ;
     rdfs:comment "Links between detection markers and unreliability modes. Each link asserts that observing the marker is evidence for the mode, with a strength qualifier."@en .

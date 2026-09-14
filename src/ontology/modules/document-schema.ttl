@@ -1,8 +1,8 @@
-@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
-@prefix iao:     <http://purl.obolibrary.org/obo/> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix iao:    <http://purl.obolibrary.org/obo/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/intellicat/caveat/modules/document-schema> a owl:Ontology ;
     rdfs:comment "Schema for annotating scientific documents with CAVEAT classifications. Defines the AnnotatedDocument class and properties for linking documents to unreliability modes, detection markers, scientific domains, and corpus families. This module defines the schema (TBox); specific document annotations are ABox data maintained by consumers."@en .
