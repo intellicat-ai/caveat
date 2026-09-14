@@ -96,6 +96,41 @@ def check_lexicon_files(g: Graph):
                 )
 
 
+def check_lexicon_schema():
+    """Validate lexicon files against vocabularies/_schema.yaml."""
+    import yaml
+    schema_path = VOCAB_DIR / "_schema.yaml"
+    if not schema_path.exists():
+        errors.append(f"Schema not found: {schema_path}")
+        return
+    schema = yaml.safe_load(schema_path.read_text())
+    props = schema.get("properties", {})
+    allowed_top = set(props)
+    required_top = set(schema.get("required", []))
+    term_props = props.get("terms", {}).get("items", {}).get("properties", {})
+    enums = {
+        k: set(term_props.get(k, {}).get("enum", []))
+        for k in ("classification", "level", "general_frequency")
+    }
+    for f in sorted(VOCAB_DIR.rglob("*.yaml")):
+        if f.name == "_schema.yaml":
+            continue
+        data = yaml.safe_load(f.read_text())
+        for k in sorted(required_top - set(data)):
+            errors.append(f"{f.name}: missing required key '{k}'")
+        for k in sorted(set(data) - allowed_top):
+            errors.append(f"{f.name}: undeclared top-level key '{k}'")
+        for t in data.get("terms", []):
+            for field, allowed in enums.items():
+                if field == "classification" or field in t:
+                    v = t.get(field)
+                    if v not in allowed:
+                        errors.append(
+                            f"{f.name}: term '{t.get('term')}' has {field} "
+                            f"'{v}' not in schema enum"
+                        )
+
+
 def main():
     print("Loading CAVEAT ontology...", flush=True)
     g = load_all()
@@ -112,6 +147,9 @@ def main():
 
     print("Checking lexicon file references...", flush=True)
     check_lexicon_files(g)
+
+    print("Checking lexicon schema conformance...", flush=True)
+    check_lexicon_schema()
 
     if warnings:
         print(f"\n{len(warnings)} WARNINGS:")

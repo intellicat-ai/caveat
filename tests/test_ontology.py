@@ -129,6 +129,11 @@ class TestLexiconFiles:
 
     def test_lexicon_terms_have_classification(self):
         import yaml
+        schema_path = VOCAB_DIR / "_schema.yaml"
+        schema = yaml.safe_load(schema_path.read_text())
+        allowed_classifications = set(
+            schema["properties"]["terms"]["items"]["properties"]["classification"]["enum"]
+        )
         for yaml_file in VOCAB_DIR.rglob("*.yaml"):
             if yaml_file.name == "_schema.yaml":
                 continue
@@ -139,6 +144,10 @@ class TestLexiconFiles:
                 assert "classification" in term, (
                     f"Missing 'classification' for term '{term.get('term')}' "
                     f"in {yaml_file}"
+                )
+                assert term["classification"] in allowed_classifications, (
+                    f"Term '{term.get('term')}' in {yaml_file} has classification "
+                    f"'{term.get('classification')}' not in schema enum"
                 )
 
 class TestSeverity:
