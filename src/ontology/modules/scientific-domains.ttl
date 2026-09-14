@@ -1,8 +1,8 @@
-@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
-@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/intellicat/caveat/modules/scientific-domains> a owl:Ontology ;
     rdfs:comment "Scientific domain classification via alignment to OpenAlex topics. Defines the schema for representing the four-level OpenAlex hierarchy (domain > field > subfield > topic) and sibling relationships."@en .

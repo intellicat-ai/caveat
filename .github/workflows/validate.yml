@@ -1,0 +1,45 @@
+name: CAVEAT Ontology Validation
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install rdflib pyyaml pytest
+
+      - name: Validate ontology
+        run: python scripts/validate.py
+
+      - name: Run test suite
+        run: python -m pytest tests/ -v
+
+      - name: Verify vocabulary inheritance resolves
+        run: |
+          python scripts/resolve_vocabulary.py caveat:BiofieldEnergyHealing \
+            > /tmp/vocab.json
+          python - <<'EOF'
+          import json, sys
+          d = json.load(open('/tmp/vocab.json'))
+          expected = [
+              "engagement/biofield-energy-healing.yaml",
+              "engagement/vitalist-energy-medicine.yaml",
+              "rejection/pseudoscience-base.yaml",
+          ]
+          if d["lexicon_files"] != expected:
+              sys.exit(f"Inheritance chain broken: {d['lexicon_files']}")
+          print("chain OK:", d["term_count"], "terms")
+          EOF
