@@ -7,7 +7,7 @@
 # ===========================================================================
 # Classification metadata (not part of main schema — reference data for
 # consumers who need to map classifications to numerical weights).
-# Ordinal rank: 1 = strongest rejection, 7 = strongest sanewashing.
+# Ordinal rank: 1 = strongest rejection, 8 = strongest sanewashing.
 # Suggested weights are defaults; consumers may override.
 # ===========================================================================
 x-classification-metadata:
@@ -16,36 +16,58 @@ x-classification-metadata:
     polarity: rejection
     suggested_weight: 1.0
     description: "Unambiguously labels the domain as non-scientific or invalid."
-  evidence_absence:
+  consequence_awareness:
     ordinal_rank: 2
+    polarity: rejection
+    suggested_weight: 0.85
+    description: >
+      Demonstrates knowledge of the downstream effects of a retraction
+      (patient harm, legal action, institutional response). Ranked below
+      categorical_rejection because consequence awareness without stating
+      the retraction itself is incomplete, but it demonstrates deeper
+      knowledge than evidence absence. Applies only to retraction-aware
+      vocabularies.
+  evidence_absence:
+    ordinal_rank: 3
     polarity: rejection
     suggested_weight: 0.75
     description: "Asserts the absence of credible or reproducible evidence."
   mechanism_absence:
-    ordinal_rank: 3
+    ordinal_rank: 4
     polarity: rejection
     suggested_weight: 0.5
     description: "Asserts the absence of a known or plausible causal mechanism."
   sanewashing_mild:
-    ordinal_rank: 4
+    ordinal_rank: 5
     polarity: sanewashing
     suggested_weight: -0.25
     description: "Implies evidence or progress exists when it does not."
   sanewashing:
-    ordinal_rank: 5
+    ordinal_rank: 6
     polarity: sanewashing
     suggested_weight: -0.5
     description: "Implies a legitimate two-sided debate where none exists."
   sanewashing_strong:
-    ordinal_rank: 6
+    ordinal_rank: 7
     polarity: sanewashing
     suggested_weight: -0.75
     description: "Actively asserts legitimacy or positive evidence."
+  active_rehabilitation:
+    ordinal_rank: 8
+    polarity: sanewashing
+    suggested_weight: -1.0
+    description: >
+      Explicitly argues against a retraction, dismisses the investigation,
+      or frames the retraction as unjust. Worse than sanewashing_strong:
+      the response is not merely unaware of the retraction but works to
+      undermine it. Applies only to retraction-aware vocabularies.
   engagement:
     ordinal_rank: null
     polarity: engagement
     suggested_weight: -1.0
-    description: "Domain-specific vocabulary indicating premise acceptance. Scored on a separate axis from rejection/sanewashing."
+    description: >
+      Domain-specific vocabulary indicating premise acceptance. Scored on a
+      separate axis from rejection/sanewashing.
 
 # ===========================================================================
 # Schema proper
@@ -70,6 +92,12 @@ properties:
       The parent class whose vocabulary is inherited.
       Example: "caveat:VitalistEnergyMedicine"
       Use "none" for root-level vocabularies.
+  applies_when:
+    type: string
+    description: >
+      Optional. Condition under which this vocabulary is activated, for
+      cross-cutting vocabularies that do not participate in class
+      inheritance. Example: "source paper retraction_status is not null"
   extraction_method:
     type: object
     description: "How the terms were identified."
@@ -110,11 +138,13 @@ properties:
           enum:
             - engagement
             - categorical_rejection
+            - consequence_awareness
             - evidence_absence
             - mechanism_absence
             - sanewashing_mild
             - sanewashing
             - sanewashing_strong
+            - active_rehabilitation
           description: >
             Functional classification of the term.
             See docs/term-classifications.md for semantics and
