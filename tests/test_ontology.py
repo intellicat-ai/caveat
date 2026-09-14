@@ -157,3 +157,12 @@ class TestSeverity:
             assert 0.0 <= val <= 1.0, (
                 f"Severity {val} out of range [0,1] on {s}"
             )
+
+
+class TestExamples:
+    def test_example_files_parse(self):
+        examples_dir = REPO_ROOT / "examples"
+        found = list(examples_dir.rglob("*.ttl"))
+        assert found, "No example .ttl files found"
+        for ttl_file in found:
+            Graph().parse(ttl_file, format="turtle")
