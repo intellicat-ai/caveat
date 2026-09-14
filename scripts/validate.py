@@ -4,8 +4,8 @@
 Checks:
 1. All .ttl files parse without errors
 2. Every class has an rdfs:label
-3. Every UnreliabilityMode subclass has an caveat:definition
-4. Every UnreliabilityMode subclass has an caveat:defaultSeverity
+3. Every UnreliabilityMode subclass has a caveat:definition
+4. Every UnreliabilityMode subclass has a caveat:defaultSeverity
 5. Every DetectionMarker with caveat:evidenceFor has caveat:evidenceStrength
 6. No orphan classes (every non-root class has rdfs:subClassOf)
 7. lexiconFile references point to files that exist

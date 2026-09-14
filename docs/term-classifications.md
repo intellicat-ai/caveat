@@ -2,7 +2,7 @@
 
 ## Overview
 
-Every term in an CAVEAT vocabulary file is assigned a `classification` that describes its function when it appears in a response to a pseudoscientific premise. CAVEAT defines the classification semantics and their ordinal relationships. Downstream consumers (such as TRACES) map these classifications to numerical weights for their specific scoring context.
+Every term in a CAVEAT vocabulary file is assigned a `classification` that describes its function when it appears in a response to a pseudoscientific premise. CAVEAT defines the classification semantics and their ordinal relationships. Downstream consumers (such as TRACES) map these classifications to numerical weights for their specific scoring context.
 
 ## Classification Taxonomy
 
