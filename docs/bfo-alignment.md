@@ -26,9 +26,15 @@ A detection marker is also a quality of the publication — an observable featur
 
 A scientific publication is an information content entity: it is generically dependent on some artifact (a PDF, a web page, a printed copy) and stands in a relation of aboutness to some research.
 
-### OpenAlex Topics — Not BFO-Aligned
+### OpenAlex Hierarchy: Not BFO-Aligned
 
-OpenAlex topics are modeled as a SKOS concept scheme, not as BFO classes. This is because they are an external controlled vocabulary that we align to, not concepts we define. SKOS is the standard for this use case.
+The OpenAlex hierarchy is modeled as four plain OWL classes: `OpenAlexDomain`, `OpenAlexField`, `OpenAlexSubfield` and `OpenAlexTopic`. They are linked by `caveat:parentDomain`, `caveat:parentField` and `caveat:parentSubfield`, and topics are related to each other by the symmetric `caveat:siblingTopic`. None of the four classes has an upper-ontology superclass. They describe an external classification that CAVEAT refers to, not entities CAVEAT defines.
+
+SKOS is not used anywhere in the ontology. `mappings/README.md` describes planned SKOS alignment files; none have been generated.
+
+### Other Unaligned Classes
+
+`CorpusFamily` and `RetractionRecord` are also not aligned to BFO or IAO.
 
 ## Minimal Import Strategy
 

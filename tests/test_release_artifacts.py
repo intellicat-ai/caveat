@@ -90,3 +90,44 @@ def test_config_version_matches_citation(cff_version):
     assert str(data["version"]) == cff_version, (
         f"docs/_config.yml version ({data['version']}) does not match CITATION.cff version ({cff_version})"
     )
+
+
+def test_citation_authors_and_attribution():
+    """CITATION.cff names its authors, and the site and README agree."""
+    data = yaml.safe_load((REPO_ROOT / "CITATION.cff").read_text(encoding="utf-8"))
+    authors = data.get("authors") or []
+    assert authors, "CITATION.cff must list authors"
+    names = [a.get("name") or a.get("family-names") for a in authors]
+    assert all(names), f"every author needs name or family-names: {authors}"
+    contacts = [c.get("name") for c in data.get("contact") or []]
+    assert "Intellicat Inc." in contacts, f"contact must include Intellicat Inc.: {contacts}"
+    index = (DOCS_DIR / "index.html").read_text(encoding="utf-8")
+    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    for name in names:
+        assert name in index, f"docs/index.html does not mention author {name!r}"
+        assert name in readme, f"README.md does not mention author {name!r}"
+    assert "{{ site.version }}" in index, "index.html citation must use {{ site.version }}"
+
+
+def test_release_output_is_byte_stable(tmp_path):
+    """Two builds under different hash seeds produce identical files."""
+    import os
+    import subprocess
+    import sys
+
+    code = (
+        "import importlib.util, sys; from pathlib import Path; "
+        f"s = importlib.util.spec_from_file_location('b', r'{SCRIPTS_DIR / 'build_release.py'}'); "
+        "m = importlib.util.module_from_spec(s); s.loader.exec_module(m); "
+        "m.write_release(Path(sys.argv[1]))"
+    )
+    outputs = []
+    for seed in ("1", "2"):
+        out = tmp_path / seed
+        env = {**os.environ, "PYTHONHASHSEED": seed}
+        subprocess.run([sys.executable, "-c", code, str(out)], check=True, env=env, capture_output=True)
+        outputs.append(out)
+    for name in ("caveat.ttl", "caveat.owl"):
+        a = (outputs[0] / name).read_bytes()
+        b = (outputs[1] / name).read_bytes()
+        assert a == b, f"{name} differs between builds"

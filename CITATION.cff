@@ -2,6 +2,13 @@ cff-version: 1.2.0
 title: "CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types"
 message: "If you use this ontology, please cite it using the metadata from this file."
 type: dataset
+authors:
+  - name: "CAVEAT contributors"
+    website: "https://github.com/intellicat-ai/caveat/graphs/contributors"
+contact:
+  - name: "Intellicat Inc."
+    website: "https://intellicat.ai"
+abstract: "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."
 license: CC-BY-4.0
 version: 0.2.0
 date-released: "2026-09-14"

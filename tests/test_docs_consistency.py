@@ -37,12 +37,16 @@ from rdflib.namespace import OWL, RDF, RDFS
 CAVEAT = Namespace("https://w3id.org/intellicat/caveat#")
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ONTOLOGY_DIR = REPO_ROOT / "src" / "ontology"
-DOC_FILES = [REPO_ROOT / "README.md"] + sorted(
-    p for p in (REPO_ROOT / "docs").glob("*.md")
+DOC_FILES = (
+    [REPO_ROOT / "README.md"]
+    + sorted(p for p in (REPO_ROOT / "docs").glob("*.md"))
+    + [REPO_ROOT / "docs" / "index.html"]
 )
 
 CURIE = re.compile(r"\bcaveat:([A-Za-z_]\w*)")
-CAMEL = re.compile(r"`([A-Z][a-z0-9]+(?:[A-Z][A-Za-z0-9]*)+)`")
+CAMEL = re.compile(
+    r"(?:`|<code>)([A-Z][a-z0-9]+(?:[A-Z][A-Za-z0-9]*)+)(?:`|</code>)"
+)
 TICKED = re.compile(r"`([^`]+)`")
 INLINE_DEFAULT = re.compile(
     r"`([A-Z][A-Za-z0-9]+)`[^`|]*?\bdefault (\d+(?:\.\d+)?)"
@@ -206,3 +210,31 @@ def test_tables(g, path):
                 f"extra {sorted(seen - expected)}"
             )
     assert not errors, f"{path.name}:\n  " + "\n  ".join(errors)
+
+
+# Claims that were false at some point. Do not reintroduce them.
+KNOWN_FALSE_CLAIMS = [
+    "all classes have aristotelian",
+    "traceable causation",
+    "hermit",
+    "cargo cult",
+    "oa_topic_",
+    "skos concept scheme",
+    "water water",
+    "no orphan classes",
+]
+CLAIM_FILES = (
+    DOC_FILES
+    + [REPO_ROOT / "docs" / "_layouts" / "default.html"]
+    + sorted(ONTOLOGY_DIR.rglob("*.ttl"))
+    + [REPO_ROOT / "scripts" / "validate.py", REPO_ROOT / "CITATION.cff"]
+)
+
+
+@pytest.mark.parametrize(
+    "path", [pytest.param(p, id=str(p.relative_to(REPO_ROOT))) for p in CLAIM_FILES]
+)
+def test_no_known_false_claims(path):
+    text = path.read_text().lower()
+    found = [c for c in KNOWN_FALSE_CLAIMS if c in text]
+    assert not found, f"{path.name} repeats known false claims: {found}"

@@ -49,7 +49,7 @@ caveat:claimedDomain a owl:ObjectProperty ;
     rdfs:range caveat:OpenAlexTopic .
 
 caveat:corpusFamily a owl:ObjectProperty ;
-    rdfs:label "corpus family"@en ;
+    rdfs:label "member of corpus family"@en ;
     rdfs:comment "The corpus family to which this document belongs."@en ;
     rdfs:domain caveat:AnnotatedDocument ;
     rdfs:range caveat:CorpusFamily .

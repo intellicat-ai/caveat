@@ -145,7 +145,7 @@ caveat:ReproducibilityMarker a owl:Class ;
 
 caveat:FailedIndependentReplication a owl:Class ;
     rdfs:subClassOf caveat:ReproducibilityMarker ;
-    rdfs:label "failed independent replication"@en ;
+    rdfs:label "published failed replication"@en ;
     caveat:definition "A reproducibility marker characterized by one or more published independent attempts to replicate the study's key findings that did not reproduce the reported results."@en .
 
 caveat:NonResponsiveAuthors a owl:Class ;

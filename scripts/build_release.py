@@ -67,6 +67,20 @@ def build_graph(ontology_dir: Path | None = None) -> Graph:
     return g
 
 
+class SortedGraph(Graph):
+    """Graph with sorted subject and predicate-object iteration.
+
+    rdflib's RDF/XML serializer walks subjects and predicate-objects in set
+    order, which changes between runs. Sorting makes caveat.owl byte-stable.
+    """
+
+    def subjects(self, predicate=None, object=None, unique=False):
+        return iter(sorted(set(super().subjects(predicate, object))))
+
+    def predicate_objects(self, subject=None, unique=False):
+        return iter(sorted(set(super().predicate_objects(subject))))
+
+
 def write_release(docs_dir: Path | None = None) -> None:
     """Generate docs/caveat.ttl and docs/caveat.owl."""
     if docs_dir is None:
@@ -82,7 +96,12 @@ def write_release(docs_dir: Path | None = None) -> None:
     ttl_path.write_text(HEADER_COMMENT + ttl_content, encoding="utf-8")
     print(f"Wrote {ttl_path} ({len(g)} triples)")
 
-    owl_content = g.serialize(format="xml")
+    sorted_g = SortedGraph()
+    for prefix, namespace in g.namespaces():
+        sorted_g.bind(prefix, namespace, replace=True)
+    for triple in g:
+        sorted_g.add(triple)
+    owl_content = sorted_g.serialize(format="xml")
     owl_path.write_text(owl_content, encoding="utf-8")
     print(f"Wrote {owl_path} ({len(g)} triples)")
 

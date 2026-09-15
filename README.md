@@ -134,7 +134,7 @@ This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/
 
 ## Citation
 
-See [CITATION.cff](CITATION.cff) for machine-readable citation metadata.
+CAVEAT is written by the [CAVEAT contributors](https://github.com/intellicat-ai/caveat/graphs/contributors) and maintained by Intellicat Inc. Citation metadata is in [CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button generates APA and BibTeX from it.
 
 ## Contributing
 

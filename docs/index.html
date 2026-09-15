@@ -26,8 +26,8 @@ title: Overview
   <h2>Structure</h2>
   <p>CAVEAT models two independent dimensions:</p>
   <ul>
-    <li><strong>Dimension 1 (Scientific Domain):</strong> What field does the paper claim to belong to? Schema for OpenAlex topic alignment (OpenAlex alignment exists as schema only).</li>
-    <li><strong>Dimension 2 (Unreliability Modes):</strong> What kind of failure does the paper exhibit? Organized as a concept tree with four top-level categories.</li>
+    <li><strong>Scientific domain:</strong> What field does the paper claim to contribute to? CAVEAT defines a schema for the four-level OpenAlex hierarchy (domain, field, subfield, topic) and for sibling relationships between topics. OpenAlex topic data has not been imported yet.</li>
+    <li><strong>Unreliability mode:</strong> What kind of failure does the paper exhibit? Modes form a class hierarchy with four top-level categories, each with a primary cause and a default severity.</li>
   </ul>
 
   <table>
@@ -94,12 +94,12 @@ title: Overview
 <section id="design-principles">
   <h2>Design principles</h2>
   <ul>
-    <li>Grounded in BFO (Basic Formal Ontology) and IAO (Information Artifact Ontology) for interoperability</li>
-    <li>FMEA-inspired hierarchy with graduated default severity and traceable causation</li>
-    <li>Strict TBox/ABox separation: CAVEAT defines the schema, not a corpus</li>
-    <li>Vocabularies inherit top-down: a child mode inherits its parent's terms and adds its own</li>
-    <li>All classes have Aristotelian definitions (genus + differentia)</li>
-    <li>OpenAlex topic alignment at topic level, including sibling relationships (schema definition)</li>
+    <li>Core classes are aligned to BFO and IAO. Unreliability modes and detection markers are BFO qualities; annotated documents are IAO information content entities. Supporting classes are not aligned.</li>
+    <li>FMEA-inspired severity. Every unreliability mode below the root has a default severity between 0.0 and 1.0. Causation is annotated on the four top-level categories.</li>
+    <li>Strict TBox/ABox separation. CAVEAT defines the schema, not a corpus.</li>
+    <li>Top-down vocabulary inheritance. A child mode inherits its ancestors' terms and adds its own.</li>
+    <li>Genus-plus-differentia definitions for every unreliability mode and detection marker.</li>
+    <li>Domain classification anchors at the OpenAlex topic level, the most granular of its four levels.</li>
   </ul>
 </section>
 
@@ -107,14 +107,24 @@ title: Overview
   <h2>Usage</h2>
   <p>Downstream ontologies and annotation systems import the merged ontology via <code>owl:imports &lt;https://w3id.org/intellicat/caveat&gt;</code>.</p>
 
-  <pre><code>@prefix caveat: &lt;https://w3id.org/intellicat/caveat#&gt; .
+  <pre><code>@prefix owl:     &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix caveat:  &lt;https://w3id.org/intellicat/caveat#&gt; .
 @prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
+@prefix ex:      &lt;https://example.org/&gt; .
+
+&lt;https://example.org/annotations&gt; a owl:Ontology ;
+    owl:imports &lt;https://w3id.org/intellicat/caveat&gt; .
 
 ex:some_paper a caveat:AnnotatedDocument ;
+    dcterms:title "Some Dubious Paper" ;
     caveat:primaryUnreliabilityMode caveat:BiofieldEnergyHealing ;
-    caveat:claimedDomain caveat:oa_topic_T12345 ;
     caveat:detectionMarkerObserved caveat:PredatoryJournalIndexing ;
-    dcterms:title "Some Dubious Paper" .</code></pre>
+    caveat:claimedDomain ex:topic_T12345 .
+
+# CAVEAT does not yet publish OpenAlex topic individuals,
+# so the consumer declares the topic it refers to.
+ex:topic_T12345 a caveat:OpenAlexTopic ;
+    caveat:openAlexId "T12345" .</code></pre>
 </section>
 
 <section id="documentation">
@@ -137,8 +147,14 @@ ex:some_paper a caveat:AnnotatedDocument ;
   </ul>
 </section>
 
-<section id="license-and-citation">
-  <h2>License and citation</h2>
-  <p>This work is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a> license.</p>
-  <p>For machine-readable citation metadata, see <a href="https://github.com/intellicat-ai/caveat/blob/main/CITATION.cff">CITATION.cff</a> on GitHub.</p>
+<section id="citation">
+  <h2>Citation</h2>
+  <p>CAVEAT is written by the <a href="https://github.com/intellicat-ai/caveat/graphs/contributors">CAVEAT contributors</a> and maintained by Intellicat Inc. If you use it, please cite:</p>
+  <blockquote class="citation">CAVEAT contributors. (2026). <cite>CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types</cite> (Version {{ site.version }}) [Data set]. https://w3id.org/intellicat/caveat</blockquote>
+  <p>Machine-readable metadata is in <a href="https://github.com/intellicat-ai/caveat/blob/main/CITATION.cff">CITATION.cff</a>. The "Cite this repository" button on GitHub generates APA and BibTeX from it.</p>
+</section>
+
+<section id="license">
+  <h2>License</h2>
+  <p>CAVEAT is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>.</p>
 </section>

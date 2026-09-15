@@ -277,7 +277,7 @@ caveat:WaterMemory a owl:Class ;
 caveat:MagnetizedWater a owl:Class ;
     rdfs:subClassOf caveat:Pseudoscience ;
     rdfs:label "magnetized water"@en ;
-    caveat:definition "A pseudoscience that claims liquid water water can be permanently or semi-permanently magnetized."@en ;
+    caveat:definition "A pseudoscience that claims liquid water can be permanently or semi-permanently magnetized."@en ;
     caveat:defaultSeverity "1.0"^^xsd:decimal ;
     caveat:lexiconFile "engagement/magnetized-water.yaml" .
 

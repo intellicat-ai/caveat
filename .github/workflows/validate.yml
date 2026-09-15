@@ -19,7 +19,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install rdflib pyyaml pytest
+          pip install rdflib pyyaml pytest cffconvert
+
+      - name: Validate CITATION.cff
+        run: cffconvert --validate
 
       - name: Validate ontology
         run: python scripts/validate.py

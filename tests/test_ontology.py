@@ -65,6 +65,15 @@ class TestLabelsAndDefinitions:
                 assert defn is not None, f"Missing definition on {cls}"
 
 
+    def test_labels_unique(self, graph):
+        from collections import defaultdict
+        by_label = defaultdict(set)
+        for s, o in graph.subject_objects(RDFS.label):
+            by_label[str(o).lower()].add(str(s))
+        dupes = {k: sorted(v) for k, v in by_label.items() if len(v) > 1}
+        assert not dupes, f"Duplicate rdfs:label values: {dupes}"
+
+
 class TestHierarchy:
     def test_four_top_level_categories(self, graph):
         """There should be exactly 4 direct children of UnreliabilityMode."""

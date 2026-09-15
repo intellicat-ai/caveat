@@ -2,16 +2,19 @@
 """Validate CAVEAT ontology for basic consistency.
 
 Checks:
-1. All .ttl files parse without errors
-2. Every class has an rdfs:label
-3. Every UnreliabilityMode subclass has a caveat:definition
-4. Every UnreliabilityMode subclass has a caveat:defaultSeverity
+1. All .ttl files under src/ontology/ parse without errors
+2. Every CAVEAT class has an rdfs:label
+3. Every UnreliabilityMode and DetectionMarker class has a caveat:definition
+4. Every UnreliabilityMode subclass has a caveat:defaultSeverity (warning only)
 5. Every DetectionMarker with caveat:evidenceFor has caveat:evidenceStrength
-6. No orphan classes (every non-root class has rdfs:subClassOf)
-7. lexiconFile references point to files that exist
+6. caveat:lexiconFile and caveat:retractionAwareLexiconFile values point to
+   files that exist under vocabularies/
+7. Every lexicon file conforms to vocabularies/_schema.yaml (required and
+   allowed top-level keys, enum values for classification, level and
+   general_frequency)
 
 Usage:
-    python validate.py
+    python scripts/validate.py
 """
 
 import sys

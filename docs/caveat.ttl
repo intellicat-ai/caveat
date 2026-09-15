@@ -135,7 +135,7 @@ caveat:ExpressionOfConcern a owl:Class ;
     caveat:evidenceStrength "moderate" .
 
 caveat:FailedIndependentReplication a owl:Class ;
-    rdfs:label "failed independent replication"@en ;
+    rdfs:label "published failed replication"@en ;
     rdfs:subClassOf caveat:ReproducibilityMarker ;
     caveat:definition "A reproducibility marker characterized by one or more published independent attempts to replicate the study's key findings that did not reproduce the reported results."@en ;
     caveat:evidenceFor caveat:Fabrication,
@@ -242,7 +242,7 @@ caveat:MagnetizedWater a owl:Class ;
     rdfs:label "magnetized water"@en ;
     rdfs:subClassOf caveat:Pseudoscience ;
     caveat:defaultSeverity 1.0 ;
-    caveat:definition "A pseudoscience that claims liquid water water can be permanently or semi-permanently magnetized."@en ;
+    caveat:definition "A pseudoscience that claims liquid water can be permanently or semi-permanently magnetized."@en ;
     caveat:lexiconFile "engagement/magnetized-water.yaml" .
 
 caveat:MultipleComparisonsUncorrected a owl:Class ;
@@ -436,7 +436,7 @@ caveat:claimedDomain a owl:ObjectProperty ;
     rdfs:range caveat:OpenAlexTopic .
 
 caveat:corpusFamily a owl:ObjectProperty ;
-    rdfs:label "corpus family"@en ;
+    rdfs:label "member of corpus family"@en ;
     rdfs:comment "The corpus family to which this document belongs."@en ;
     rdfs:domain caveat:AnnotatedDocument ;
     rdfs:range caveat:CorpusFamily .
