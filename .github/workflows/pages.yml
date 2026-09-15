@@ -1,0 +1,78 @@
+name: Publish CAVEAT to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - name: Build Jekyll site from docs/
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./docs
+          destination: ./_site
+
+      # The Jekyll action runs as root in a container. Without this the
+      # overlay steps below fail on permissions.
+      - name: Fix artifact ownership
+        run: sudo chown -R "$(id -u):$(id -g)" _site
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install rdflib
+
+      - name: Overlay ontology artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p _site/modules _site/imports _site/examples _site/vocabularies
+
+          cp src/ontology/caveat.ttl      _site/caveat.ttl
+          cp src/ontology/modules/*.ttl   _site/modules/
+          cp src/ontology/imports/*.ttl   _site/imports/
+          cp -r examples/.                _site/examples/
+          cp -r vocabularies/.            _site/vocabularies/
+
+          python - <<'EOF'
+          from rdflib import Graph
+          from pathlib import Path
+          g = Graph()
+          for f in sorted(Path("src/ontology").rglob("*.ttl")):
+              g.parse(f, format="turtle")
+          g.serialize("_site/caveat-full.ttl", format="turtle")
+          g.serialize("_site/caveat.owl", format="xml")
+          print(f"merged {len(g)} triples")
+          EOF
+
+          find _site -type f | sort
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

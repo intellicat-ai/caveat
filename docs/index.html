@@ -10,8 +10,9 @@ title: Overview
 
   <pre><code>@prefix caveat: &lt;https://w3id.org/intellicat/caveat#&gt; .</code></pre>
 
-  <p class="quick-links" id="download">
+  <p class="quick-links">
     <a href="{{ '/caveat.ttl' | relative_url }}">Download Turtle</a>
+    <a href="{{ '/caveat-full.ttl' | relative_url }}">Download Merged Turtle</a>
     <a href="{{ '/caveat.owl' | relative_url }}">Download RDF/XML</a>
     <a href="https://github.com/intellicat-ai/caveat">View on GitHub</a>
   </p>
@@ -144,6 +145,33 @@ ex:topic_T12345 a caveat:OpenAlexTopic ;
     <li><a href="https://github.com/intellicat-ai/caveat/blob/main/COMPETENCY_QUESTIONS.md">Competency Questions (COMPETENCY_QUESTIONS.md)</a></li>
     <li><a href="https://github.com/intellicat-ai/caveat/blob/main/CONTRIBUTING.md">Contributing Guide (CONTRIBUTING.md)</a></li>
     <li><a href="https://github.com/intellicat-ai/caveat/blob/main/CHANGELOG.md">Changelog (CHANGELOG.md)</a></li>
+  </ul>
+</section>
+
+<section id="download">
+  <h2>Download</h2>
+  <p>Ontology distributions:</p>
+  <ul>
+    <li><a href="{{ '/caveat.ttl' | relative_url }}"><code>caveat.ttl</code></a>: Root ontology, metadata and <code>owl:imports</code> only</li>
+    <li><a href="{{ '/caveat-full.ttl' | relative_url }}"><code>caveat-full.ttl</code></a>: All modules and imports merged</li>
+    <li><a href="{{ '/caveat.owl' | relative_url }}"><code>caveat.owl</code></a>: RDF/XML of the merged graph</li>
+  </ul>
+
+  <p>Ontology modules:</p>
+  <ul>
+    <li><a href="{{ '/modules/detection-markers.ttl' | relative_url }}"><code>modules/detection-markers.ttl</code></a></li>
+    <li><a href="{{ '/modules/document-schema.ttl' | relative_url }}"><code>modules/document-schema.ttl</code></a></li>
+    <li><a href="{{ '/modules/marker-evidence.ttl' | relative_url }}"><code>modules/marker-evidence.ttl</code></a></li>
+    <li><a href="{{ '/modules/scientific-domains.ttl' | relative_url }}"><code>modules/scientific-domains.ttl</code></a></li>
+    <li><a href="{{ '/modules/unreliability-modes.ttl' | relative_url }}"><code>modules/unreliability-modes.ttl</code></a></li>
+  </ul>
+
+  <p>Imports and vocabularies:</p>
+  <ul>
+    <li><a href="{{ '/imports/bfo-excerpt.ttl' | relative_url }}"><code>imports/bfo-excerpt.ttl</code></a></li>
+    <li><a href="{{ '/imports/iao-excerpt.ttl' | relative_url }}"><code>imports/iao-excerpt.ttl</code></a></li>
+    <li><a href="{{ '/vocabularies/_schema.yaml' | relative_url }}"><code>vocabularies/_schema.yaml</code></a></li>
+    <li><a href="{{ '/examples/trivedi-2016.ttl' | relative_url }}"><code>examples/trivedi-2016.ttl</code></a></li>
   </ul>
 </section>
 
