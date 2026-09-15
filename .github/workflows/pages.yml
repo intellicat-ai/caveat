@@ -42,25 +42,10 @@ jobs:
       - name: Overlay ontology artifacts
         run: |
           set -euo pipefail
-          mkdir -p _site/modules _site/imports _site/examples _site/vocabularies
-
-          cp src/ontology/caveat.ttl      _site/caveat.ttl
-          cp src/ontology/modules/*.ttl   _site/modules/
-          cp src/ontology/imports/*.ttl   _site/imports/
-          cp -r examples/.                _site/examples/
-          cp -r vocabularies/.            _site/vocabularies/
-
-          python - <<'EOF'
-          from rdflib import Graph
-          from pathlib import Path
-          g = Graph()
-          for f in sorted(Path("src/ontology").rglob("*.ttl")):
-              g.parse(f, format="turtle")
-          g.serialize("_site/caveat-full.ttl", format="turtle")
-          g.serialize("_site/caveat.owl", format="xml")
-          print(f"merged {len(g)} triples")
-          EOF
-
+          mkdir -p _site/examples _site/vocabularies
+          python scripts/build_artifacts.py _site
+          cp -r examples/.     _site/examples/
+          cp -r vocabularies/. _site/vocabularies/
           find _site -type f | sort
 
       - uses: actions/upload-pages-artifact@v3
