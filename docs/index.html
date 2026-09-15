@@ -1,0 +1,144 @@
+---
+layout: default
+title: Overview
+---
+
+<section id="intro">
+  <h1>CAVEAT</h1>
+  <p class="lead">Controlled Annotation Vocabulary for Epistemic Aberration Types</p>
+  <p>An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it.</p>
+
+  <pre><code>@prefix caveat: &lt;https://w3id.org/intellicat/caveat#&gt; .</code></pre>
+
+  <p class="quick-links" id="download">
+    <a href="{{ '/caveat.ttl' | relative_url }}">Download Turtle</a>
+    <a href="{{ '/caveat.owl' | relative_url }}">Download RDF/XML</a>
+    <a href="https://github.com/intellicat-ai/caveat">View on GitHub</a>
+  </p>
+</section>
+
+<section id="purpose">
+  <h2>Purpose</h2>
+  <p>Scientific literature contains unreliable publications ranging from outright fraud to methodological incompetence. CAVEAT provides a shared, machine-readable vocabulary for describing what went wrong and how we know, enabling interoperable tools for research credibility and integrity assessment.</p>
+</section>
+
+<section id="structure">
+  <h2>Structure</h2>
+  <p>CAVEAT models two independent dimensions:</p>
+  <ul>
+    <li><strong>Dimension 1 (Scientific Domain):</strong> What field does the paper claim to belong to? Schema for OpenAlex topic alignment (OpenAlex alignment exists as schema only).</li>
+    <li><strong>Dimension 2 (Unreliability Modes):</strong> What kind of failure does the paper exhibit? Organized as a concept tree with four top-level categories.</li>
+  </ul>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Default severity</th>
+        <th>Covers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Deliberate misconduct</td>
+        <td>
+          <div class="severity-cell">
+            <span class="severity-track"><span class="severity-bar" style="--sev: 1.0"></span></span>
+            <span class="severity-num">1.0</span>
+          </div>
+        </td>
+        <td>Data misconduct (fabrication, falsification, selective reporting), authorship misconduct, publication process misconduct including predatory publishing and compromised peer review, systematic fraudulent production including papermills.</td>
+      </tr>
+      <tr>
+        <td>Premise-level failure</td>
+        <td>
+          <div class="severity-cell">
+            <span class="severity-track"><span class="severity-bar" style="--sev: 0.95"></span></span>
+            <span class="severity-num">0.95</span>
+          </div>
+        </td>
+        <td>Pseudoscience, denialism.</td>
+      </tr>
+      <tr>
+        <td>Interpretive failure</td>
+        <td>
+          <div class="severity-cell">
+            <span class="severity-track"><span class="severity-bar" style="--sev: 0.6"></span></span>
+            <span class="severity-num">0.6</span>
+          </div>
+        </td>
+        <td>Pathological science, systematic misinterpretation.</td>
+      </tr>
+      <tr>
+        <td>Execution-level failure</td>
+        <td>
+          <div class="severity-cell">
+            <span class="severity-track"><span class="severity-bar" style="--sev: 0.3"></span></span>
+            <span class="severity-num">0.3</span>
+          </div>
+        </td>
+        <td>Design failures, statistical malpractice, reproducibility failures, overreach.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>See <a href="{{ '/severity-defaults.html' | relative_url }}">Default Severity in CAVEAT</a> for details on the severity scale, assignment principles, and consumer overrides.</p>
+
+  <h3>Detection markers</h3>
+  <p>Detection markers are observable features of publications that serve as evidence for unreliability modes. CAVEAT defines four marker families: textual, data and figure, metadata, and reproducibility. Markers are linked to failure modes through evidential relationships qualified by evidence strength: definitive, strong, moderate, or weak.</p>
+
+  <h3>Controlled vocabularies</h3>
+  <p>Controlled vocabularies are domain-specific YAML lexicons that inherit down the mode hierarchy: a child mode inherits its ancestor terms and adds its own. See <a href="{{ '/vocabulary-inheritance.html' | relative_url }}">Vocabulary Inheritance</a> for resolution mechanics, <a href="{{ '/term-classifications.html' | relative_url }}">Term Classification</a> for the rejection and sanewashing taxonomy, and <a href="{{ '/term-frequency-bands.html' | relative_url }}">Term Frequency Bands</a> for diagnostic frequency levels.</p>
+</section>
+
+<section id="design-principles">
+  <h2>Design principles</h2>
+  <ul>
+    <li>Grounded in BFO (Basic Formal Ontology) and IAO (Information Artifact Ontology) for interoperability</li>
+    <li>FMEA-inspired hierarchy with graduated default severity and traceable causation</li>
+    <li>Strict TBox/ABox separation: CAVEAT defines the schema, not a corpus</li>
+    <li>Vocabularies inherit top-down: a child mode inherits its parent's terms and adds its own</li>
+    <li>All classes have Aristotelian definitions (genus + differentia)</li>
+    <li>OpenAlex topic alignment at topic level, including sibling relationships (schema definition)</li>
+  </ul>
+</section>
+
+<section id="usage">
+  <h2>Usage</h2>
+  <p>Downstream ontologies and annotation systems import the merged ontology via <code>owl:imports &lt;https://w3id.org/intellicat/caveat&gt;</code>.</p>
+
+  <pre><code>@prefix caveat: &lt;https://w3id.org/intellicat/caveat#&gt; .
+@prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
+
+ex:some_paper a caveat:AnnotatedDocument ;
+    caveat:primaryUnreliabilityMode caveat:BiofieldEnergyHealing ;
+    caveat:claimedDomain caveat:oa_topic_T12345 ;
+    caveat:detectionMarkerObserved caveat:PredatoryJournalIndexing ;
+    dcterms:title "Some Dubious Paper" .</code></pre>
+</section>
+
+<section id="documentation">
+  <h2>Documentation</h2>
+  <p>Design documents:</p>
+  <ul>
+    <li><a href="{{ '/bfo-alignment.html' | relative_url }}">BFO and IAO Alignment</a>: Upper ontology alignment decisions for modes, markers, and documents</li>
+    <li><a href="{{ '/severity-defaults.html' | relative_url }}">Default Severity in CAVEAT</a>: FMEA severity scale, assignment principles, and consumer overrides</li>
+    <li><a href="{{ '/term-classifications.html' | relative_url }}">Term Classification in CAVEAT Vocabularies</a>: Ordinal ranking from categorical rejection to sanewashing</li>
+    <li><a href="{{ '/term-frequency-bands.html' | relative_url }}">Term Frequency Bands in CAVEAT Vocabularies</a>: Domain specificity levels and general-corpus frequency bands</li>
+    <li><a href="{{ '/vocabulary-inheritance.html' | relative_url }}">Vocabulary Inheritance in CAVEAT</a>: Top-down inheritance model and resolution algorithm</li>
+  </ul>
+
+  <p>Repository specifications and guides:</p>
+  <ul>
+    <li><a href="https://github.com/intellicat-ai/caveat/blob/main/SCOPE.md">Scope Definition (SCOPE.md)</a></li>
+    <li><a href="https://github.com/intellicat-ai/caveat/blob/main/COMPETENCY_QUESTIONS.md">Competency Questions (COMPETENCY_QUESTIONS.md)</a></li>
+    <li><a href="https://github.com/intellicat-ai/caveat/blob/main/CONTRIBUTING.md">Contributing Guide (CONTRIBUTING.md)</a></li>
+    <li><a href="https://github.com/intellicat-ai/caveat/blob/main/CHANGELOG.md">Changelog (CHANGELOG.md)</a></li>
+  </ul>
+</section>
+
+<section id="license-and-citation">
+  <h2>License and citation</h2>
+  <p>This work is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a> license.</p>
+  <p>For machine-readable citation metadata, see <a href="https://github.com/intellicat-ai/caveat/blob/main/CITATION.cff">CITATION.cff</a> on GitHub.</p>
+</section>

@@ -4,6 +4,14 @@ All notable changes to this ontology will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- Release build script (`scripts/build_release.py`) generating merged ontology artifacts with `--check` verification
+- Merged self-contained Turtle (`docs/caveat.ttl`) and RDF/XML (`docs/caveat.owl`) release artifacts
+- GitHub Pages documentation site in `docs/` with Jekyll configuration, responsive stylesheet, default layout, and landing page
+- Test suite (`tests/test_release_artifacts.py`) verifying release artifact isomorphism and version synchronization
+
 ## [0.2.0] — 2026-09-14
 
 ### Changed

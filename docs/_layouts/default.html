@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title and page.title != "CAVEAT" %}{{ page.title }} - CAVEAT{% else %}CAVEAT{% endif %}</title>
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <link rel="alternate" type="text/turtle" href="{{ '/caveat.ttl' | relative_url }}">
+  <link rel="alternate" type="application/rdf+xml" href="{{ '/caveat.owl' | relative_url }}">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header>
+      <div class="header-content">
+        <a href="{{ '/' | relative_url }}" class="wordmark">CAVEAT</a>
+        <nav>
+          <a href="{{ '/' | relative_url }}">Overview</a>
+          <a href="{{ '/#documentation' | relative_url }}">Documentation</a>
+          <a href="{{ '/#download' | relative_url }}">Download</a>
+          <a href="https://github.com/{{ site.repository }}">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      {{ content }}
+    </main>
+
+    <footer>
+      <div class="footer-nav">
+        <span>Version {{ site.version }}</span>
+        <span>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+        <span>Intellicat Inc.</span>
+        <span><a href="https://github.com/{{ site.repository }}">GitHub</a></span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

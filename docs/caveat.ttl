@@ -1,0 +1,835 @@
+# CAVEAT Ontology - Merged Release Artifact
+# Generated file - do not edit.
+# Source: src/ontology/
+# Regenerate with: python scripts/build_release.py
+
+@prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/intellicat/caveat> a owl:Ontology ;
+    dcterms:created "2026-04-08"^^xsd:date ;
+    dcterms:description "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."@en ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:modified "2026-09-14"^^xsd:date ;
+    dcterms:title "CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types"@en ;
+    rdfs:seeAlso <https://github.com/intellicat-ai/caveat> ;
+    owl:versionInfo "0.2.0" .
+
+caveat:AnomalousReviewTimeline a owl:Class ;
+    rdfs:label "anomalous review timeline"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by an implausibly short interval between submission and acceptance, suggesting absent or perfunctory peer review."@en ;
+    caveat:evidenceFor caveat:CompromisedPeerReview ;
+    caveat:evidenceStrength "moderate" .
+
+caveat:AntiVaxMechanismClaims a owl:Class ;
+    rdfs:label "anti-vaccination mechanism claims"@en ;
+    rdfs:subClassOf caveat:AntiEvidenceMedicine ;
+    caveat:defaultSeverity 0.95 ;
+    caveat:definition "An anti-evidence medicine pseudoscience that asserts specific biological mechanisms by which vaccines cause harms (such as autism) that have been extensively investigated and refuted."@en .
+
+caveat:ArtifactAsSignal a owl:Class ;
+    rdfs:label "artifact interpreted as signal"@en ;
+    rdfs:subClassOf caveat:SystematicMisinterpretation ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "A systematic misinterpretation in which an experimental or measurement artifact is interpreted as a genuine biological, physical, or statistical signal."@en .
+
+caveat:AuthorClusterAnomaly a owl:Class ;
+    rdfs:label "author cluster anomaly"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by network analysis revealing suspicious patterns of co-authorship, such as implausible international collaborations or known papermill author pools."@en ;
+    caveat:evidenceFor caveat:CitationManipulation,
+        caveat:PapermillOperation ;
+    caveat:evidenceStrength "moderate" .
+
+caveat:BiofieldEnergyHealing a owl:Class ;
+    rdfs:label "biofield energy healing"@en ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A vitalist energy medicine pseudoscience that claims a human 'biofield' can be transmitted to alter material properties, biological processes, or health outcomes, including at a distance. Distinguished from other vitalist pseudosciences by the specific invocation of 'biofield' terminology and claims of remote transmission."@en ;
+    caveat:lexiconFile "engagement/biofield-energy-healing.yaml" .
+
+caveat:BoilerplateTemplateText a owl:Class ;
+    rdfs:label "boilerplate or template text"@en ;
+    rdfs:subClassOf caveat:TextualMarker ;
+    caveat:definition "A textual marker characterized by extensive verbatim or near-verbatim reuse of text across multiple papers, suggesting template-based production."@en ;
+    caveat:evidenceFor caveat:DuplicatePublication,
+        caveat:PapermillOperation ;
+    caveat:evidenceStrength "moderate" .
+
+caveat:CitationPatternAnomaly a owl:Class ;
+    rdfs:label "citation pattern anomaly"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by network analysis revealing suspicious patterns of citations, such as implausible interdisciplinary citations, or inclusion in citation rings."@en ;
+    caveat:evidenceFor caveat:CitationManipulation ;
+    caveat:evidenceStrength "definitive" .
+
+caveat:ClimateScienceDenial a owl:Class ;
+    rdfs:label "climate science denial"@en ;
+    rdfs:subClassOf caveat:Denialism ;
+    caveat:defaultSeverity 0.9 ;
+    caveat:definition "A denialism that rejects the established scientific consensus on anthropogenic climate change."@en .
+
+caveat:ClonedImages a owl:Class ;
+    rdfs:label "cloned or duplicated images"@en ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
+    caveat:definition "A data or figure marker characterized by the reuse of the same image (possibly rotated, cropped, or recolored) to represent different experimental conditions or results."@en ;
+    caveat:evidenceFor caveat:Falsification,
+        caveat:PapermillOperation ;
+    caveat:evidenceStrength "strong" .
+
+caveat:ColdFusionLENR a owl:Class ;
+    rdfs:label "cold fusion or LENR"@en ;
+    rdfs:subClassOf caveat:PathologicalScience ;
+    caveat:defaultSeverity 0.7 ;
+    caveat:definition "A pathological science claiming nuclear fusion reactions at or near room temperature in electrochemical cells or other low-energy systems."@en .
+
+caveat:ConclusionsNotSupported a owl:Class ;
+    rdfs:label "conclusions not supported by data"@en ;
+    rdfs:subClassOf caveat:Overreach ;
+    caveat:defaultSeverity 0.35 ;
+    caveat:definition "An overreach in which the stated conclusions do not logically follow from the results presented."@en .
+
+caveat:ConfoundingAsCausation a owl:Class ;
+    rdfs:label "confounding interpreted as causation"@en ;
+    rdfs:subClassOf caveat:SystematicMisinterpretation ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "A systematic misinterpretation in which a correlation driven by a confounding variable is interpreted as a direct causal relationship."@en .
+
+caveat:DetoxPseudoscience a owl:Class ;
+    rdfs:label "detoxification pseudoscience"@en ;
+    rdfs:subClassOf caveat:AntiEvidenceMedicine ;
+    caveat:defaultSeverity 0.95 ;
+    caveat:definition "An anti-evidence medicine pseudoscience that claims specific interventions (ionic foot baths, chelation for non-indicated conditions, juice cleanses, etc.) remove unnamed 'toxins' from the body through mechanisms that have no physiological basis."@en .
+
+caveat:DuplicatedDataTables a owl:Class ;
+    rdfs:label "duplicated data tables across papers"@en ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
+    caveat:definition "A data or figure marker characterized by data tables that appear in substantially identical form across multiple papers, suggesting data reuse or fabrication."@en ;
+    caveat:evidenceFor caveat:Fabrication,
+        caveat:PapermillOperation ;
+    caveat:evidenceStrength "moderate",
+        "strong" .
+
+caveat:ESPPrecognition a owl:Class ;
+    rdfs:label "ESP or precognition"@en ;
+    rdfs:subClassOf caveat:Parapsychology ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A parapsychology pseudoscience that claims humans can perceive information without the use of known sensory channels, including perception of future events."@en .
+
+caveat:EvolutionDenial a owl:Class ;
+    rdfs:label "evolution denial"@en ;
+    rdfs:subClassOf caveat:Denialism ;
+    caveat:defaultSeverity 0.9 ;
+    caveat:definition "A denialism that rejects the established scientific consensus on biological evolution by natural selection."@en .
+
+caveat:ExpressionOfConcern a owl:Class ;
+    rdfs:label "expression of concern"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by a formal editorial expression of concern regarding the integrity or validity of a published paper."@en ;
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "moderate" .
+
+caveat:FailedIndependentReplication a owl:Class ;
+    rdfs:label "failed independent replication"@en ;
+    rdfs:subClassOf caveat:ReproducibilityMarker ;
+    caveat:definition "A reproducibility marker characterized by one or more published independent attempts to replicate the study's key findings that did not reproduce the reported results."@en ;
+    caveat:evidenceFor caveat:Fabrication,
+        caveat:PathologicalScience,
+        caveat:StatisticalMalpractice ;
+    caveat:evidenceStrength "moderate",
+        "weak" .
+
+caveat:FailedReplication a owl:Class ;
+    rdfs:label "failed independent replication"@en ;
+    rdfs:subClassOf caveat:ReproducibilityFailures ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "A reproducibility failure in which one or more independent attempts to replicate the study's key findings have failed, suggesting the original results were artifactual."@en .
+
+caveat:GermTheoryDenial a owl:Class ;
+    rdfs:label "germ theory denial"@en ;
+    rdfs:subClassOf caveat:Denialism ;
+    caveat:defaultSeverity 0.9 ;
+    caveat:definition "A denialism that rejects the established scientific consensus that specific microorganisms cause specific diseases."@en .
+
+caveat:GhostAuthorship a owl:Class ;
+    rdfs:label "ghost authorship"@en ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "An authorship misconduct in which a person who made substantial contributions to the work is deliberately excluded from the author list."@en .
+
+caveat:GiftAuthorship a owl:Class ;
+    rdfs:label "gift or honorary authorship"@en ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "An authorship misconduct in which a person is included in the author list despite not having made substantial contributions, typically for reasons of prestige, seniority, or reciprocity."@en .
+
+caveat:HomeopathicPharmacology a owl:Class ;
+    rdfs:label "homeopathic pharmacology"@en ;
+    rdfs:subClassOf caveat:UltraHighDilution ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "An ultra-high dilution pseudoscience that claims homeopathic preparations (produced by serial dilution and succussion) have pharmacological activity attributable to the original substance. Distinguished from clinical homeopathy studies by the assertion of specific pharmacological mechanisms."@en .
+
+caveat:IdeaDataPlagiarism a owl:Class ;
+    rdfs:label "idea or data plagiarism"@en ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
+    caveat:defaultSeverity 0.6 ;
+    caveat:definition "An authorship misconduct in which ideas, methods, or data from another source are appropriated without credit, even if the text is substantially rewritten."@en .
+
+caveat:ImageManipulationArtifacts a owl:Class ;
+    rdfs:label "image manipulation artifacts"@en ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
+    caveat:definition "A data or figure marker characterized by visible signs of digital manipulation such as splicing boundaries, inconsistent noise patterns, or clone-stamp artifacts."@en ;
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "strong" .
+
+caveat:ImpossibleStatistics a owl:Class ;
+    rdfs:label "impossible or implausible statistics"@en ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
+    caveat:definition "A data or figure marker characterized by reported statistics that are mathematically impossible given the study parameters, detectable via GRIM, SPRITE, or similar forensic tests."@en ;
+    caveat:definitionSource "Brown, N.J.L., & Heathers, J.A.J. (2017). The GRIM test." ;
+    caveat:evidenceFor caveat:Fabrication,
+        caveat:Falsification,
+        caveat:StatisticalMalpractice ;
+    caveat:evidenceStrength "moderate",
+        "weak" .
+
+caveat:InadequateBlinding a owl:Class ;
+    rdfs:label "inadequate blinding"@en ;
+    rdfs:subClassOf caveat:DesignFailures ;
+    caveat:defaultSeverity 0.35 ;
+    caveat:definition "A design failure in which participants, experimenters, or analysts are not adequately blinded to treatment allocation in contexts where blinding is feasible and necessary to prevent bias."@en .
+
+caveat:InappropriateControls a owl:Class ;
+    rdfs:label "inappropriate or missing controls"@en ;
+    rdfs:subClassOf caveat:DesignFailures ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "A design failure in which the study lacks appropriate control groups or conditions, making it impossible to attribute observed effects to the intervention."@en .
+
+caveat:InappropriateGeneralization a owl:Class ;
+    rdfs:label "inappropriate generalization"@en ;
+    rdfs:subClassOf caveat:Overreach ;
+    caveat:defaultSeverity 0.25 ;
+    caveat:definition "An overreach in which results from a specific context are generalized to populations, conditions, or settings not supported by the study design."@en .
+
+caveat:InappropriateStatisticalTests a owl:Class ;
+    rdfs:label "inappropriate statistical tests"@en ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
+    caveat:defaultSeverity 0.3 ;
+    caveat:definition "A statistical malpractice in which statistical tests are applied to data that violate their assumptions, producing unreliable p-values and confidence intervals."@en .
+
+caveat:InconsistentTerminology a owl:Class ;
+    rdfs:label "inconsistent terminology within paper"@en ;
+    rdfs:subClassOf caveat:TextualMarker ;
+    caveat:definition "A textual marker characterized by the use of different terms for the same concept within a single paper, suggesting assembly from multiple sources or automated rewriting."@en .
+
+caveat:InsufficientMethodDetail a owl:Class ;
+    rdfs:label "insufficient methodological detail"@en ;
+    rdfs:subClassOf caveat:ReproducibilityFailures ;
+    caveat:defaultSeverity 0.2 ;
+    caveat:definition "A reproducibility failure in which the methods section lacks sufficient detail for an independent researcher to reproduce the study."@en .
+
+caveat:LLMGeneratedText a owl:Class ;
+    rdfs:label "LLM-generated text"@en ;
+    rdfs:subClassOf caveat:TextualMarker ;
+    caveat:definition "A textual marker characterized by features indicative of large language model generation, such as unnaturally fluent text, characteristic hedging patterns and punctuation, hallucinations, or known LLM artifacts."@en .
+
+caveat:MagnetizedWater a owl:Class ;
+    rdfs:label "magnetized water"@en ;
+    rdfs:subClassOf caveat:Pseudoscience ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A pseudoscience that claims liquid water water can be permanently or semi-permanently magnetized."@en ;
+    caveat:lexiconFile "engagement/magnetized-water.yaml" .
+
+caveat:MultipleComparisonsUncorrected a owl:Class ;
+    rdfs:label "multiple comparisons without correction"@en ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
+    caveat:defaultSeverity 0.3 ;
+    caveat:definition "A statistical malpractice in which multiple statistical tests are performed without appropriate correction for the inflated false positive rate."@en .
+
+caveat:NRays a owl:Class ;
+    rdfs:label "N-rays"@en ;
+    rdfs:subClassOf caveat:PathologicalScience ;
+    caveat:defaultSeverity 0.7 ;
+    caveat:definition "A pathological science involving the claimed detection of a novel form of radiation (N-rays) by Prosper-René Blondlot in 1903, subsequently shown to be an artifact of observer expectation."@en ;
+    caveat:definitionSource "Wood, R.W. (1904). Nature 70:530-531." .
+
+caveat:NonResponsiveAuthors a owl:Class ;
+    rdfs:label "non-responsive authors"@en ;
+    rdfs:subClassOf caveat:ReproducibilityMarker ;
+    caveat:definition "A reproducibility marker characterized by authors who do not respond to reasonable requests for raw data, analysis code, or methodological clarification."@en ;
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "weak" .
+
+caveat:NonShareableDataCode a owl:Class ;
+    rdfs:label "non-shareable data or code"@en ;
+    rdfs:subClassOf caveat:ReproducibilityFailures ;
+    caveat:defaultSeverity 0.2 ;
+    caveat:definition "A reproducibility failure in which the raw data, analysis code, or both are unavailable for verification, despite no legitimate reason for restriction."@en .
+
+caveat:OrgoneEnergy a owl:Class ;
+    rdfs:label "orgone energy"@en ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A vitalist energy medicine pseudoscience based on Wilhelm Reich's claim of a universal 'orgone energy' that can be accumulated and directed for biological effects. Distinguished from other vitalist pseudosciences by the specific theoretical framework derived from Reich."@en .
+
+caveat:PHackingHARKing a owl:Class ;
+    rdfs:label "p-hacking or HARKing"@en ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "A statistical malpractice in which multiple analyses are conducted and only significant results are reported (p-hacking), or hypotheses are formulated after examining results and presented as if they were a priori (Hypothesizing After Results are Known)."@en .
+
+caveat:PostPublicationCritique a owl:Class ;
+    rdfs:label "post-publication critique"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by substantive published criticism of the paper's methods, data, or conclusions on platforms such as PubPeer, journal correspondence, or formal commentary."@en .
+
+caveat:PredatoryJournalIndexing a owl:Class ;
+    rdfs:label "predatory journal source"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by the publication venue appearing on established predatory journal lists similar to Beall's list or Cabell's Predatory Reports."@en ;
+    caveat:evidenceFor caveat:PredatoryJournalPublication ;
+    caveat:evidenceStrength "strong" .
+
+caveat:Psychokinesis a owl:Class ;
+    rdfs:label "psychokinesis"@en ;
+    rdfs:subClassOf caveat:Parapsychology ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A parapsychology pseudoscience that claims humans can influence physical objects or processes through mental intention alone."@en .
+
+caveat:ReikiMechanismStudies a owl:Class ;
+    rdfs:label "Reiki mechanism studies"@en ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A vitalist energy medicine pseudoscience that claims to identify physical or biological mechanisms for Reiki healing effects. Distinguished from clinical Reiki studies (which may be methodologically flawed but at least measure outcomes) by the assertion of specific causal mechanisms for the purported energy transfer."@en .
+
+caveat:RemoteViewing a owl:Class ;
+    rdfs:label "remote viewing"@en ;
+    rdfs:subClassOf caveat:Parapsychology ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A parapsychology pseudoscience that claims humans can perceive detailed information about distant or hidden targets through mental means alone."@en .
+
+caveat:RetractionNotice a owl:Class ;
+    rdfs:label "retraction notice"@en ;
+    rdfs:subClassOf caveat:MetadataMarker ;
+    caveat:definition "A metadata marker characterized by a formal retraction notice issued by the journal, indicating the paper has been withdrawn from the published record."@en ;
+    caveat:evidenceFor caveat:Fabrication,
+        caveat:Falsification,
+        caveat:TextPlagiarism ;
+    caveat:evidenceStrength "definitive" .
+
+caveat:RetractionResistantNetwork a owl:Class ;
+    rdfs:label "retraction-resistant network"@en ;
+    rdfs:subClassOf caveat:SystematicFraudulentProduction ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A systematic fraudulent production in which a coordinated group of authors, editors, or institutions acts to maintain fraudulent literature in the published record by resisting retraction requests, manipulating editorial processes, or republishing retracted work."@en .
+
+caveat:ReverseCausationClaims a owl:Class ;
+    rdfs:label "reverse causation claims"@en ;
+    rdfs:subClassOf caveat:SystematicMisinterpretation ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "A systematic misinterpretation in which the direction of causation between two correlated variables is asserted incorrectly."@en .
+
+caveat:SelectionBias a owl:Class ;
+    rdfs:label "selection bias in sampling"@en ;
+    rdfs:subClassOf caveat:DesignFailures ;
+    caveat:defaultSeverity 0.35 ;
+    caveat:definition "A design failure in which the sampling method systematically excludes or overrepresents certain subpopulations, producing results that do not generalize to the intended target population."@en .
+
+caveat:SelectiveReporting a owl:Class ;
+    rdfs:label "selective reporting"@en ;
+    rdfs:subClassOf caveat:DataMisconduct ;
+    caveat:defaultSeverity 0.7 ;
+    caveat:definition "A data misconduct in which inconvenient or contradictory data are deliberately suppressed or omitted from the reported results, while data supporting the desired conclusion are retained."@en .
+
+caveat:StatisticalClinicalConflation a owl:Class ;
+    rdfs:label "conflation of statistical and clinical significance"@en ;
+    rdfs:subClassOf caveat:Overreach ;
+    caveat:defaultSeverity 0.25 ;
+    caveat:definition "An overreach in which a statistically significant result is presented as clinically, practically, or scientifically meaningful without consideration of effect size or practical relevance."@en .
+
+caveat:SuspiciousDataRegularity a owl:Class ;
+    rdfs:label "suspicious data regularity"@en ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
+    caveat:definition "A data or figure marker characterized by data that are implausibly regular, lacking the noise and variability expected from genuine measurements."@en ;
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "moderate" .
+
+caveat:SyntheticSpectra a owl:Class ;
+    rdfs:label "hand-drawn or synthetic spectra"@en ;
+    rdfs:subClassOf caveat:DataFigureMarker ;
+    caveat:definition "A data or figure marker characterized by spectral data (NMR, IR, mass spectrometry, etc.) that appear to be hand-drawn or computationally generated rather than obtained from actual instruments."@en ;
+    caveat:evidenceFor caveat:Fabrication ;
+    caveat:evidenceStrength "strong" .
+
+caveat:TherapeuticTouchMechanism a owl:Class ;
+    rdfs:label "therapeutic touch mechanism claims"@en ;
+    rdfs:subClassOf caveat:VitalistEnergyMedicine ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A vitalist energy medicine pseudoscience that claims to identify mechanisms by which a practitioner's hands, held near but not touching a patient, alter physiological processes. Distinguished from other vitalist pseudosciences by the specific claim of non-contact manual manipulation of a 'human energy field'."@en .
+
+caveat:TorturedPhrases a owl:Class ;
+    rdfs:label "tortured phrases"@en ;
+    rdfs:subClassOf caveat:TextualMarker ;
+    caveat:definition "A textual marker characterized by systematic synonym substitution that produces nonsensical phrases, such as 'bosom movement' for 'breast cancer'. Near-pathognomonic for papermill products."@en ;
+    caveat:definitionSource "Cabanac, G., Labbé, C., & Magazinov, A. (2021). Tortured phrases: A dubious writing style emerging in science. Evidence of critical issues affecting established journals. arXiv:2107.06751." ;
+    caveat:evidenceFor caveat:PapermillOperation ;
+    caveat:evidenceStrength "strong" .
+
+caveat:UnderpoweredStudy a owl:Class ;
+    rdfs:label "underpowered study claiming significance"@en ;
+    rdfs:subClassOf caveat:StatisticalMalpractice ;
+    caveat:defaultSeverity 0.3 ;
+    caveat:definition "A statistical malpractice in which a study with insufficient sample size to detect the claimed effect reports statistically significant results, suggesting either a false positive or inflated effect size."@en .
+
+caveat:UndisclosedConflictOfInterest a owl:Class ;
+    rdfs:label "undisclosed conflict of interest"@en ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "A publication process misconduct in which financial, personal, or institutional relationships that could bias the research are not disclosed as required by the publication venue."@en .
+
+caveat:UnfalsifiableDesign a owl:Class ;
+    rdfs:label "unfalsifiable design"@en ;
+    rdfs:subClassOf caveat:DesignFailures ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "A design failure in which the study is structured such that no possible outcome could refute the hypothesis, violating the basic requirement of falsifiability."@en .
+
+caveat:VerbatimOverlap a owl:Class ;
+    rdfs:label "verbatim overlap with other papers"@en ;
+    rdfs:subClassOf caveat:TextualMarker ;
+    caveat:definition "A textual marker characterized by substantial verbatim text overlap with one or more other publications, detectable by plagiarism detection tools."@en ;
+    caveat:evidenceFor caveat:PapermillOperation,
+        caveat:TextPlagiarism ;
+    caveat:evidenceStrength "moderate",
+        "strong" .
+
+caveat:WaterMemory a owl:Class ;
+    rdfs:label "water memory"@en ;
+    rdfs:subClassOf caveat:UltraHighDilution ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "An ultra-high dilution pseudoscience that claims water retains structural or informational properties of substances previously dissolved in it, even after dilution beyond molecular presence. Distinguished from homeopathic pharmacology by being the proposed underlying mechanism rather than an application."@en .
+
+caveat:WithdrawnDataMethodology a owl:Class ;
+    rdfs:label "withdrawn data or methodology"@en ;
+    rdfs:subClassOf caveat:ReproducibilityMarker ;
+    caveat:definition "A reproducibility marker characterized by the withdrawal or retraction of underlying data or methodological components after publication."@en ;
+    caveat:evidenceFor caveat:Falsification ;
+    caveat:evidenceStrength "strong" .
+
+caveat:associatedPerson a owl:ObjectProperty ;
+    rdfs:label "associated person"@en ;
+    rdfs:comment "Person associated with the misconduct, used for named-person scoring in TRACES."@en ;
+    rdfs:domain caveat:RetractionRecord .
+
+caveat:causation a owl:AnnotationProperty ;
+    rdfs:label "causation"@en ;
+    rdfs:comment "Primary cause category: intentional, premise_failure, interpretive_error, methodological_error."@en .
+
+caveat:claimedDomain a owl:ObjectProperty ;
+    rdfs:label "claimed domain"@en ;
+    rdfs:comment "The scientific domain (OpenAlex topic) that this document claims to contribute to."@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:OpenAlexTopic .
+
+caveat:corpusFamily a owl:ObjectProperty ;
+    rdfs:label "corpus family"@en ;
+    rdfs:comment "The corpus family to which this document belongs."@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:CorpusFamily .
+
+caveat:defaultSeverity a owl:AnnotationProperty ;
+    rdfs:label "default severity"@en ;
+    rdfs:comment "Default severity on a 0.0-1.0 scale. 0.0 = negligible impact on paper reliability. 1.0 = paper is entirely unreliable. Consumers may override for their specific context."@en ;
+    rdfs:range xsd:decimal .
+
+caveat:definition a owl:AnnotationProperty ;
+    rdfs:label "definition"@en ;
+    rdfs:comment "Aristotelian definition: genus (parent class) + differentia."@en .
+
+caveat:definitionSource a owl:AnnotationProperty ;
+    rdfs:label "definition source"@en ;
+    rdfs:comment "Citable source for the definition."@en .
+
+caveat:detectionMarkerObserved a owl:ObjectProperty ;
+    rdfs:label "detection marker observed"@en ;
+    rdfs:comment "A detection marker that has been observed in this document."@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:DetectionMarker .
+
+caveat:estimatedSize a owl:DatatypeProperty ;
+    rdfs:label "estimated corpus size"@en ;
+    rdfs:comment "Approximate number of documents in this corpus family."@en ;
+    rdfs:domain caveat:CorpusFamily .
+
+caveat:evidenceFor a owl:ObjectProperty ;
+    rdfs:label "evidence for"@en ;
+    rdfs:comment "Asserts that observing this detection marker is evidence for the linked unreliability mode."@en ;
+    rdfs:domain caveat:DetectionMarker ;
+    rdfs:range caveat:UnreliabilityMode .
+
+caveat:evidenceStrength a owl:AnnotationProperty ;
+    rdfs:label "evidence strength"@en ;
+    rdfs:comment "Strength of the evidential link. Values: 'definitive' (marker alone is sufficient), 'strong' (high positive predictive value), 'moderate' (suggestive, needs corroboration), 'weak' (possible indicator, high false positive rate)."@en .
+
+caveat:legalConsequences a owl:DatatypeProperty ;
+    rdfs:label "legal consequences"@en ;
+    rdfs:comment "Free text describing legal consequences: 'none', 'criminal conviction', 'civil settlement', etc."@en ;
+    rdfs:range xsd:string .
+
+caveat:lexiconFile a owl:AnnotationProperty ;
+    rdfs:label "lexicon file"@en ;
+    rdfs:comment "Path to the YAML vocabulary file for this mode, relative to the vocabularies/ directory. Vocabulary inherits top-down: a mode's effective vocabulary includes its own terms plus all ancestor terms."@en .
+
+caveat:openAlexId a owl:DatatypeProperty ;
+    rdfs:label "OpenAlex ID"@en ;
+    rdfs:comment "The OpenAlex identifier for this entity (e.g., 'T12345' for a topic)."@en ;
+    rdfs:range xsd:string .
+
+caveat:openAlexSnapshotDate a owl:AnnotationProperty ;
+    rdfs:label "OpenAlex snapshot date"@en ;
+    rdfs:comment "The date on which OpenAlex data was retrieved for this import. Since OpenAlex is actively maintained, topic assignments may change."@en ;
+    rdfs:range xsd:date .
+
+caveat:parentDomain a owl:ObjectProperty ;
+    rdfs:label "parent domain"@en ;
+    rdfs:domain caveat:OpenAlexField ;
+    rdfs:range caveat:OpenAlexDomain .
+
+caveat:parentField a owl:ObjectProperty ;
+    rdfs:label "parent field"@en ;
+    rdfs:domain caveat:OpenAlexSubfield ;
+    rdfs:range caveat:OpenAlexField .
+
+caveat:parentSubfield a owl:ObjectProperty ;
+    rdfs:label "parent subfield"@en ;
+    rdfs:domain caveat:OpenAlexTopic ;
+    rdfs:range caveat:OpenAlexSubfield .
+
+caveat:personName a owl:DatatypeProperty ;
+    rdfs:label "person name"@en ;
+    rdfs:range xsd:string .
+
+caveat:primaryUnreliabilityMode a owl:ObjectProperty ;
+    rdfs:label "primary unreliability mode"@en ;
+    rdfs:comment "The principal unreliability mode for this document. Each document should have exactly one primary mode."@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:UnreliabilityMode .
+
+caveat:retractionAwareLexiconFile a owl:AnnotationProperty ;
+    rdfs:label "retraction-aware lexicon file"@en ;
+    rdfs:comment "Path to a YAML vocabulary file that is activated only for probes involving retracted source papers, rather than through the normal class inheritance chain."@en .
+
+caveat:retractionDate a owl:DatatypeProperty ;
+    rdfs:label "retraction date"@en ;
+    rdfs:domain caveat:RetractionRecord ;
+    rdfs:range xsd:date .
+
+caveat:retractionNoticeDOI a owl:DatatypeProperty ;
+    rdfs:label "retraction notice DOI"@en ;
+    rdfs:domain caveat:RetractionRecord ;
+    rdfs:range xsd:string .
+
+caveat:retractionReason a owl:DatatypeProperty ;
+    rdfs:label "retraction reason"@en ;
+    rdfs:domain caveat:RetractionRecord ;
+    rdfs:range xsd:string .
+
+caveat:retractionSeverity a owl:AnnotationProperty ;
+    rdfs:label "retraction severity"@en ;
+    rdfs:comment """Classification of the severity of a retraction case,
+used in TRACES probe metadata for stratified reporting. Does not affect
+IS scoring (see TRACES spec: 'Why Not Severity-Weight the Headline
+Number'). Values: catastrophic, major, standard."""@en ;
+    rdfs:range xsd:string .
+
+caveat:retractionSeverityValue a owl:DatatypeProperty ;
+    rdfs:label "retraction severity value"@en ;
+    rdfs:comment "Severity classification for this retraction record, used for document-level annotation and stratified reporting. Expected values: catastrophic, major, standard."@en ;
+    rdfs:domain caveat:RetractionRecord ;
+    rdfs:range xsd:string .
+
+caveat:retractionStatus a owl:ObjectProperty ;
+    rdfs:label "retraction status"@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:RetractionRecord .
+
+caveat:secondaryUnreliabilityMode a owl:ObjectProperty ;
+    rdfs:label "secondary unreliability mode"@en ;
+    rdfs:comment "An additional unreliability mode for this document. A document may have zero or more secondary modes."@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range caveat:UnreliabilityMode .
+
+caveat:siblingTopic a owl:ObjectProperty,
+        owl:SymmetricProperty ;
+    rdfs:label "sibling topic"@en ;
+    rdfs:domain caveat:OpenAlexTopic ;
+    rdfs:range caveat:OpenAlexTopic ;
+    caveat:definition "Two OpenAlex topics that share a parent subfield and are designated as siblings in the OpenAlex topic taxonomy. Useful for identifying related fields where similar unreliability patterns may occur, and for constructing matched controls."@en .
+
+obo:BFO_0000001 a owl:Class ;
+    rdfs:label "entity"@en .
+
+obo:BFO_0000020 a owl:Class ;
+    rdfs:label "specifically dependent continuant"@en ;
+    rdfs:comment "An entity that depends on one or more specific independent continuants for its existence."@en ;
+    rdfs:subClassOf obo:BFO_0000002 .
+
+obo:BFO_0000031 a owl:Class ;
+    rdfs:label "generically dependent continuant"@en ;
+    rdfs:subClassOf obo:BFO_0000002 .
+
+obo:IAO_0000030 a owl:Class ;
+    rdfs:label "information content entity"@en ;
+    rdfs:comment "An entity that is generically dependent on some artifact and stands in relation of aboutness to some entity."@en ;
+    rdfs:subClassOf obo:BFO_0000031 .
+
+caveat:CompromisedPeerReview a owl:Class ;
+    rdfs:label "compromised or fake peer review"@en ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
+    caveat:defaultSeverity 0.7 ;
+    caveat:definition "A publication process misconduct in which the peer review process is subverted, including fabricated reviewer identities, self-review via manipulated submission systems, or collusion between authors and reviewers."@en .
+
+caveat:DuplicatePublication a owl:Class ;
+    rdfs:label "duplicate or redundant publication"@en ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "A publication process misconduct in which substantially the same work is published in multiple venues without appropriate cross-referencing or disclosure, in order to inflate publication counts."@en .
+
+caveat:OpenAlexDomain a owl:Class ;
+    rdfs:label "OpenAlex domain"@en ;
+    caveat:definition "The highest level of the OpenAlex topic hierarchy. Approximately 4 domains exist (e.g., Life Sciences, Physical Sciences, Social Sciences, Health Sciences)."@en .
+
+caveat:PredatoryJournalPublication a owl:Class ;
+    rdfs:label "predatory journal publication"@en ;
+    rdfs:subClassOf caveat:PublicationProcessMisconduct ;
+    caveat:defaultSeverity 0.3 ;
+    caveat:definition "A publication process misconduct in which a work is published in a venue that charges fees without providing meaningful editorial or peer review services. Distinguished from legitimate open access by the absence of genuine quality control."@en .
+
+obo:BFO_0000002 a owl:Class ;
+    rdfs:label "continuant"@en ;
+    rdfs:subClassOf obo:BFO_0000001 .
+
+obo:BFO_0000019 a owl:Class ;
+    rdfs:label "quality"@en ;
+    rdfs:comment "A specifically dependent continuant that is exhibited if it inheres in an entity or entities at all."@en ;
+    rdfs:subClassOf obo:BFO_0000020 .
+
+caveat:AntiEvidenceMedicine a owl:Class ;
+    rdfs:label "anti-evidence medicine"@en ;
+    rdfs:subClassOf caveat:Pseudoscience ;
+    caveat:defaultSeverity 0.95 ;
+    caveat:definition "A pseudoscience that asserts mechanisms for medical harms that have been specifically investigated and refuted, or that asserts therapeutic mechanisms for interventions demonstrated to be inert. Distinguished from other pseudosciences by the direct contradiction of established medical evidence."@en .
+
+caveat:CitationManipulation a owl:Class ;
+    rdfs:label "citation manipulation"@en ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "An authorship misconduct in which citations are added, removed, or directed for purposes unrelated to scholarly merit, including coercive citation by editors or reviewers and citation rings among collaborating authors."@en .
+
+caveat:CorpusFamily a owl:Class ;
+    rdfs:label "corpus family"@en ;
+    caveat:definition "A collection of annotated documents that share a common origin, production method, or thematic pattern, and are analyzed as a group. Examples: all papers from a specific papermill, all publications by a specific fraudulent author, all papers in a specific pseudoscience domain."@en .
+
+caveat:InterpretiveFailure a owl:Class ;
+    rdfs:label "interpretive failure"@en ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
+    caveat:causation "interpretive_error" ;
+    caveat:defaultSeverity 0.6 ;
+    caveat:definition "An unreliability mode in which the experiments are real but the interpretation of results is systematically wrong, typically due to self-deception or cognitive biases rather than deliberate fraud. Distinguished from execution-level failure in that the methodology may be sound but the conclusions drawn from it are not."@en .
+
+caveat:OpenAlexField a owl:Class ;
+    rdfs:label "OpenAlex field"@en ;
+    caveat:definition "The second level of the OpenAlex topic hierarchy, a child of a domain. Approximately 25 fields exist (e.g., Medicine, Physics, Chemistry)."@en .
+
+caveat:OpenAlexSubfield a owl:Class ;
+    rdfs:label "OpenAlex subfield"@en ;
+    caveat:definition "The third level of the OpenAlex topic hierarchy, a child of a field. Approximately 250 subfields exist (e.g., Immunology, Nuclear Physics)."@en .
+
+caveat:PremiseLevelFailure a owl:Class ;
+    rdfs:label "premise-level failure"@en ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
+    caveat:causation "premise_failure" ;
+    caveat:defaultSeverity 0.95 ;
+    caveat:definition "An unreliability mode in which the foundational hypothesis or theoretical framework of the work has no basis in established science. The work may be internally consistent but starts from a premise that is demonstrably false or unfalsifiable. Distinguished from interpretive failure in that the premise itself, not just the interpretation, is wrong."@en .
+
+caveat:SystematicFraudulentProduction a owl:Class ;
+    rdfs:label "systematic fraudulent production"@en ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A deliberate misconduct characterized by organized, repeated production of fraudulent scientific literature, typically for commercial gain. Distinguished from isolated misconduct by its industrial scale and systematic nature."@en .
+
+caveat:TextPlagiarism a owl:Class ;
+    rdfs:label "text plagiarism"@en ;
+    rdfs:subClassOf caveat:AuthorshipMisconduct ;
+    caveat:defaultSeverity 0.6 ;
+    caveat:definition "An authorship misconduct in which text from another source is reproduced without appropriate attribution. Distinguished from idea plagiarism by the verbatim or near-verbatim nature of the copying."@en .
+
+caveat:UltraHighDilution a owl:Class ;
+    rdfs:label "ultra-high dilution or memory of water"@en ;
+    rdfs:subClassOf caveat:Pseudoscience ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A pseudoscience that claims substances retain biological or chemical activity at dilutions beyond Avogadro's limit, where no molecules of the original substance remain. Distinguished from other pseudosciences by the specific claim that water or other solvents retain a 'memory' of dissolved substances."@en .
+
+caveat:DataMisconduct a owl:Class ;
+    rdfs:label "data misconduct"@en ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A deliberate misconduct involving the creation, alteration, or suppression of research data or results."@en .
+
+caveat:Denialism a owl:Class ;
+    rdfs:label "denialism"@en ;
+    rdfs:subClassOf caveat:PremiseLevelFailure ;
+    caveat:defaultSeverity 0.9 ;
+    caveat:definition "A premise-level failure characterized by rejection of established scientific consensus, typically through selective citation, manufactured doubt, conspiracy theories, or impossible demands for evidence. Distinguished from pseudoscience in that denialism denies established positives rather than asserting false positives."@en .
+
+caveat:Overreach a owl:Class ;
+    rdfs:label "overreach"@en ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
+    caveat:defaultSeverity 0.3 ;
+    caveat:definition "An execution-level failure in which the conclusions stated in the paper are not supported by the evidence presented, going beyond what the data and methods justify."@en .
+
+caveat:Parapsychology a owl:Class ;
+    rdfs:label "parapsychology"@en ;
+    rdfs:subClassOf caveat:Pseudoscience ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A pseudoscience that claims humans possess abilities to perceive or influence the physical world through mechanisms not accounted for by established physics or neuroscience. Distinguished from other pseudosciences by the invocation of mental or psychic causation."@en .
+
+caveat:PathologicalScience a owl:Class ;
+    rdfs:label "pathological science"@en ;
+    rdfs:subClassOf caveat:InterpretiveFailure ;
+    caveat:defaultSeverity 0.7 ;
+    caveat:definition "An interpretive failure meeting Langmuir's criteria: maximum effect from barely detectable cause; effect magnitude near limit of detectability; claims of great accuracy; fantastic theories contrary to experience; criticisms met by ad hoc excuses; ratio of supporters to critics approaches zero over time."@en ;
+    caveat:definitionSource "Langmuir, I. (1953/1989). Pathological Science." .
+
+caveat:ReproducibilityFailures a owl:Class ;
+    rdfs:label "reproducibility failures"@en ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
+    caveat:defaultSeverity 0.25 ;
+    caveat:definition "An execution-level failure in which the work cannot be independently reproduced or verified due to insufficient documentation, unavailable data, or non-replicable results."@en .
+
+caveat:ReproducibilityMarker a owl:Class ;
+    rdfs:label "reproducibility marker"@en ;
+    rdfs:subClassOf caveat:DetectionMarker ;
+    caveat:definition "A detection marker relating to the reproducibility or verifiability of a publication's claims."@en .
+
+caveat:SystematicMisinterpretation a owl:Class ;
+    rdfs:label "systematic misinterpretation"@en ;
+    rdfs:subClassOf caveat:InterpretiveFailure ;
+    caveat:defaultSeverity 0.5 ;
+    caveat:definition "An interpretive failure in which valid data are consistently interpreted through an incorrect causal framework, leading to wrong conclusions despite sound methodology."@en .
+
+caveat:DeliberateMisconduct a owl:Class ;
+    rdfs:label "deliberate misconduct"@en ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
+    caveat:causation "intentional" ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "An unreliability mode in which the author(s) knowingly deviated from accepted standards of scientific conduct. Distinguished from other unreliability modes by the presence of intent."@en .
+
+caveat:DesignFailures a owl:Class ;
+    rdfs:label "design failures"@en ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
+    caveat:defaultSeverity 0.4 ;
+    caveat:definition "An execution-level failure in which the experimental or study design is fundamentally flawed, rendering the results uninterpretable regardless of how well the study was otherwise conducted."@en .
+
+caveat:ExecutionLevelFailure a owl:Class ;
+    rdfs:label "execution-level failure"@en ;
+    rdfs:subClassOf caveat:UnreliabilityMode ;
+    caveat:causation "methodological_error" ;
+    caveat:defaultSeverity 0.3 ;
+    caveat:definition "An unreliability mode in which the premise may be legitimate and the intent honest, but the methodology is flawed in ways that invalidate the conclusions. Distinguished from interpretive failure in that the problem is in how the research was done, not how the results were interpreted."@en .
+
+caveat:OpenAlexTopic a owl:Class ;
+    rdfs:label "OpenAlex topic"@en ;
+    caveat:definition "The most granular level of the OpenAlex topic hierarchy. Approximately 4500 topics exist. This is the level at which CAVEAT anchors its scientific domain classification."@en .
+
+caveat:PublicationProcessMisconduct a owl:Class ;
+    rdfs:label "publication process misconduct"@en ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
+    caveat:defaultSeverity 0.6 ;
+    caveat:definition "A deliberate misconduct involving corruption of the publication or peer review process."@en .
+
+caveat:VitalistEnergyMedicine a owl:Class ;
+    rdfs:label "vitalist or energy medicine"@en ;
+    rdfs:subClassOf caveat:Pseudoscience ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A pseudoscience that claims a non-physical 'energy', 'vital force', or 'biofield' can be directed by practitioners to cause measurable biological or physical effects. Distinguished from other pseudosciences by the invocation of vitalist mechanisms."@en ;
+    caveat:lexiconFile "engagement/vitalist-energy-medicine.yaml" .
+
+caveat:AuthorshipMisconduct a owl:Class ;
+    rdfs:label "authorship misconduct"@en ;
+    rdfs:subClassOf caveat:DeliberateMisconduct ;
+    caveat:defaultSeverity 0.6 ;
+    caveat:definition "A deliberate misconduct involving the misrepresentation of who contributed to or is responsible for a scientific work."@en .
+
+caveat:Pseudoscience a owl:Class ;
+    rdfs:label "pseudoscience"@en ;
+    rdfs:subClassOf caveat:PremiseLevelFailure ;
+    caveat:defaultSeverity 0.95 ;
+    caveat:definition "A premise-level failure in which the central claims invoke mechanisms or entities that have been specifically investigated and found baseless. Distinguished from pathological science by the existence of positive evidence of absence, not merely absence of evidence. Distinguished from denialism in that pseudoscience asserts false positives rather than denying established positives."@en ;
+    caveat:lexiconFile "rejection/pseudoscience-base.yaml" .
+
+caveat:TextualMarker a owl:Class ;
+    rdfs:label "textual marker"@en ;
+    rdfs:subClassOf caveat:DetectionMarker ;
+    caveat:definition "A detection marker observable in the text of a publication."@en .
+
+caveat:AnnotatedDocument a owl:Class ;
+    rdfs:label "annotated document"@en ;
+    rdfs:subClassOf obo:IAO_0000030 ;
+    caveat:definition "An information content entity representing a scientific publication that has been annotated with one or more CAVEAT unreliability modes, detection markers, and/or scientific domain classifications."@en .
+
+caveat:DataFigureMarker a owl:Class ;
+    rdfs:label "data or figure marker"@en ;
+    rdfs:subClassOf caveat:DetectionMarker ;
+    caveat:definition "A detection marker observable in the data, figures, or images of a publication."@en .
+
+caveat:DetectionMarker a owl:Class ;
+    rdfs:label "detection marker"@en ;
+    rdfs:subClassOf obo:BFO_0000019 ;
+    caveat:definition "A quality of a scientific publication that is observable and serves as evidence for one or more unreliability modes. Distinguished from unreliability modes in that a marker is what we can see; a mode is what went wrong."@en .
+
+caveat:Falsification a owl:Class ;
+    rdfs:label "falsification"@en ;
+    rdfs:subClassOf caveat:DataMisconduct ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A data misconduct in which actual research materials, equipment, processes, or data are manipulated, changed, or omitted such that the reported results do not accurately represent the research. Distinguished from fabrication in that real data or processes existed but were altered."@en ;
+    caveat:definitionSource "ORI: 42 CFR Part 93" .
+
+caveat:PapermillOperation a owl:Class ;
+    rdfs:label "papermill operation"@en ;
+    rdfs:subClassOf caveat:SystematicFraudulentProduction ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A systematic fraudulent production in which a commercial entity produces fabricated scientific papers for sale, typically using template-based generation, fabricated data, and tortured phrases to evade detection."@en .
+
+caveat:RetractionRecord a owl:Class ;
+    rdfs:label "retraction record"@en ;
+    rdfs:comment "Structured record of a paper's retraction status, including date, reason, severity, and any associated consequences."@en .
+
+caveat:StatisticalMalpractice a owl:Class ;
+    rdfs:label "statistical malpractice"@en ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
+    caveat:defaultSeverity 0.35 ;
+    caveat:definition "An execution-level failure in which statistical methods are applied incorrectly or inappropriately, leading to invalid inferences from the data."@en .
+
+caveat:Fabrication a owl:Class ;
+    rdfs:label "fabrication"@en ;
+    rdfs:subClassOf caveat:DataMisconduct ;
+    caveat:defaultSeverity 1.0 ;
+    caveat:definition "A data misconduct in which data or results are invented without any basis in actual experimentation or observation. Distinguished from falsification in that no real data existed to be manipulated."@en ;
+    caveat:definitionSource "ORI: 42 CFR Part 93" .
+
+caveat:MetadataMarker a owl:Class ;
+    rdfs:label "metadata marker"@en ;
+    rdfs:subClassOf caveat:DetectionMarker ;
+    caveat:definition "A detection marker observable in the publication metadata, editorial history, or surrounding context rather than the content itself."@en .
+
+caveat:UnreliabilityMode a owl:Class ;
+    rdfs:label "unreliability mode"@en ;
+    rdfs:subClassOf obo:BFO_0000019 ;
+    caveat:definition "A quality of a scientific publication that renders it unreliable as a contribution to scientific knowledge. Subclasses are organized by cause (deliberate, premise-level, interpretive, execution-level) with graduated default severity."@en ;
+    caveat:retractionAwareLexiconFile "rejection/retracted-literature-base.yaml" .
+
