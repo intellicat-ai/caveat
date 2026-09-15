@@ -11,6 +11,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Merged self-contained Turtle (`docs/caveat.ttl`) and RDF/XML (`docs/caveat.owl`) release artifacts
 - GitHub Pages documentation site in `docs/` with Jekyll configuration, responsive stylesheet, default layout, and landing page
 - Test suite (`tests/test_release_artifacts.py`) verifying release artifact isomorphism and version synchronization
+- Documentation consistency test (`tests/test_docs_consistency.py`) checking class names, severities, causation, subclasses, parents and lexicon paths in `README.md` and `docs/*.md` against the ontology
+
+### Fixed
+- `README.md`: removed nonexistent "cargo cult methodology" category and HermiT validation claim; corrected OpenAlex (schema only, no data yet), BFO/IAO alignment scope, vocabulary coverage and repository layout; usage example now declares its prefixes and topic individual
+- `docs/severity-defaults.md`: replaced the "child severity ≥ parent" principle, which 21 classes violate, with the actual rule; listed classes below their parent; replaced nonexistent `CargoCultScience` in the override example; made band boundaries unambiguous; clarified the IEC 60812 relationship
 
 ## [0.2.0] — 2026-09-14
 
