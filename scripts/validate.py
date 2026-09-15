@@ -112,6 +112,17 @@ def check_lexicon_schema():
         k: set(term_props.get(k, {}).get("enum", []))
         for k in ("classification", "level", "general_frequency")
     }
+    meta = set(schema.get("x-classification-metadata", {}))
+    for c in sorted(set(enums["classification"]) - meta):
+        errors.append(
+            f"_schema.yaml: '{c}' is in the classification enum but missing "
+            f"from x-classification-metadata"
+        )
+    for c in sorted(meta - set(enums["classification"])):
+        errors.append(
+            f"_schema.yaml: '{c}' is in x-classification-metadata but not in "
+            f"the classification enum"
+        )
     for f in sorted(VOCAB_DIR.rglob("*.yaml")):
         if f.name == "_schema.yaml":
             continue
