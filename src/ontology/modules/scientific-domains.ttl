@@ -12,18 +12,22 @@
 # =============================================================================
 
 caveat:OpenAlexDomain a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OpenAlex domain"@en ;
     caveat:definition "The highest level of the OpenAlex topic hierarchy. Approximately 4 domains exist (e.g., Life Sciences, Physical Sciences, Social Sciences, Health Sciences)."@en .
 
 caveat:OpenAlexField a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OpenAlex field"@en ;
     caveat:definition "The second level of the OpenAlex topic hierarchy, a child of a domain. Approximately 25 fields exist (e.g., Medicine, Physics, Chemistry)."@en .
 
 caveat:OpenAlexSubfield a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OpenAlex subfield"@en ;
     caveat:definition "The third level of the OpenAlex topic hierarchy, a child of a field. Approximately 250 subfields exist (e.g., Immunology, Nuclear Physics)."@en .
 
 caveat:OpenAlexTopic a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OpenAlex topic"@en ;
     caveat:definition "The most granular level of the OpenAlex topic hierarchy. Approximately 4500 topics exist. This is the level at which CAVEAT anchors its scientific domain classification."@en .
 
@@ -32,16 +36,19 @@ caveat:OpenAlexTopic a owl:Class ;
 # =============================================================================
 
 caveat:parentDomain a owl:ObjectProperty ;
+    rdfs:subPropertyOf skos:broader ;
     rdfs:label "parent domain"@en ;
     rdfs:domain caveat:OpenAlexField ;
     rdfs:range caveat:OpenAlexDomain .
 
 caveat:parentField a owl:ObjectProperty ;
+    rdfs:subPropertyOf skos:broader ;
     rdfs:label "parent field"@en ;
     rdfs:domain caveat:OpenAlexSubfield ;
     rdfs:range caveat:OpenAlexField .
 
 caveat:parentSubfield a owl:ObjectProperty ;
+    rdfs:subPropertyOf skos:broader ;
     rdfs:label "parent subfield"@en ;
     rdfs:domain caveat:OpenAlexTopic ;
     rdfs:range caveat:OpenAlexSubfield .
@@ -51,10 +58,11 @@ caveat:parentSubfield a owl:ObjectProperty ;
 # =============================================================================
 
 caveat:siblingTopic a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:subPropertyOf skos:related ;
     rdfs:label "sibling topic"@en ;
     rdfs:domain caveat:OpenAlexTopic ;
     rdfs:range caveat:OpenAlexTopic ;
-    caveat:definition "Two OpenAlex topics that share a parent subfield and are designated as siblings in the OpenAlex topic taxonomy. Useful for identifying related fields where similar unreliability patterns may occur, and for constructing matched controls."@en .
+    caveat:definition "Relates two OpenAlex topics that OpenAlex lists as siblings. The list is imported as published; sibling topics may belong to different subfields."@en .
 
 # =============================================================================
 # OPENALEX METADATA PROPERTIES
@@ -69,3 +77,28 @@ caveat:openAlexSnapshotDate a owl:AnnotationProperty ;
     rdfs:label "OpenAlex snapshot date"@en ;
     rdfs:comment "The date on which OpenAlex data was retrieved for this import. Since OpenAlex is actively maintained, topic assignments may change."@en ;
     rdfs:range xsd:date .
+
+caveat:siblingSubfield a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:subPropertyOf skos:related ;
+    rdfs:label "sibling subfield"@en ;
+    rdfs:domain caveat:OpenAlexSubfield ;
+    rdfs:range caveat:OpenAlexSubfield ;
+    caveat:definition "Relates two OpenAlex subfields that OpenAlex lists as siblings. The list is imported as published; sibling subfields may belong to different fields."@en .
+
+caveat:openAlexKeyword a owl:AnnotationProperty ;
+    rdfs:label "OpenAlex keyword"@en ;
+    rdfs:comment "A keyword OpenAlex attaches to a topic. Descriptive, not a synonym."@en .
+
+caveat:siblingField a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:subPropertyOf skos:related ;
+    rdfs:label "sibling field"@en ;
+    rdfs:domain caveat:OpenAlexField ;
+    rdfs:range caveat:OpenAlexField ;
+    caveat:definition "Relates two OpenAlex fields that OpenAlex lists as siblings. The list is imported as published; sibling fields may belong to different domains."@en .
+
+caveat:siblingDomain a owl:ObjectProperty, owl:SymmetricProperty ;
+    rdfs:subPropertyOf skos:related ;
+    rdfs:label "sibling domain"@en ;
+    rdfs:domain caveat:OpenAlexDomain ;
+    rdfs:range caveat:OpenAlexDomain ;
+    caveat:definition "Relates two OpenAlex domains that OpenAlex lists as siblings. The list is imported as published."@en .

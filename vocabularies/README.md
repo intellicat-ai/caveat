@@ -6,6 +6,8 @@ This directory contains domain-specific terminology intrinsic to each unreliabil
 
 - `rejection/` — Terms indicating rejection of or distancing from the pseudoscientific premise. These are typically shared across related subtopics. Each term is classified by function: `categorical_rejection`, `evidence_absence`, `mechanism_absence`, `sanewashing_mild`, `sanewashing`, or `sanewashing_strong`.
 
+- `profiles/` — The `caveat-assessment/1` reporting profile: JSON-LD context, JSON Schema and examples. Not a lexicon; see `docs/reporting-profile.md`.
+
 - `engagement/` — Terms characteristic of specific pseudoscience or unreliability domains. These are the distinctive vocabulary that identifies the domain. Present in the engagement directory because they indicate a response is operating within the pseudoscientific frame.
 
 ## Vocabulary Inheritance

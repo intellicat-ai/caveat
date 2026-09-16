@@ -1,0 +1,207 @@
+# OpenAlex taxonomy import (domains, fields, subfields, topics; not the
+# deprecated concepts). tests/test_openalex.py checks the scripts, data and
+# ontology against this file.
+#
+# Principles:
+#   * All imported data comes from OpenAlex (CC0).
+#   * Sibling lists are imported as published, at every level, in the
+#     direction published. Nothing in the ontology, the builder or the tests
+#     depends on what the sibling lists contain. In particular, sibling
+#     topics may belong to different subfields, and sibling subfields to
+#     different fields.
+
+version: "0.4.0"
+
+namespace: "https://w3id.org/intellicat/caveat/modules/openalex#"
+prefix: caveatoa
+ontology_iri: "https://w3id.org/intellicat/caveat/modules/openalex"
+siblings_ontology_iri: "https://w3id.org/intellicat/caveat/modules/openalex-siblings"
+scheme: "caveatoa:scheme"
+local_names:
+  domain: "domain_{id}"     # caveatoa:domain_1
+  field: "field_{id}"       # caveatoa:field_27
+  subfield: "subfield_{id}" # caveatoa:subfield_2718
+  topic: "{id}"             # caveatoa:T11636
+openalex_iri:               # target of skos:exactMatch
+  domain: "https://openalex.org/domains/{id}"
+  field: "https://openalex.org/fields/{id}"
+  subfield: "https://openalex.org/subfields/{id}"
+  topic: "https://openalex.org/{id}"
+
+files:
+  fetcher: scripts/fetch_openalex_taxonomy.py
+  builder: scripts/build_openalex_mapping.py
+  config_example: config/openalex.example.toml
+  config: config/openalex.toml          # git-ignored; holds the API key
+  raw: mappings/openalex/openalex-taxonomy.jsonl
+  manifest: mappings/openalex/manifest.json
+  taxonomy_ttl: mappings/openalex/openalex.ttl
+  siblings_ttl: mappings/openalex/openalex-siblings.ttl
+  # build_artifacts.py publishes both under modules/, where the ontology IRIs
+  # above resolve.
+  release_taxonomy: modules/openalex.ttl
+  release_siblings: modules/openalex-siblings.ttl
+
+# ---------------------------------------------------------------------------
+# API access (help.openalex.org/api/authentication, checked 2026-09-16)
+#   * every production request needs an API key
+#   * the key is sent as "Authorization: Bearer <key>", never in the URL
+#   * 429 is returned above 100 requests/second or past the daily budget
+#   * per_page maximum is 100; cursor paging for full lists
+# ---------------------------------------------------------------------------
+api:
+  base: "https://api.openalex.org"
+  per_page: 100
+  default_rate_per_second: 5
+  max_rate_per_second: 50
+  retry_statuses: [429, 500, 502, 503, 504]
+  config_section: openalex
+  config_keys: [api_key, max_requests_per_second]
+
+# ---------------------------------------------------------------------------
+# Raw record format (one JSON object per line, json.dumps(sort_keys=True,
+# ensure_ascii=False)). Lines ordered by level (domain, field, subfield,
+# topic), then by numeric id (topics: numeric part after "T").
+# Keys with null or empty values are omitted, except "siblings", which is
+# always present (possibly []). Lists are sorted.
+# IDs are the last path segment of the OpenAlex id URL.
+# ---------------------------------------------------------------------------
+record_keys:
+  common: [level, id, display_name, description, alternatives, wikidata, wikipedia, siblings]
+  field: [domain]
+  subfield: [field, domain]
+  topic: [subfield, field, domain, keywords]
+# alternatives <- display_name_alternatives ; wikidata/wikipedia <- ids.*
+normalization:
+  missing_tokens: ["nan", "null", "none"]
+  url_fields: [wikidata, wikipedia]
+  iri_unsafe: 'space, control characters (U+0000-U+001F, U+007F) and " < > { } | \ ^ `'
+  normalization_kinds: [stripped, missing_token, url_encoded, url_dropped]
+  string_fields: [display_name, description, alternatives, wikidata, wikipedia, keywords]
+#
+# Normalization (the only changes made to OpenAlex values):
+#   * every string is stripped of surrounding whitespace;
+#   * a string equal, ignoring case, to one of missing_tokens means "no value"
+#     (the key is then omitted; list items are dropped);
+#   * url_fields must start with http:// or https:// after that, or are
+#     dropped; characters in iri_unsafe are percent-encoded (UTF-8);
+#   * a record whose display_name is empty after normalization stops the run.
+# Each change is counted in manifest "normalization" as
+#   {kind: {field: count}} for kind in normalization_kinds.
+# Dropped on purpose: works_count, cited_by_count, updated_date, created_date,
+# works_api_url, child lists (derivable), counts_by_year.
+
+manifest_keys:
+  source: "api or jsonl"
+  fetched_at: "ISO 8601 UTC"
+  api_base: "https://api.openalex.org"
+  counts: "{domain, field, subfield, topic} counted from the jsonl"
+  api_meta_counts: "meta.count reported by each endpoint"
+  jsonl_sha256: "hex digest of the jsonl file bytes"
+  sibling_pairs: "{level: listed siblings that are entities of the same level}"
+  dangling_siblings: "{level: listed siblings that are not}"
+  normalization: "{kind: {field: count}} for every normalization kind (empty objects when nothing changed)"
+  count_deviations: "present only if counts differ from published_counts: {level: [published, observed]}"
+forbidden_manifest_keys: [api_key, key, authorization]
+
+published_counts: {domain: 4, field: 26, subfield: 252, topic: 4516}
+
+# ---------------------------------------------------------------------------
+# TBox changes in src/ontology/modules/scientific-domains.ttl
+# ---------------------------------------------------------------------------
+tbox:
+  concept_classes: [OpenAlexDomain, OpenAlexField, OpenAlexSubfield, OpenAlexTopic]   # each rdfs:subClassOf skos:Concept
+  broader_properties: [parentDomain, parentField, parentSubfield]                       # each rdfs:subPropertyOf skos:broader
+  sibling_properties:                                                                    # each owl:SymmetricProperty, rdfs:subPropertyOf skos:related
+    domain: siblingDomain
+    field: siblingField
+    subfield: siblingSubfield
+    topic: siblingTopic
+  new_properties:
+    - {id: siblingDomain, kind: ObjectProperty, label: sibling domain, domain: OpenAlexDomain, range: OpenAlexDomain,
+       definition: "Relates two OpenAlex domains that OpenAlex lists as siblings. The list is imported as published."}
+    - {id: siblingField, kind: ObjectProperty, label: sibling field, domain: OpenAlexField, range: OpenAlexField,
+       definition: "Relates two OpenAlex fields that OpenAlex lists as siblings. The list is imported as published; sibling fields may belong to different domains."}
+    - {id: siblingSubfield, kind: ObjectProperty, label: sibling subfield, domain: OpenAlexSubfield, range: OpenAlexSubfield,
+       definition: "Relates two OpenAlex subfields that OpenAlex lists as siblings. The list is imported as published; sibling subfields may belong to different fields."}
+    - {id: openAlexKeyword, kind: AnnotationProperty, label: OpenAlex keyword}
+  changed_definitions:
+    siblingTopic: "Relates two OpenAlex topics that OpenAlex lists as siblings. The list is imported as published; sibling topics may belong to different subfields."
+  # The four hierarchy classes are removed from scripts/validate.py
+  # ROOT_CLASSES because they now have a parent (skos:Concept).
+
+# ---------------------------------------------------------------------------
+# ABox triples per entity, in openalex.ttl
+# ---------------------------------------------------------------------------
+abox:
+  every_entity:
+    - "a <level class>, skos:Concept"
+    - "skos:inScheme caveatoa:scheme"
+    - "skos:prefLabel <display_name>@en ; rdfs:label <display_name>@en"
+    - "skos:notation <id> ; caveat:openAlexId <id>"
+    - "skos:exactMatch <openalex_iri>"
+    - "skos:scopeNote <description>@en          (if present)"
+    - "skos:altLabel <each alternative>@en      (if present)"
+    - "skos:closeMatch <wikidata URL>           (if present)"
+    - "rdfs:seeAlso <wikipedia URL>             (if present)"
+  domain: ["skos:topConceptOf caveatoa:scheme"]
+  field: ["caveat:parentDomain <domain> ; skos:broader <domain>"]
+  subfield: ["caveat:parentField <field> ; skos:broader <field>"]
+  topic:
+    - "caveat:parentSubfield <subfield> ; skos:broader <subfield>"
+    - "caveat:openAlexKeyword <each keyword>@en"
+  scheme:
+    - "caveatoa:scheme a skos:ConceptScheme ; skos:prefLabel \"OpenAlex topic hierarchy\"@en ; skos:hasTopConcept <each domain>"
+  ontology_header:
+    - "<ontology_iri> a owl:Ontology"
+    - "owl:imports <https://w3id.org/intellicat/caveat>"
+    - "caveat:openAlexSnapshotDate <date of fetched_at>^^xsd:date"
+    - "dcterms:source <https://api.openalex.org/>"
+    - "dcterms:license <https://creativecommons.org/publicdomain/zero/1.0/>"
+    - "rdfs:comment noting that OpenAlex names and descriptions are generated by OpenAlex"
+  siblings_file:
+    - "<siblings_ontology_iri> a owl:Ontology ; owl:imports <ontology_iri>"
+    - "one triple per listed sibling, subject = listing entity, property = the level's sibling property"
+    - "listed siblings that are not entities of the same level are omitted and counted in dangling_siblings"
+  serialization: >-
+    Deterministic. The builder writes Turtle itself (prefix block, then one
+    subject block per entity in jsonl order, predicates in a fixed order,
+    objects sorted). `--check` rebuilds into memory and compares bytes.
+
+# ---------------------------------------------------------------------------
+# Hard fixtures, asserted against the jsonl
+# ---------------------------------------------------------------------------
+fixtures:
+  domains:
+    "1": Life Sciences
+  topics:
+    T11636: Artificial Intelligence in Healthcare and Education
+  # All 26 fields with their domain display names, from
+  # developers.openalex.org/api-reference/fields.
+  fields:
+    "11": ["Agricultural and Biological Sciences", "Life Sciences"]
+    "12": ["Arts and Humanities", "Social Sciences"]
+    "13": ["Biochemistry, Genetics and Molecular Biology", "Life Sciences"]
+    "14": ["Business, Management and Accounting", "Social Sciences"]
+    "15": ["Chemical Engineering", "Physical Sciences"]
+    "16": ["Chemistry", "Physical Sciences"]
+    "17": ["Computer Science", "Physical Sciences"]
+    "18": ["Decision Sciences", "Social Sciences"]
+    "19": ["Earth and Planetary Sciences", "Physical Sciences"]
+    "20": ["Economics, Econometrics and Finance", "Social Sciences"]
+    "21": ["Energy", "Physical Sciences"]
+    "22": ["Engineering", "Physical Sciences"]
+    "23": ["Environmental Science", "Physical Sciences"]
+    "24": ["Immunology and Microbiology", "Life Sciences"]
+    "25": ["Materials Science", "Physical Sciences"]
+    "26": ["Mathematics", "Physical Sciences"]
+    "27": ["Medicine", "Health Sciences"]
+    "28": ["Neuroscience", "Life Sciences"]
+    "29": ["Nursing", "Health Sciences"]
+    "30": ["Pharmacology, Toxicology and Pharmaceutics", "Life Sciences"]
+    "31": ["Physics and Astronomy", "Physical Sciences"]
+    "32": ["Psychology", "Social Sciences"]
+    "33": ["Social Sciences", "Social Sciences"]
+    "34": ["Veterinary", "Health Sciences"]
+    "35": ["Dentistry", "Health Sciences"]
+    "36": ["Health Professions", "Health Sciences"]

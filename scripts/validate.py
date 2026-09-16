@@ -78,8 +78,7 @@ def check_definitions(g: Graph):
 
 ROOT_CLASSES = {
     "UnreliabilityMode", "DetectionMarker", "CorpusFamily", "RetractionRecord",
-    "OpenAlexDomain", "OpenAlexField", "OpenAlexSubfield", "OpenAlexTopic",
-    "EvidenceStrength",
+    "EvidenceStrength", "TopicRelation",
 }
 
 

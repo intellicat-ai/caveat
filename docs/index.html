@@ -27,7 +27,7 @@ title: Overview
   <h2>Structure</h2>
   <p>CAVEAT models two independent dimensions:</p>
   <ul>
-    <li><strong>Scientific domain:</strong> What field does the paper claim to contribute to? CAVEAT defines a schema for the four-level OpenAlex hierarchy (domain, field, subfield, topic) and for sibling relationships between topics. OpenAlex topic data has not been imported yet.</li>
+    <li><strong>Scientific domain:</strong> What field does the paper claim to contribute to? CAVEAT maps the four-level OpenAlex hierarchy (domain, field, subfield, topic) to SKOS concepts, with the sibling lists OpenAlex publishes at each level. The taxonomy ships as two modules the root does not import: <code>modules/openalex</code> and <code>modules/openalex-siblings</code>.</li>
     <li><strong>Unreliability mode:</strong> What kind of failure does the paper exhibit? Modes form a class hierarchy with four top-level categories, each with a primary cause and a default severity.</li>
   </ul>
 
@@ -108,30 +108,29 @@ title: Overview
   <h2>Usage</h2>
   <p>Downstream ontologies and annotation systems import the merged ontology via <code>owl:imports &lt;https://w3id.org/intellicat/caveat&gt;</code>.</p>
 
-  <pre><code>@prefix owl:     &lt;http://www.w3.org/2002/07/owl#&gt; .
-@prefix caveat:  &lt;https://w3id.org/intellicat/caveat#&gt; .
-@prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
-@prefix ex:      &lt;https://example.org/&gt; .
+  <pre><code>@prefix owl:      &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix caveat:   &lt;https://w3id.org/intellicat/caveat#&gt; .
+@prefix caveatoa: &lt;https://w3id.org/intellicat/caveat/modules/openalex#&gt; .
+@prefix dcterms:  &lt;http://purl.org/dc/terms/&gt; .
+@prefix ex:       &lt;https://example.org/&gt; .
 
 &lt;https://example.org/annotations&gt; a owl:Ontology ;
-    owl:imports &lt;https://w3id.org/intellicat/caveat&gt; .
+    owl:imports &lt;https://w3id.org/intellicat/caveat&gt; ,
+                &lt;https://w3id.org/intellicat/caveat/modules/openalex&gt; .
 
+# caveatoa:T13044 is the OpenAlex topic "Biofield Effects and Biophysics".
 ex:some_paper a caveat:AnnotatedDocument ;
     dcterms:title "Some Dubious Paper" ;
     caveat:primaryUnreliabilityMode caveat:BiofieldEnergyHealing ;
     caveat:detectionMarkerObserved caveat:PredatoryJournalIndexing ;
-    caveat:claimedDomain ex:topic_T12345 .
-
-# CAVEAT does not yet publish OpenAlex topic individuals,
-# so the consumer declares the topic it refers to.
-ex:topic_T12345 a caveat:OpenAlexTopic ;
-    caveat:openAlexId "T12345" .</code></pre>
+    caveat:claimedDomain caveatoa:T13044 .</code></pre>
 </section>
 
 <section id="documentation">
   <h2>Documentation</h2>
   <p>Design documents:</p>
   <ul>
+    <li><a href="{{ '/reporting-profile.html' | relative_url }}">Reporting Profile</a>: Explaining pipeline scores with modes, markers, detectors and confidence</li>
     <li><a href="{{ '/bfo-alignment.html' | relative_url }}">BFO and IAO Alignment</a>: Upper ontology alignment decisions for modes, markers, and documents</li>
     <li><a href="{{ '/severity-defaults.html' | relative_url }}">Default Severity in CAVEAT</a>: FMEA severity scale, assignment principles, and consumer overrides</li>
     <li><a href="{{ '/term-classifications.html' | relative_url }}">Term Classification in CAVEAT Vocabularies</a>: Ordinal ranking from categorical rejection to sanewashing</li>
@@ -159,6 +158,9 @@ ex:topic_T12345 a caveat:OpenAlexTopic ;
 
   <p>Ontology modules:</p>
   <ul>
+    <li><a href="{{ '/modules/assessment.ttl' | relative_url }}"><code>modules/assessment.ttl</code></a></li>
+    <li><a href="{{ '/modules/openalex.ttl' | relative_url }}"><code>modules/openalex.ttl</code></a>: OpenAlex domains, fields, subfields and topics as SKOS concepts (not imported by the root)</li>
+    <li><a href="{{ '/modules/openalex-siblings.ttl' | relative_url }}"><code>modules/openalex-siblings.ttl</code></a>: the sibling lists OpenAlex publishes (not imported by the root)</li>
     <li><a href="{{ '/modules/detection-markers.ttl' | relative_url }}"><code>modules/detection-markers.ttl</code></a></li>
     <li><a href="{{ '/modules/document-schema.ttl' | relative_url }}"><code>modules/document-schema.ttl</code></a></li>
     <li><a href="{{ '/modules/marker-evidence.ttl' | relative_url }}"><code>modules/marker-evidence.ttl</code></a></li>
@@ -173,11 +175,17 @@ ex:topic_T12345 a caveat:OpenAlexTopic ;
     <li><a href="{{ '/vocabularies/_schema.yaml' | relative_url }}"><code>vocabularies/_schema.yaml</code></a></li>
     <li><a href="{{ '/examples/trivedi-2016.ttl' | relative_url }}"><code>examples/trivedi-2016.ttl</code></a></li>
   </ul>
+
+  <p>Reporting profile <code>caveat-assessment/1</code>:</p>
+  <ul>
+    <li><a href="{{ '/vocabularies/profiles/assessment-1.jsonld' | relative_url }}"><code>vocabularies/profiles/assessment-1.jsonld</code></a>: JSON-LD context</li>
+    <li><a href="{{ '/vocabularies/profiles/assessment-1.schema.json' | relative_url }}"><code>vocabularies/profiles/assessment-1.schema.json</code></a>: JSON Schema</li>
+  </ul>
 </section>
 
 <section id="citation">
   <h2>Citation</h2>
-  <p>CAVEAT is written by the <a href="https://github.com/intellicat-ai/caveat/graphs/contributors">CAVEAT contributors</a> and maintained by Intellicat Inc. If you use it, please cite:</p>
+  <p>CAVEAT is written by the <a href="https://github.com/intellicat-ai/caveat/graphs/contributors">CAVEAT contributors</a> and maintained by Intellicat If you use it, please cite:</p>
   <blockquote class="citation">CAVEAT contributors. (2026). <cite>CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types</cite> (Version {{ site.version }}) [Data set]. https://w3id.org/intellicat/caveat</blockquote>
   <p>Machine-readable metadata is in <a href="https://github.com/intellicat-ai/caveat/blob/main/CITATION.cff">CITATION.cff</a>. The "Cite this repository" button on GitHub generates APA and BibTeX from it.</p>
 </section>

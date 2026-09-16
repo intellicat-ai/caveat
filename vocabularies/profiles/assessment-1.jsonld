@@ -1,0 +1,35 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "caveat": "https://w3id.org/intellicat/caveat#",
+    "caveatoa": "https://w3id.org/intellicat/caveat/modules/openalex#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "profile": "dcterms:conformsTo",
+    "caveat_version": "caveat:caveatVersionUsed",
+    "document": "@id",
+    "claimed_topic": {"@id": "caveat:claimedDomain", "@type": "@id"},
+    "assessments": {"@reverse": "caveat:assessedDocument", "@context": {
+      "mode": {"@id": "caveat:assessedMode", "@type": "@id"},
+      "score": {"@id": "caveat:assessmentScore", "@type": "xsd:double"},
+      "assessed_by": {"@id": "caveat:assessedBy"},
+      "observations": {"@id": "caveat:supportedBy", "@container": "@set"}
+    }},
+    "marker": {"@id": "caveat:observedMarker", "@type": "@id"},
+    "link": {"@id": "caveat:appliedLink", "@type": "@id"},
+    "strength": {"@id": "caveat:derivedStrength", "@type": "@id"},
+    "confidence": {"@id": "caveat:observationConfidence", "@type": "xsd:double"},
+    "calibrated": "caveat:confidenceCalibrated",
+    "intensity": {"@id": "caveat:markerIntensity", "@type": "xsd:double"},
+    "stated_mode": {"@id": "caveat:statedMode", "@type": "@id"},
+    "stated_reason": "caveat:statedReasonText",
+    "related_document": {"@id": "caveat:relatedDocument", "@type": "@id"},
+    "topic_relation": {"@id": "caveat:topicRelation", "@type": "@id"},
+    "topic_relation_counts": {"@id": "caveat:topicRelationCounts", "@type": "@json"},
+    "locator": {"@id": "caveat:evidenceLocator", "@type": "@json"},
+    "detector": {"@id": "caveat:detectedBy"},
+    "pipeline": "caveat:detectorPipeline",
+    "module": "caveat:detectorModule",
+    "version": "caveat:detectorVersion"
+  }
+}

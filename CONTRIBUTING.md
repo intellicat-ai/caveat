@@ -67,3 +67,10 @@ Lexicon contributions follow a slightly different process:
 ## Code of Conduct
 
 All contributors are expected to engage constructively and in good faith. Ontology development is consensus creation — disagreements about classification are expected and welcome when supported by evidence.
+
+## Releasing
+
+1. On `develop`, the top `CHANGELOG.md` section is `## [X.Y.Z] - Unreleased`, and `owl:versionInfo` in `src/ontology/caveat.ttl` and `version` in `docs/_config.yml` are `X.Y.Z`. `tests/test_versions.py` enforces this.
+2. Run `python scripts/set_release.py X.Y.Z YYYY-MM-DD`. It dates the changelog section and updates `CITATION.cff` and `dcterms:modified`.
+3. Run the test suite and `cffconvert --validate`, merge `develop` into `main`, and tag `vX.Y.Z`.
+4. After the documentation site deploys, check that the published IRIs resolve.

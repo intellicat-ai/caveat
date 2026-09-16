@@ -42,10 +42,7 @@ jobs:
       - name: Overlay ontology artifacts
         run: |
           set -euo pipefail
-          mkdir -p _site/examples _site/vocabularies
           python scripts/build_artifacts.py _site
-          cp -r examples/.     _site/examples/
-          cp -r vocabularies/. _site/vocabularies/
           find _site -type f | sort
 
       - uses: actions/upload-pages-artifact@v3

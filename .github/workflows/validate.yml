@@ -19,16 +19,24 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install rdflib pyyaml pytest cffconvert
+          pip install -r requirements-dev.txt
 
+      # cffconvert 2.0.0 pins jsonschema<4, which the reporting checker
+      # cannot use, so it runs in its own environment.
       - name: Validate CITATION.cff
-        run: cffconvert --validate
+        run: pipx run --spec cffconvert==2.0.0 cffconvert --validate
 
       - name: Validate ontology
         run: python scripts/validate.py
 
       - name: Check caveat CURIEs
         run: python scripts/check_curies.py . --allow .caveat-curie-allowlist
+
+      - name: OpenAlex mapping is current
+        run: python scripts/build_openalex_mapping.py --check
+
+      - name: Profile examples are valid
+        run: python scripts/check_assessment.py vocabularies/profiles/examples/*.json --taxonomy mappings/openalex/openalex.ttl
 
       - name: Run test suite
         run: python -m pytest tests/ -v

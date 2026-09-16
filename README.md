@@ -12,7 +12,7 @@ Scientific literature is increasingly polluted with unreliable publications, ran
 
 CAVEAT describes a paper along two independent dimensions.
 
-**Scientific domain.** What field does the paper claim to contribute to? CAVEAT defines a schema for the four-level OpenAlex hierarchy (domain, field, subfield, topic) and for sibling relationships between topics. OpenAlex topic data has not been imported yet; see [mappings/README.md](mappings/README.md).
+**Scientific domain.** What field does the paper claim to contribute to? CAVEAT maps the four-level OpenAlex hierarchy (domain, field, subfield, topic) to SKOS concepts under `caveatoa:` (`https://w3id.org/intellicat/caveat/modules/openalex#`), with the sibling lists OpenAlex publishes at each level. The taxonomy ships as two modules that the root ontology does not import, `modules/openalex` and `modules/openalex-siblings`; see [mappings/README.md](mappings/README.md).
 
 **Unreliability mode.** What kind of failure does the paper exhibit? Modes form a class hierarchy under `UnreliabilityMode`. Each of the four top-level categories carries a primary cause (`caveat:causation`) and a default severity (`caveat:defaultSeverity`):
 
@@ -36,6 +36,8 @@ Leaf modes include `Fabrication`, `Falsification`, `TextPlagiarism`, `PapermillO
 
 Each marker-to-mode link is a named `caveat:EvidenceLink` node with its own `caveat:evidenceStrength`: `caveat:DefinitiveEvidence`, `caveat:StrongEvidence`, `caveat:ModerateEvidence`, `caveat:WeakEvidence`, or `caveat:GradedEvidence`, where strength is read from the intensity reported with each observation. A `caveat:StatedReasonEvidenceLink` has no fixed mode: the observed notice names it, as a retraction notice does. `caveat:evidenceFor` remains as a direct marker-to-mode shortcut for fixed links. The relation is many-to-many. Not every marker is linked to a mode yet; see [`src/ontology/modules/marker-evidence.ttl`](src/ontology/modules/marker-evidence.ttl).
 
+**Reporting.** Pipelines that score papers can explain a score in CAVEAT terms: which mode, which marker, which detector, and with what confidence. The assessment module defines `MarkerObservation`, `ModeAssessment` and `Detector`; the `caveat-assessment/1` JSON profile carries them as plain JSON that is also JSON-LD. See [docs/reporting-profile.md](docs/reporting-profile.md).
+
 **Controlled vocabularies.** YAML lexicons attached to modes through `caveat:lexiconFile`. A mode's effective vocabulary is its own lexicon plus the lexicons of all its ancestors. Each term is classified as engagement, rejection or sanewashing; see [docs/term-classifications.md](docs/term-classifications.md). Lexicons currently exist for these modes:
 
 | Mode | Lexicon file |
@@ -51,7 +53,7 @@ A separate retraction-aware lexicon, `rejection/retracted-literature-base.yaml`,
 
 ## Design Principles
 
-- Core classes are aligned to BFO and IAO. `UnreliabilityMode` and `DetectionMarker` are BFO qualities (`BFO_0000019`); `AnnotatedDocument` is an IAO information content entity (`IAO_0000030`). Only the BFO and IAO classes CAVEAT builds on are imported, as local excerpts. The OpenAlex hierarchy classes, `CorpusFamily` and `RetractionRecord` are not aligned to an upper ontology. See [docs/bfo-alignment.md](docs/bfo-alignment.md).
+- Core classes are aligned to BFO and IAO. `UnreliabilityMode` and `DetectionMarker` are BFO qualities (`BFO_0000019`); `AnnotatedDocument` is an IAO information content entity (`IAO_0000030`). Only the BFO and IAO classes CAVEAT builds on are imported, as local excerpts. Evidence links, marker observations and mode assessments are IAO information content entities, and detectors are PROV agents. The OpenAlex hierarchy classes are SKOS concepts. `CorpusFamily`, `RetractionRecord`, `EvidenceStrength` and `TopicRelation` are not aligned to an upper ontology. See [docs/bfo-alignment.md](docs/bfo-alignment.md).
 - FMEA-inspired severity. Every unreliability mode below the root has a default severity between 0.0 and 1.0. Causation is annotated on the four top-level categories. See [docs/severity-defaults.md](docs/severity-defaults.md).
 - Strict TBox/ABox separation. CAVEAT defines the schema, not a corpus. The example in [`examples/`](examples/) is illustrative.
 - Top-down vocabulary inheritance. A child mode inherits its ancestors' terms and adds its own. See [docs/vocabulary-inheritance.md](docs/vocabulary-inheritance.md).
@@ -77,24 +79,22 @@ For tooling, `caveat-full.ttl` is self-contained. The root `caveat.ttl` instead 
 Downstream projects import the ontology and annotate documents with its classes:
 
 ```turtle
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix caveat:  <https://w3id.org/intellicat/caveat#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix ex:      <https://example.org/> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix caveat:   <https://w3id.org/intellicat/caveat#> .
+@prefix caveatoa: <https://w3id.org/intellicat/caveat/modules/openalex#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix ex:       <https://example.org/> .
 
 <https://example.org/annotations> a owl:Ontology ;
-    owl:imports <https://w3id.org/intellicat/caveat> .
+    owl:imports <https://w3id.org/intellicat/caveat> ,
+                <https://w3id.org/intellicat/caveat/modules/openalex> .
 
+# caveatoa:T13044 is the OpenAlex topic "Biofield Effects and Biophysics".
 ex:some_paper a caveat:AnnotatedDocument ;
     dcterms:title "Some Dubious Paper" ;
     caveat:primaryUnreliabilityMode caveat:BiofieldEnergyHealing ;
     caveat:detectionMarkerObserved caveat:PredatoryJournalIndexing ;
-    caveat:claimedDomain ex:topic_T12345 .
-
-# CAVEAT does not yet publish OpenAlex topic individuals,
-# so the consumer declares the topic it refers to.
-ex:topic_T12345 a caveat:OpenAlexTopic ;
-    caveat:openAlexId "T12345" .
+    caveat:claimedDomain caveatoa:T13044 .
 ```
 
 A fuller example, with a corpus family, is in [`examples/trivedi-2016.ttl`](examples/trivedi-2016.ttl). See [SCOPE.md](SCOPE.md) for the formal scope and [COMPETENCY_QUESTIONS.md](COMPETENCY_QUESTIONS.md) for the questions CAVEAT is designed to answer.
@@ -104,11 +104,13 @@ A fuller example, with a corpus family, is in [`examples/trivedi-2016.ttl`](exam
 ```
 caveat/
 ├── src/ontology/          # Ontology source: root file, modules, BFO/IAO excerpts
-├── vocabularies/          # YAML lexicons and their schema
-├── mappings/              # Planned SKOS alignments (not yet generated)
+├── vocabularies/          # YAML lexicons, their schema, and the reporting profile (profiles/)
+├── mappings/              # OpenAlex taxonomy as SKOS; see ROADMAP.md for planned alignments
 ├── examples/              # Example annotation and SPARQL queries
 ├── docs/                  # Design notes, GitHub Pages site, release artifacts
-├── scripts/               # Validation, vocabulary resolution, release build
+├── config/                # Local settings templates (real config files are git-ignored)
+├── design/                # Specifications the tests check the ontology and tools against
+├── scripts/               # Validation, vocabulary resolution, OpenAlex import, release build
 └── tests/                 # pytest suite
 ```
 
@@ -118,10 +120,13 @@ Install the development dependencies with `pip install -r requirements-dev.txt`.
 
 - `python scripts/validate.py` runs structural checks with rdflib: parsing, labels, definitions, default severities, evidence strengths, lexicon file references and lexicon schema conformance. It does not run an OWL reasoner.
 - `python scripts/resolve_vocabulary.py caveat:BiofieldEnergyHealing` prints a mode's merged, inherited vocabulary as JSON.
+- `python scripts/check_curies.py . --allow .caveat-curie-allowlist` reports `caveat:` CURIEs the ontology does not declare. It also works on other repositories.
+- `python scripts/fetch_openalex_taxonomy.py --source api` refreshes the OpenAlex data; `python scripts/build_openalex_mapping.py` rebuilds the Turtle from it (`--check` verifies it is current). The fetcher reads an API key from the git-ignored `config/openalex.toml`; copy `config/openalex.example.toml`.
+- `python scripts/check_assessment.py FILE.json` validates `caveat-assessment/1` payloads against `vocabularies/profiles/`.
 - `python scripts/build_artifacts.py OUT_DIR` builds the release artifacts into `OUT_DIR`.
 - `python -m pytest tests/` runs the test suite, including release-artifact build checks and a check that this README and `docs/` match the ontology.
 
-CI runs the validator, the test suite and a vocabulary-inheritance check on pushes and pull requests to `main` and `develop`.
+CI runs the validator, the CURIE check, the OpenAlex mapping and profile example checks, the test suite and a vocabulary-inheritance check on pushes and pull requests to `main` and `develop`. Planned work is listed in [ROADMAP.md](ROADMAP.md).
 
 To browse the ontology, open `caveat-full.ttl` from the documentation site in [Protégé](https://protege.stanford.edu/). For programmatic access, use [rdflib](https://rdflib.readthedocs.io/).
 
@@ -131,7 +136,7 @@ This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/
 
 ## Citation
 
-CAVEAT is written by the [CAVEAT contributors](https://github.com/intellicat-ai/caveat/graphs/contributors) and maintained by Intellicat Inc. Citation metadata is in [CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button generates APA and BibTeX from it.
+CAVEAT is written by the [CAVEAT contributors](https://github.com/intellicat-ai/caveat/graphs/contributors) and maintained by Intellicat Citation metadata is in [CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button generates APA and BibTeX from it.
 
 ## Contributing
 

@@ -6,7 +6,7 @@ authors:
   - name: "CAVEAT contributors"
     website: "https://github.com/intellicat-ai/caveat/graphs/contributors"
 contact:
-  - name: "Intellicat Inc."
+  - name: "Intellicat"
     website: "https://intellicat.ai"
 abstract: "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."
 license: CC-BY-4.0

@@ -8,8 +8,12 @@ Writes, relative to <output-dir>:
     caveat.ttl        root ontology (copy; metadata + owl:imports only)
     caveat-full.ttl   all modules and imports merged, Turtle
     caveat.owl        the same merged graph, RDF/XML
-    modules/*.ttl     module sources
+    modules/*.ttl     module sources, plus the OpenAlex taxonomy
+                      (modules/openalex.ttl, modules/openalex-siblings.ttl)
+                      when mappings/openalex/ holds it
     imports/*.ttl     BFO/IAO excerpts
+    examples/         copy of examples/
+    vocabularies/     copy of vocabularies/, including the reporting profile
 
 Single source of truth for what gets published. The Pages workflow calls
 this; so does tests/test_release_artifacts.py. Neither reimplements it.
@@ -41,6 +45,13 @@ def build(out_dir: Path) -> Graph:
         shutil.copy2(f, out_dir / "modules" / f.name)
     for f in sorted((ONTOLOGY_DIR / "imports").glob("*.ttl")):
         shutil.copy2(f, out_dir / "imports" / f.name)
+
+    for name in ("openalex.ttl", "openalex-siblings.ttl"):
+        src = REPO_ROOT / "mappings" / "openalex" / name
+        if src.exists():
+            shutil.copy2(src, out_dir / "modules" / name)
+    for name in ("examples", "vocabularies"):
+        shutil.copytree(REPO_ROOT / name, out_dir / name, dirs_exist_ok=True)
 
     g = merged_graph()
     g.serialize(destination=str(out_dir / "caveat-full.ttl"), format="turtle")

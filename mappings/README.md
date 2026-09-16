@@ -1,23 +1,23 @@
 # External Vocabulary Mappings
 
-This directory contains SKOS alignments between CAVEAT concepts and external controlled vocabularies. These are informational cross-references, not ontology imports — they do not affect the CAVEAT class hierarchy.
+## OpenAlex (`openalex/`)
 
-## Files
+| File | Content |
+|---|---|
+| `openalex-taxonomy.jsonl` | Normalized OpenAlex domains, fields, subfields and topics. Source of truth for the Turtle files. |
+| `manifest.json` | Fetch provenance, counts, sibling statistics, and counts of every value the fetcher normalized. |
+| `openalex.ttl` | SKOS concepts under `caveatoa:` (`https://w3id.org/intellicat/caveat/modules/openalex#`). Published as `modules/openalex.ttl`. |
+| `openalex-siblings.ttl` | Sibling relations at all four levels, exactly as listed by OpenAlex. Published as `modules/openalex-siblings.ttl`. |
 
-- `openalex-topics.ttl` — Generated SKOS alignment to OpenAlex topic hierarchy. Planned.
-- `openalex-siblings.ttl` — Sibling relationships between OpenAlex topics. Planned.
-- `mesh-alignment.ttl` — Manual SKOS alignment to MeSH terms where applicable.
-- `retraction-watch-alignment.ttl` — Informal alignment to Retraction Watch retraction reason categories.
+Regenerate. The API key lives in `config/openalex.toml`, which is git-ignored; `config/openalex.example.toml` is the template.
 
-## Snapshot Dates
+```bash
+cp config/openalex.example.toml config/openalex.toml   # then add your key
+python scripts/fetch_openalex_taxonomy.py --source api
+python scripts/build_openalex_mapping.py
+python scripts/build_openalex_mapping.py --check
+```
 
-OpenAlex data is actively maintained. Mappings are generated from snapshots:
+## Planned
 
-| File | Snapshot Date | OpenAlex API Version |
-|------|--------------|---------------------|
-| openalex-topics.ttl | (not yet generated) | — |
-| openalex-siblings.ttl | (not yet generated) | — |
-
-## Regeneration
-
-No generators exist yet.
+MeSH and Retraction Watch alignments are planned; see [`ROADMAP.md`](../ROADMAP.md).

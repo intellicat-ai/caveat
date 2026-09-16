@@ -3,7 +3,3 @@ caveat:Name
 caveat:evidence_
 # Deliberate negative fixture
 test_evidence_model.py:caveat:NotARealClass
-# Historical entry in the changelog
-CHANGELOG.md:caveat:oa_topic_T12345
-# Placeholder topic IRIs in CQ8 and CQ11, until OpenAlex IRIs exist.
-COMPETENCY_QUESTIONS.md:caveat:oa_topic_T12345

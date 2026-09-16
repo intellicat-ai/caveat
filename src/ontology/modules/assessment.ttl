@@ -1,0 +1,181 @@
+@prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/intellicat/caveat/modules/assessment> a owl:Ontology ;
+    rdfs:comment "Reporting layer: marker observations and mode assessments made by detectors."@en .
+
+caveat:Detector a owl:Class ;
+    rdfs:subClassOf <http://www.w3.org/ns/prov#Agent> ;
+    rdfs:label "detector"@en ;
+    caveat:definition "An agent, such as a software module, a curated database, or a human reviewer, that observes detection markers in documents."@en .
+
+caveat:MarkerObservation a owl:Class ;
+    rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0000030> ;
+    rdfs:label "marker observation"@en ;
+    caveat:definition "An information content entity recording that a detector observed a detection marker in a document, with the detector's confidence and, for graded markers, the observed intensity."@en .
+
+caveat:ModeAssessment a owl:Class ;
+    rdfs:subClassOf <http://purl.obolibrary.org/obo/IAO_0000030> ;
+    rdfs:label "mode assessment"@en ;
+    caveat:definition "An information content entity recording that a document is assessed as exhibiting an unreliability mode, with a score and the marker observations that support it."@en .
+
+caveat:TopicRelation a owl:Class ;
+    rdfs:label "topic relation"@en ;
+    caveat:definition "A value partition expressing the closest level of the OpenAlex topic hierarchy shared by the claimed topics of two documents."@en .
+
+caveat:SameTopic a owl:NamedIndividual, caveat:TopicRelation ;
+    rdfs:label "same topic"@en ;
+    caveat:levelRank "4"^^xsd:integer ;
+    caveat:definition "A topic relation in which both documents claim the same OpenAlex topic."@en .
+
+caveat:SameSubfield a owl:NamedIndividual, caveat:TopicRelation ;
+    rdfs:label "same subfield"@en ;
+    caveat:levelRank "3"^^xsd:integer ;
+    caveat:definition "A topic relation in which the documents claim different topics in the same OpenAlex subfield."@en .
+
+caveat:SameField a owl:NamedIndividual, caveat:TopicRelation ;
+    rdfs:label "same field"@en ;
+    caveat:levelRank "2"^^xsd:integer ;
+    caveat:definition "A topic relation in which the documents claim topics in different subfields of the same OpenAlex field."@en .
+
+caveat:SameDomain a owl:NamedIndividual, caveat:TopicRelation ;
+    rdfs:label "same domain"@en ;
+    caveat:levelRank "1"^^xsd:integer ;
+    caveat:definition "A topic relation in which the documents claim topics in different fields of the same OpenAlex domain."@en .
+
+caveat:DifferentDomain a owl:NamedIndividual, caveat:TopicRelation ;
+    rdfs:label "different domain"@en ;
+    caveat:levelRank "0"^^xsd:integer ;
+    caveat:definition "A topic relation in which the documents claim topics in different OpenAlex domains."@en .
+
+caveat:observedIn a owl:ObjectProperty ;
+    rdfs:label "observed in"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:AnnotatedDocument .
+
+caveat:observedMarker a owl:ObjectProperty ;
+    rdfs:label "observed marker"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:DetectionMarker .
+
+caveat:detectedBy a owl:ObjectProperty ;
+    rdfs:label "detected by"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:Detector .
+
+caveat:observationConfidence a owl:DatatypeProperty ;
+    rdfs:label "observation confidence"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#double> ;
+    rdfs:comment "Detector's probability, 0 to 1, that the marker is present."@en .
+
+caveat:confidenceCalibrated a owl:DatatypeProperty ;
+    rdfs:label "confidence calibrated"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#boolean> ;
+    rdfs:comment "True if observationConfidence is a calibrated probability, false if it is an uncalibrated score."@en .
+
+caveat:markerIntensity a owl:DatatypeProperty ;
+    rdfs:label "marker intensity"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#double> ;
+    rdfs:comment "Magnitude, 0 to 1, of a marker whose evidence link is graded."@en .
+
+caveat:statedMode a owl:ObjectProperty ;
+    rdfs:label "stated mode"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:UnreliabilityMode ;
+    rdfs:comment "The unreliability mode named by the observed notice, for stated-reason evidence links."@en .
+
+caveat:statedReasonText a owl:DatatypeProperty ;
+    rdfs:label "stated reason text"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#string> ;
+    rdfs:comment "The reason exactly as given by the source, before mapping to a mode."@en .
+
+caveat:appliedLink a owl:ObjectProperty ;
+    rdfs:label "applied evidence link"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:EvidenceLink .
+
+caveat:derivedStrength a owl:ObjectProperty ;
+    rdfs:label "derived strength"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:EvidenceStrength ;
+    rdfs:comment "The ranked strength actually applied. Never caveat:GradedEvidence."@en .
+
+caveat:evidenceLocator a owl:DatatypeProperty ;
+    rdfs:label "evidence locator"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range <http://www.w3.org/1999/02/22-rdf-syntax-ns#JSON> ;
+    rdfs:comment "Opaque pointer into the detector's own records, such as asset or finding identifiers."@en .
+
+caveat:relatedDocument a owl:ObjectProperty ;
+    rdfs:label "related document"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:AnnotatedDocument ;
+    rdfs:comment "Another document the observation concerns, such as a flagged cited work."@en .
+
+caveat:topicRelation a owl:ObjectProperty ;
+    rdfs:label "topic relation to related document"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range caveat:TopicRelation .
+
+caveat:topicRelationCounts a owl:DatatypeProperty ;
+    rdfs:label "topic relation counts"@en ;
+    rdfs:domain caveat:MarkerObservation ;
+    rdfs:range <http://www.w3.org/1999/02/22-rdf-syntax-ns#JSON> ;
+    rdfs:comment "For observations that summarize many related documents: a JSON object from TopicRelation CURIE to count."@en .
+
+caveat:assessedDocument a owl:ObjectProperty ;
+    rdfs:label "assessed document"@en ;
+    rdfs:domain caveat:ModeAssessment ;
+    rdfs:range caveat:AnnotatedDocument .
+
+caveat:assessedMode a owl:ObjectProperty ;
+    rdfs:label "assessed mode"@en ;
+    rdfs:domain caveat:ModeAssessment ;
+    rdfs:range caveat:UnreliabilityMode .
+
+caveat:assessmentScore a owl:DatatypeProperty ;
+    rdfs:label "assessment score"@en ;
+    rdfs:domain caveat:ModeAssessment ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#double> ;
+    rdfs:comment "The assessing pipeline's score for this mode, 0 to 1."@en .
+
+caveat:supportedBy a owl:ObjectProperty ;
+    rdfs:label "supported by"@en ;
+    rdfs:domain caveat:ModeAssessment ;
+    rdfs:range caveat:MarkerObservation .
+
+caveat:assessedBy a owl:ObjectProperty ;
+    rdfs:label "assessed by"@en ;
+    rdfs:domain caveat:ModeAssessment ;
+    rdfs:range caveat:Detector .
+
+caveat:detectorPipeline a owl:DatatypeProperty ;
+    rdfs:label "detector pipeline"@en ;
+    rdfs:domain caveat:Detector ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#string> .
+
+caveat:detectorModule a owl:DatatypeProperty ;
+    rdfs:label "detector module"@en ;
+    rdfs:domain caveat:Detector ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#string> .
+
+caveat:detectorVersion a owl:DatatypeProperty ;
+    rdfs:label "detector version"@en ;
+    rdfs:domain caveat:Detector ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#string> .
+
+caveat:levelRank a owl:AnnotationProperty ;
+    rdfs:label "level rank"@en ;
+    rdfs:domain caveat:TopicRelation ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#integer> .
+
+caveat:caveatVersionUsed a owl:DatatypeProperty ;
+    rdfs:label "CAVEAT version used"@en ;
+    rdfs:domain caveat:AnnotatedDocument ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#string> .

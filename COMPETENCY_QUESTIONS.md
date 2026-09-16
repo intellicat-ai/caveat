@@ -84,7 +84,7 @@ SELECT ?topic ?subfield ?field ?domain WHERE {
 
 ```sparql
 SELECT ?sibling WHERE {
-  caveat:oa_topic_T12345 caveat:siblingTopic ?sibling .
+  caveatoa:T11636 caveat:siblingTopic ?sibling .
 }
 ```
 
@@ -119,7 +119,7 @@ ORDER BY DESC(?depth)
 
 ```sparql
 SELECT ?doc WHERE {
-  ?doc caveat:claimedDomain caveat:oa_topic_T12345 .
+  ?doc caveat:claimedDomain caveatoa:T11636 .
   ?doc caveat:primaryUnreliabilityMode caveat:Pseudoscience .
 }
 ```
@@ -131,3 +131,14 @@ SELECT ?family WHERE {
   ex:doc_X caveat:corpusFamily ?family .
 }
 ```
+
+**CQ-OA1**: Which subfields does OpenAlex list as siblings of subfield S?
+
+```sparql
+PREFIX caveatoa: <https://w3id.org/intellicat/caveat/modules/openalex#>
+SELECT ?sibling WHERE {
+  caveatoa:subfield_2718 caveat:siblingSubfield ?sibling .
+}
+```
+
+The OpenAlex IRIs above (`caveatoa:`, `https://w3id.org/intellicat/caveat/modules/openalex#`) are published in the separate `modules/openalex.ttl` and `modules/openalex-siblings.ttl` files, which the root ontology does not import.

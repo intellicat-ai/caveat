@@ -1,0 +1,31 @@
+{
+  "@context": "https://w3id.org/intellicat/caveat/vocabularies/profiles/assessment-1.jsonld",
+  "profile": "caveat-assessment/1",
+  "caveat_version": "0.4.0",
+  "document": "https://doi.org/10.5555/caveat.example.3",
+  "assessments": [
+    {
+      "mode": "caveat:Falsification",
+      "score": 1.0,
+      "observations": [
+        {
+          "marker": "caveat:RetractionNotice",
+          "link": "caveat:evidence_RetractionNotice_stated",
+          "strength": "caveat:DefinitiveEvidence",
+          "confidence": 1.0,
+          "calibrated": true,
+          "stated_mode": "caveat:Falsification",
+          "stated_reason": "Example reason text as given by the source",
+          "detector": {
+            "pipeline": "example-retraction-feed",
+            "module": "notice-parser",
+            "version": "1.0"
+          },
+          "locator": {
+            "notice_doi": "10.5555/caveat.example.3.retraction"
+          }
+        }
+      ]
+    }
+  ]
+}

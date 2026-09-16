@@ -224,6 +224,9 @@ KNOWN_FALSE_CLAIMS = [
     "hermit",
     "oa_topic_",
     "water water",
+    "has not been imported yet",
+    "does not yet publish openalex",
+    "alignments (not yet generated)",
 ]
 CLAIM_FILES = (
     DOC_FILES
@@ -240,3 +243,9 @@ def test_no_known_false_claims(path):
     text = path.read_text().lower()
     found = [c for c in KNOWN_FALSE_CLAIMS if c in text]
     assert not found, f"{path.name} repeats known false claims: {found}"
+
+
+def test_index_lists_every_module():
+    html = (REPO_ROOT / "docs" / "index.html").read_text()
+    for module in sorted((ONTOLOGY_DIR / "modules").glob("*.ttl")):
+        assert f"/modules/{module.name}" in html, f"docs/index.html does not link modules/{module.name}"

@@ -1,0 +1,125 @@
+# Assessment reporting layer. tests/test_reporting.py checks the ontology,
+# profile files and checker against this file.
+# Module: src/ontology/modules/assessment.ttl
+# Ontology IRI: https://w3id.org/intellicat/caveat/modules/assessment
+#
+# Purpose: let a pipeline say "score 1.0 for Fabrication, because detector D
+# observed SyntheticSpectra with confidence 0.95, and CAVEAT rates that marker
+# strong evidence for Fabrication" in a form that is both plain JSON (for
+# storage alongside scores) and RDF (via a JSON-LD context).
+#
+# Four numbers, never conflated:
+#   confidence  detector's probability that the marker is really present
+#   intensity   magnitude of a graded marker (e.g. a citation anomaly score), 0..1
+#   strength    how diagnostic the marker is for the mode (CAVEAT, per link)
+#   score       the pipeline's own output for the mode
+# Severity (caveat:defaultSeverity) is a fifth, per-mode, and stays in the TBox.
+
+version: "0.4.0"
+
+classes:
+  - id: Detector
+    parent_iri: http://www.w3.org/ns/prov#Agent
+    label: detector
+    definition: >-
+      An agent, such as a software module, a curated database, or a human
+      reviewer, that observes detection markers in documents.
+  - id: MarkerObservation
+    parent_iri: http://purl.obolibrary.org/obo/IAO_0000030
+    label: marker observation
+    definition: >-
+      An information content entity recording that a detector observed a
+      detection marker in a document, with the detector's confidence and,
+      for graded markers, the observed intensity.
+  - id: ModeAssessment
+    parent_iri: http://purl.obolibrary.org/obo/IAO_0000030
+    label: mode assessment
+    definition: >-
+      An information content entity recording that a document is assessed as
+      exhibiting an unreliability mode, with a score and the marker
+      observations that support it.
+  - id: TopicRelation
+    label: topic relation
+    definition: >-
+      A value partition expressing the closest level of the OpenAlex topic
+      hierarchy shared by the claimed topics of two documents.
+
+# TopicRelation individuals. `level_rank`: 4 = closest.
+topic_relations:
+  - {id: SameTopic, label: same topic, level_rank: 4,
+     definition: "A topic relation in which both documents claim the same OpenAlex topic."}
+  - {id: SameSubfield, label: same subfield, level_rank: 3,
+     definition: "A topic relation in which the documents claim different topics in the same OpenAlex subfield."}
+  - {id: SameField, label: same field, level_rank: 2,
+     definition: "A topic relation in which the documents claim topics in different subfields of the same OpenAlex field."}
+  - {id: SameDomain, label: same domain, level_rank: 1,
+     definition: "A topic relation in which the documents claim topics in different fields of the same OpenAlex domain."}
+  - {id: DifferentDomain, label: different domain, level_rank: 0,
+     definition: "A topic relation in which the documents claim topics in different OpenAlex domains."}
+
+# Every property: kind, label, domain, and range or range_iri.
+properties:
+  # observation
+  - {id: observedIn, kind: ObjectProperty, label: observed in, domain: MarkerObservation, range: AnnotatedDocument}
+  - {id: observedMarker, kind: ObjectProperty, label: observed marker, domain: MarkerObservation, range: DetectionMarker}
+  - {id: detectedBy, kind: ObjectProperty, label: detected by, domain: MarkerObservation, range: Detector}
+  - {id: observationConfidence, kind: DatatypeProperty, label: observation confidence, domain: MarkerObservation,
+     range_iri: http://www.w3.org/2001/XMLSchema#double,
+     comment: "Detector's probability, 0 to 1, that the marker is present."}
+  - {id: confidenceCalibrated, kind: DatatypeProperty, label: confidence calibrated, domain: MarkerObservation,
+     range_iri: http://www.w3.org/2001/XMLSchema#boolean,
+     comment: "True if observationConfidence is a calibrated probability, false if it is an uncalibrated score."}
+  - {id: markerIntensity, kind: DatatypeProperty, label: marker intensity, domain: MarkerObservation,
+     range_iri: http://www.w3.org/2001/XMLSchema#double,
+     comment: "Magnitude, 0 to 1, of a marker whose evidence link is graded."}
+  - {id: statedMode, kind: ObjectProperty, label: stated mode, domain: MarkerObservation, range: UnreliabilityMode,
+     comment: "The unreliability mode named by the observed notice, for stated-reason evidence links."}
+  - {id: statedReasonText, kind: DatatypeProperty, label: stated reason text, domain: MarkerObservation,
+     range_iri: http://www.w3.org/2001/XMLSchema#string,
+     comment: "The reason exactly as given by the source, before mapping to a mode."}
+  - {id: appliedLink, kind: ObjectProperty, label: applied evidence link, domain: MarkerObservation, range: EvidenceLink}
+  - {id: derivedStrength, kind: ObjectProperty, label: derived strength, domain: MarkerObservation, range: EvidenceStrength,
+     comment: "The ranked strength actually applied. Never caveat:GradedEvidence."}
+  - {id: evidenceLocator, kind: DatatypeProperty, label: evidence locator, domain: MarkerObservation,
+     range_iri: http://www.w3.org/1999/02/22-rdf-syntax-ns#JSON,
+     comment: "Opaque pointer into the detector's own records, such as asset or finding identifiers."}
+  - {id: relatedDocument, kind: ObjectProperty, label: related document, domain: MarkerObservation, range: AnnotatedDocument,
+     comment: "Another document the observation concerns, such as a flagged cited work."}
+  - {id: topicRelation, kind: ObjectProperty, label: topic relation to related document, domain: MarkerObservation, range: TopicRelation}
+  - {id: topicRelationCounts, kind: DatatypeProperty, label: topic relation counts, domain: MarkerObservation,
+     range_iri: http://www.w3.org/1999/02/22-rdf-syntax-ns#JSON,
+     comment: "For observations that summarize many related documents: a JSON object from TopicRelation CURIE to count."}
+  # assessment
+  - {id: assessedDocument, kind: ObjectProperty, label: assessed document, domain: ModeAssessment, range: AnnotatedDocument}
+  - {id: assessedMode, kind: ObjectProperty, label: assessed mode, domain: ModeAssessment, range: UnreliabilityMode}
+  - {id: assessmentScore, kind: DatatypeProperty, label: assessment score, domain: ModeAssessment,
+     range_iri: http://www.w3.org/2001/XMLSchema#double,
+     comment: "The assessing pipeline's score for this mode, 0 to 1."}
+  - {id: supportedBy, kind: ObjectProperty, label: supported by, domain: ModeAssessment, range: MarkerObservation}
+  - {id: assessedBy, kind: ObjectProperty, label: assessed by, domain: ModeAssessment, range: Detector}
+  # detector
+  - {id: detectorPipeline, kind: DatatypeProperty, label: detector pipeline, domain: Detector,
+     range_iri: http://www.w3.org/2001/XMLSchema#string}
+  - {id: detectorModule, kind: DatatypeProperty, label: detector module, domain: Detector,
+     range_iri: http://www.w3.org/2001/XMLSchema#string}
+  - {id: detectorVersion, kind: DatatypeProperty, label: detector version, domain: Detector,
+     range_iri: http://www.w3.org/2001/XMLSchema#string}
+  # value partition
+  - {id: levelRank, kind: AnnotationProperty, label: level rank, domain: TopicRelation,
+     range_iri: http://www.w3.org/2001/XMLSchema#integer}
+  # document level
+  - {id: caveatVersionUsed, kind: DatatypeProperty, label: CAVEAT version used, domain: AnnotatedDocument,
+     range_iri: http://www.w3.org/2001/XMLSchema#string}
+
+# Reporting profile files. They live under vocabularies/, which is published
+# as is; their IRIs are https://w3id.org/intellicat/caveat/<path>.
+profile_files:
+  - vocabularies/profiles/assessment-1.schema.json
+  - vocabularies/profiles/assessment-1.jsonld
+  - vocabularies/profiles/examples/spectra-fabrication.json
+  - vocabularies/profiles/examples/citation-anomaly-graded.json
+  - vocabularies/profiles/examples/retraction-stated-reason.json
+  - scripts/check_assessment.py
+  - docs/reporting-profile.md
+
+context_iri: https://w3id.org/intellicat/caveat/vocabularies/profiles/assessment-1.jsonld

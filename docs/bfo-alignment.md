@@ -28,7 +28,7 @@ A scientific publication is an information content entity: it is generically dep
 
 ### OpenAlex Hierarchy: Not BFO-Aligned
 
-The OpenAlex hierarchy is modeled as four plain OWL classes: `OpenAlexDomain`, `OpenAlexField`, `OpenAlexSubfield` and `OpenAlexTopic`. They are linked by `caveat:parentDomain`, `caveat:parentField` and `caveat:parentSubfield`, and topics are related to each other by the symmetric `caveat:siblingTopic`. None of the four classes has an upper-ontology superclass. They describe an external classification that CAVEAT refers to, not entities CAVEAT defines.
+The OpenAlex hierarchy is modeled as four OWL classes: `OpenAlexDomain`, `OpenAlexField`, `OpenAlexSubfield` and `OpenAlexTopic`. They are linked by `caveat:parentDomain`, `caveat:parentField` and `caveat:parentSubfield`, and entities at each level are related by the sibling properties (`caveat:siblingDomain`, `caveat:siblingField`, `caveat:siblingSubfield`, `caveat:siblingTopic`), which carry the sibling lists OpenAlex publishes. Each of the four classes is a subclass of `skos:Concept`, and the parent properties are sub-properties of `skos:broader`; none has a BFO superclass. They describe an external classification that CAVEAT refers to, not entities CAVEAT defines.
 
 SKOS is not used anywhere in the ontology. `mappings/README.md` describes planned SKOS alignment files; none have been generated.
 
@@ -48,3 +48,7 @@ We import only the specific BFO and IAO classes we directly subclass from:
 - `iao:IAO_0000030` (information content entity)
 
 This keeps CAVEAT lightweight while maintaining correct alignment. Projects that need the full BFO or IAO can import them alongside CAVEAT without conflict, because our excerpt uses the same URIs.
+
+### Evidence and Assessment Classes
+
+`EvidenceLink`, `MarkerObservation` and `ModeAssessment` are information content entities (`IAO_0000030`): each records a claim about markers, modes or documents. `Detector` is a subclass of `prov:Agent`, since a detector may be software, a curated database or a person. `EvidenceStrength` and `TopicRelation` are value partitions and have no upper-ontology superclass.

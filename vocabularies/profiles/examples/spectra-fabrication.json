@@ -1,0 +1,36 @@
+{
+  "@context": "https://w3id.org/intellicat/caveat/vocabularies/profiles/assessment-1.jsonld",
+  "profile": "caveat-assessment/1",
+  "caveat_version": "0.4.0",
+  "document": "https://doi.org/10.5555/caveat.example.1",
+  "claimed_topic": "caveatoa:T11636",
+  "assessments": [
+    {
+      "mode": "caveat:Fabrication",
+      "score": 1.0,
+      "assessed_by": {
+        "pipeline": "example-figure-forensics",
+        "module": "aggregator",
+        "version": "1.0"
+      },
+      "observations": [
+        {
+          "marker": "caveat:SyntheticSpectra",
+          "link": "caveat:evidence_SyntheticSpectra_Fabrication",
+          "strength": "caveat:StrongEvidence",
+          "confidence": 0.95,
+          "calibrated": true,
+          "detector": {
+            "pipeline": "example-figure-forensics",
+            "module": "spectrum-synthesis-detector",
+            "version": "1.0"
+          },
+          "locator": {
+            "figure": "2",
+            "panel": "b"
+          }
+        }
+      ]
+    }
+  ]
+}

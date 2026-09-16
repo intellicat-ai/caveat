@@ -1,0 +1,40 @@
+{
+  "api_base": "https://api.openalex.org",
+  "api_meta_counts": {
+    "domain": 4,
+    "field": 26,
+    "subfield": 252,
+    "topic": 4516
+  },
+  "counts": {
+    "domain": 4,
+    "field": 26,
+    "subfield": 252,
+    "topic": 4516
+  },
+  "dangling_siblings": {
+    "domain": 0,
+    "field": 0,
+    "subfield": 0,
+    "topic": 0
+  },
+  "fetched_at": "2026-09-16T19:45:34Z",
+  "jsonl_sha256": "9ef5beeb2a6f345e341414c93efd8e63ccdb689796120481df8a955fc5ac7875",
+  "normalization": {
+    "missing_token": {
+      "wikipedia": 2
+    },
+    "stripped": {},
+    "url_dropped": {},
+    "url_encoded": {
+      "wikipedia": 54
+    }
+  },
+  "sibling_pairs": {
+    "domain": 12,
+    "field": 650,
+    "subfield": 63252,
+    "topic": 243006
+  },
+  "source": "api"
+}

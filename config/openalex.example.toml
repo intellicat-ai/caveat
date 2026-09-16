@@ -1,0 +1,10 @@
+# OpenAlex API access for scripts/fetch_openalex_taxonomy.py.
+# Copy this file to config/openalex.toml (git-ignored) and paste your key.
+# Get a free key at https://openalex.org/settings/api
+# Never commit a real key. OpenAlex keys also sign you in to openalex.org.
+
+[openalex]
+api_key = ""
+# OpenAlex rejects more than 100 requests per second. The fetcher caps this
+# at 50; the taxonomy needs about 50 requests in total.
+max_requests_per_second = 5

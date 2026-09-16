@@ -27,8 +27,15 @@ def artifacts(tmp_path_factory):
 def test_expected_files_exist(artifacts):
     for rel in ("caveat.ttl", "caveat-full.ttl", "caveat.owl"):
         assert (artifacts / rel).exists(), f"missing {rel}"
-    assert len(list((artifacts / "modules").glob("*.ttl"))) == 5
-    assert len(list((artifacts / "imports").glob("*.ttl"))) == 2
+    src = REPO_ROOT / "src" / "ontology"
+    expected = {f.name for f in (src / "modules").glob("*.ttl")}
+    expected |= {f.name for f in (REPO_ROOT / "mappings" / "openalex").glob("*.ttl")}
+    assert {f.name for f in (artifacts / "modules").glob("*.ttl")} == expected
+    assert {f.name for f in (artifacts / "imports").glob("*.ttl")} == {
+        f.name for f in (src / "imports").glob("*.ttl")}
+    for d in ("examples", "vocabularies"):
+        assert {p.relative_to(artifacts / d) for p in (artifacts / d).rglob("*") if p.is_file()} == {
+            p.relative_to(REPO_ROOT / d) for p in (REPO_ROOT / d).rglob("*") if p.is_file()}
 
 
 def test_full_turtle_matches_source(artifacts):

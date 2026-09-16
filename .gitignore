@@ -26,3 +26,6 @@ dist/
 .DS_Store
 Thumbs.db
 /src/ontology/catalog-v001.xml
+
+# Local secrets (API keys)
+config/openalex.toml
