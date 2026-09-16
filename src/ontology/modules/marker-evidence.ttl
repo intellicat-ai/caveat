@@ -1,152 +1,239 @@
 @prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix iao:    <http://purl.obolibrary.org/obo/> .
 @prefix owl:    <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/intellicat/caveat/modules/marker-evidence> a owl:Ontology ;
-    rdfs:comment "Links between detection markers and unreliability modes. Each link asserts that observing the marker is evidence for the mode, with a strength qualifier."@en .
-
-# =============================================================================
-# EVIDENCE PROPERTIES
-# =============================================================================
+    rdfs:comment "Evidence links between detection markers and unreliability modes, modelled as named nodes so that each link carries its own strength."@en .
 
 caveat:evidenceFor a owl:ObjectProperty ;
     rdfs:label "evidence for"@en ;
-    rdfs:comment "Asserts that observing this detection marker is evidence for the linked unreliability mode."@en ;
+    rdfs:comment "Shortcut: the marker is linked to the mode by a fixed-mode caveat:EvidenceLink. Always equal to the projection of those links."@en ;
     rdfs:domain caveat:DetectionMarker ;
     rdfs:range caveat:UnreliabilityMode .
 
-caveat:evidenceStrength a owl:AnnotationProperty ;
+caveat:EvidenceStrength a owl:Class ;
     rdfs:label "evidence strength"@en ;
-    rdfs:comment "Strength of the evidential link. Values: 'definitive' (marker alone is sufficient), 'strong' (high positive predictive value), 'moderate' (suggestive, needs corroboration), 'weak' (possible indicator, high false positive rate)."@en .
+    caveat:definition "A value partition expressing how strongly observing a detection marker supports an unreliability mode."@en .
 
-# =============================================================================
-# TEXTUAL MARKER LINKS
-# =============================================================================
+caveat:DefinitiveEvidence a owl:NamedIndividual, caveat:EvidenceStrength ;
+    rdfs:label "definitive"@en ;
+    caveat:strengthRank "4"^^xsd:integer ;
+    caveat:intensityLowerBound "0.75"^^xsd:decimal ;
+    caveat:definition "An evidence strength at which the marker alone is sufficient to establish the mode."@en .
 
-caveat:TorturedPhrases
-    caveat:evidenceFor caveat:PapermillOperation ;
-    caveat:evidenceStrength "strong" .
+caveat:StrongEvidence a owl:NamedIndividual, caveat:EvidenceStrength ;
+    rdfs:label "strong"@en ;
+    caveat:strengthRank "3"^^xsd:integer ;
+    caveat:intensityLowerBound "0.5"^^xsd:decimal ;
+    caveat:definition "An evidence strength at which the marker has high positive predictive value for the mode."@en .
 
-caveat:BoilerplateTemplateText
-    caveat:evidenceFor caveat:PapermillOperation ;
-    caveat:evidenceStrength "moderate" .
+caveat:ModerateEvidence a owl:NamedIndividual, caveat:EvidenceStrength ;
+    rdfs:label "moderate"@en ;
+    caveat:strengthRank "2"^^xsd:integer ;
+    caveat:intensityLowerBound "0.25"^^xsd:decimal ;
+    caveat:definition "An evidence strength at which the marker suggests the mode but needs corroboration."@en .
 
-caveat:BoilerplateTemplateText
-    caveat:evidenceFor caveat:DuplicatePublication ;
-    caveat:evidenceStrength "moderate" .
+caveat:WeakEvidence a owl:NamedIndividual, caveat:EvidenceStrength ;
+    rdfs:label "weak"@en ;
+    caveat:strengthRank "1"^^xsd:integer ;
+    caveat:intensityLowerBound "0.0"^^xsd:decimal ;
+    caveat:definition "An evidence strength at which the marker is a possible indicator with a high false positive rate."@en .
 
-caveat:VerbatimOverlap
-    caveat:evidenceFor caveat:TextPlagiarism ;
-    caveat:evidenceStrength "strong" .
+caveat:GradedEvidence a owl:NamedIndividual, caveat:EvidenceStrength ;
+    rdfs:label "graded"@en ;
+    caveat:definition "An evidence strength that is not fixed for the link but is derived from the intensity reported with each observation of the marker, using the intensity lower bounds of the ranked strengths."@en .
 
-caveat:VerbatimOverlap
-    caveat:evidenceFor caveat:PapermillOperation ;
-    caveat:evidenceStrength "moderate" .
+caveat:EvidenceLink a owl:Class ;
+    rdfs:subClassOf iao:IAO_0000030 ;
+    rdfs:label "evidence link"@en ;
+    caveat:definition "An information content entity asserting that observing a given detection marker is evidence, of a stated strength, for an unreliability mode."@en .
 
-# =============================================================================
-# DATA / FIGURE MARKER LINKS
-# =============================================================================
+caveat:StatedReasonEvidenceLink a owl:Class ;
+    rdfs:subClassOf caveat:EvidenceLink ;
+    rdfs:label "stated-reason evidence link"@en ;
+    caveat:definition "An evidence link whose unreliability mode is not fixed but is the mode stated by the observed marker itself, such as the reason given in a retraction notice."@en .
 
-caveat:ClonedImages
-    caveat:evidenceFor caveat:Falsification ;
-    caveat:evidenceStrength "strong" .
+caveat:linkMarker a owl:ObjectProperty ;
+    rdfs:label "link marker"@en ;
+    rdfs:domain caveat:EvidenceLink ;
+    rdfs:range caveat:DetectionMarker .
 
-caveat:ClonedImages
-    caveat:evidenceFor caveat:PapermillOperation ;
-    caveat:evidenceStrength "strong" .
+caveat:linkMode a owl:ObjectProperty ;
+    rdfs:label "link mode"@en ;
+    rdfs:domain caveat:EvidenceLink ;
+    rdfs:range caveat:UnreliabilityMode ;
+    rdfs:comment "Absent on stated-reason evidence links."@en .
 
-caveat:ImageManipulationArtifacts
-    caveat:evidenceFor caveat:Falsification ;
-    caveat:evidenceStrength "strong" .
+caveat:evidenceStrength a owl:ObjectProperty ;
+    rdfs:label "evidence strength of link"@en ;
+    rdfs:domain caveat:EvidenceLink ;
+    rdfs:range caveat:EvidenceStrength ;
+    rdfs:comment "Replaces the v0.2.0 annotation property of the same IRI, which took string literals on markers."@en .
 
-caveat:SyntheticSpectra
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "strong" .
+caveat:strengthRank a owl:AnnotationProperty ;
+    rdfs:label "strength rank"@en ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#integer> .
 
-caveat:ImpossibleStatistics
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "moderate" .
+caveat:intensityLowerBound a owl:AnnotationProperty ;
+    rdfs:label "intensity lower bound"@en ;
+    rdfs:range <http://www.w3.org/2001/XMLSchema#decimal> .
 
-caveat:ImpossibleStatistics
-    caveat:evidenceFor caveat:Falsification ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_TorturedPhrases_PapermillOperation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:TorturedPhrases ;
+    caveat:linkMode caveat:PapermillOperation ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:TorturedPhrases caveat:evidenceFor caveat:PapermillOperation .
 
-caveat:ImpossibleStatistics
-    caveat:evidenceFor caveat:StatisticalMalpractice ;
-    caveat:evidenceStrength "weak" .
+caveat:evidence_BoilerplateTemplateText_PapermillOperation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:BoilerplateTemplateText ;
+    caveat:linkMode caveat:PapermillOperation ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:BoilerplateTemplateText caveat:evidenceFor caveat:PapermillOperation .
 
-caveat:SuspiciousDataRegularity
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_BoilerplateTemplateText_DuplicatePublication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:BoilerplateTemplateText ;
+    caveat:linkMode caveat:DuplicatePublication ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:BoilerplateTemplateText caveat:evidenceFor caveat:DuplicatePublication .
 
-caveat:DuplicatedDataTables
-    caveat:evidenceFor caveat:PapermillOperation ;
-    caveat:evidenceStrength "strong" .
+caveat:evidence_VerbatimOverlap_TextPlagiarism a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:VerbatimOverlap ;
+    caveat:linkMode caveat:TextPlagiarism ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:VerbatimOverlap caveat:evidenceFor caveat:TextPlagiarism .
 
-caveat:DuplicatedDataTables
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_VerbatimOverlap_PapermillOperation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:VerbatimOverlap ;
+    caveat:linkMode caveat:PapermillOperation ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:VerbatimOverlap caveat:evidenceFor caveat:PapermillOperation .
 
-# =============================================================================
-# METADATA MARKER LINKS
-# =============================================================================
+caveat:evidence_ClonedImages_Falsification a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:ClonedImages ;
+    caveat:linkMode caveat:Falsification ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:ClonedImages caveat:evidenceFor caveat:Falsification .
 
-caveat:PredatoryJournalIndexing
-    caveat:evidenceFor caveat:PredatoryJournalPublication ;
-    caveat:evidenceStrength "strong" .
+caveat:evidence_ClonedImages_PapermillOperation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:ClonedImages ;
+    caveat:linkMode caveat:PapermillOperation ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:ClonedImages caveat:evidenceFor caveat:PapermillOperation .
 
-caveat:AnomalousReviewTimeline
-    caveat:evidenceFor caveat:CompromisedPeerReview ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_ImageManipulationArtifacts_Falsification a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:ImageManipulationArtifacts ;
+    caveat:linkMode caveat:Falsification ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:ImageManipulationArtifacts caveat:evidenceFor caveat:Falsification .
 
-caveat:AuthorClusterAnomaly
-    caveat:evidenceFor caveat:PapermillOperation ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_SyntheticSpectra_Fabrication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:SyntheticSpectra ;
+    caveat:linkMode caveat:Fabrication ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:SyntheticSpectra caveat:evidenceFor caveat:Fabrication .
 
-caveat:AuthorClusterAnomaly
-    caveat:evidenceFor caveat:CitationManipulation ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_ImpossibleStatistics_Fabrication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:ImpossibleStatistics ;
+    caveat:linkMode caveat:Fabrication ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:ImpossibleStatistics caveat:evidenceFor caveat:Fabrication .
 
-caveat:CitationPatternAnomaly
-    caveat:evidenceFor caveat:CitationManipulation ;
-    caveat:evidenceStrength "definitive" .
+caveat:evidence_ImpossibleStatistics_Falsification a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:ImpossibleStatistics ;
+    caveat:linkMode caveat:Falsification ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:ImpossibleStatistics caveat:evidenceFor caveat:Falsification .
 
-caveat:RetractionNotice
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "definitive" .
+caveat:evidence_ImpossibleStatistics_StatisticalMalpractice a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:ImpossibleStatistics ;
+    caveat:linkMode caveat:StatisticalMalpractice ;
+    caveat:evidenceStrength caveat:WeakEvidence .
+caveat:ImpossibleStatistics caveat:evidenceFor caveat:StatisticalMalpractice .
 
-caveat:RetractionNotice
-    caveat:evidenceFor caveat:Falsification ;
-    caveat:evidenceStrength "definitive" .
+caveat:evidence_SuspiciousDataRegularity_Fabrication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:SuspiciousDataRegularity ;
+    caveat:linkMode caveat:Fabrication ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:SuspiciousDataRegularity caveat:evidenceFor caveat:Fabrication .
 
-caveat:RetractionNotice
-    caveat:evidenceFor caveat:TextPlagiarism ;
-    caveat:evidenceStrength "definitive" .
+caveat:evidence_DuplicatedDataTables_PapermillOperation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:DuplicatedDataTables ;
+    caveat:linkMode caveat:PapermillOperation ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:DuplicatedDataTables caveat:evidenceFor caveat:PapermillOperation .
 
-caveat:ExpressionOfConcern
-    caveat:evidenceFor caveat:Falsification ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_DuplicatedDataTables_Fabrication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:DuplicatedDataTables ;
+    caveat:linkMode caveat:Fabrication ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:DuplicatedDataTables caveat:evidenceFor caveat:Fabrication .
 
-# =============================================================================
-# REPRODUCIBILITY MARKER LINKS
-# =============================================================================
+caveat:evidence_PredatoryJournalIndexing_PredatoryJournalPublication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:PredatoryJournalIndexing ;
+    caveat:linkMode caveat:PredatoryJournalPublication ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:PredatoryJournalIndexing caveat:evidenceFor caveat:PredatoryJournalPublication .
 
-caveat:FailedIndependentReplication
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_AnomalousReviewTimeline_CompromisedPeerReview a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:AnomalousReviewTimeline ;
+    caveat:linkMode caveat:CompromisedPeerReview ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:AnomalousReviewTimeline caveat:evidenceFor caveat:CompromisedPeerReview .
 
-caveat:FailedIndependentReplication
-    caveat:evidenceFor caveat:PathologicalScience ;
-    caveat:evidenceStrength "moderate" .
+caveat:evidence_AuthorClusterAnomaly_PapermillOperation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:AuthorClusterAnomaly ;
+    caveat:linkMode caveat:PapermillOperation ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:AuthorClusterAnomaly caveat:evidenceFor caveat:PapermillOperation .
 
-caveat:FailedIndependentReplication
-    caveat:evidenceFor caveat:StatisticalMalpractice ;
-    caveat:evidenceStrength "weak" .
+caveat:evidence_AuthorClusterAnomaly_CitationManipulation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:AuthorClusterAnomaly ;
+    caveat:linkMode caveat:CitationManipulation ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:AuthorClusterAnomaly caveat:evidenceFor caveat:CitationManipulation .
 
-caveat:NonResponsiveAuthors
-    caveat:evidenceFor caveat:Fabrication ;
-    caveat:evidenceStrength "weak" .
+caveat:evidence_CitationPatternAnomaly_CitationManipulation a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:CitationPatternAnomaly ;
+    caveat:linkMode caveat:CitationManipulation ;
+    caveat:evidenceStrength caveat:GradedEvidence .
+caveat:CitationPatternAnomaly caveat:evidenceFor caveat:CitationManipulation .
 
-caveat:WithdrawnDataMethodology
-    caveat:evidenceFor caveat:Falsification ;
-    caveat:evidenceStrength "strong" .
+caveat:evidence_FailedIndependentReplication_Fabrication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:FailedIndependentReplication ;
+    caveat:linkMode caveat:Fabrication ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:FailedIndependentReplication caveat:evidenceFor caveat:Fabrication .
+
+caveat:evidence_FailedIndependentReplication_PathologicalScience a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:FailedIndependentReplication ;
+    caveat:linkMode caveat:PathologicalScience ;
+    caveat:evidenceStrength caveat:ModerateEvidence .
+caveat:FailedIndependentReplication caveat:evidenceFor caveat:PathologicalScience .
+
+caveat:evidence_FailedIndependentReplication_StatisticalMalpractice a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:FailedIndependentReplication ;
+    caveat:linkMode caveat:StatisticalMalpractice ;
+    caveat:evidenceStrength caveat:WeakEvidence .
+caveat:FailedIndependentReplication caveat:evidenceFor caveat:StatisticalMalpractice .
+
+caveat:evidence_NonResponsiveAuthors_Fabrication a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:NonResponsiveAuthors ;
+    caveat:linkMode caveat:Fabrication ;
+    caveat:evidenceStrength caveat:WeakEvidence .
+caveat:NonResponsiveAuthors caveat:evidenceFor caveat:Fabrication .
+
+caveat:evidence_WithdrawnDataMethodology_Falsification a owl:NamedIndividual, caveat:EvidenceLink ;
+    caveat:linkMarker caveat:WithdrawnDataMethodology ;
+    caveat:linkMode caveat:Falsification ;
+    caveat:evidenceStrength caveat:StrongEvidence .
+caveat:WithdrawnDataMethodology caveat:evidenceFor caveat:Falsification .
+
+caveat:evidence_RetractionNotice_stated a owl:NamedIndividual, caveat:StatedReasonEvidenceLink ;
+    caveat:linkMarker caveat:RetractionNotice ;
+    caveat:evidenceStrength caveat:DefinitiveEvidence .
+
+caveat:evidence_ExpressionOfConcern_stated a owl:NamedIndividual, caveat:StatedReasonEvidenceLink ;
+    caveat:linkMarker caveat:ExpressionOfConcern ;
+    caveat:evidenceStrength caveat:ModerateEvidence .

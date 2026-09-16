@@ -34,7 +34,7 @@ Leaf modes include `Fabrication`, `Falsification`, `TextPlagiarism`, `PapermillO
 | `MetadataMarker` | `PredatoryJournalIndexing`, `RetractionNotice`, `CitationPatternAnomaly` |
 | `ReproducibilityMarker` | `FailedIndependentReplication`, `NonResponsiveAuthors` |
 
-Markers point to modes through `caveat:evidenceFor`, qualified by `caveat:evidenceStrength` (`definitive`, `strong`, `moderate` or `weak`). The relation is many-to-many. Not every marker is linked to a mode yet; see [`src/ontology/modules/marker-evidence.ttl`](src/ontology/modules/marker-evidence.ttl).
+Each marker-to-mode link is a named `caveat:EvidenceLink` node with its own `caveat:evidenceStrength`: `caveat:DefinitiveEvidence`, `caveat:StrongEvidence`, `caveat:ModerateEvidence`, `caveat:WeakEvidence`, or `caveat:GradedEvidence`, where strength is read from the intensity reported with each observation. A `caveat:StatedReasonEvidenceLink` has no fixed mode: the observed notice names it, as a retraction notice does. `caveat:evidenceFor` remains as a direct marker-to-mode shortcut for fixed links. The relation is many-to-many. Not every marker is linked to a mode yet; see [`src/ontology/modules/marker-evidence.ttl`](src/ontology/modules/marker-evidence.ttl).
 
 **Controlled vocabularies.** YAML lexicons attached to modes through `caveat:lexiconFile`. A mode's effective vocabulary is its own lexicon plus the lexicons of all its ancestors. Each term is classified as engagement, rejection or sanewashing; see [docs/term-classifications.md](docs/term-classifications.md). Lexicons currently exist for these modes:
 
@@ -68,12 +68,9 @@ The ontology IRI is `https://w3id.org/intellicat/caveat`. Persistent identifiers
 
 ## Getting the Ontology
 
-The release artifacts are single, self-contained files generated from `src/ontology/` by `scripts/build_release.py`:
+Release artifacts are built at publish time by `scripts/build_artifacts.py` and served from the documentation site: `caveat-full.ttl` (merged Turtle), `caveat.owl` (merged RDF/XML), and the root `caveat.ttl` with its `modules/` and `imports/`.
 
-- [`docs/caveat.ttl`](docs/caveat.ttl) (Turtle)
-- [`docs/caveat.owl`](docs/caveat.owl) (RDF/XML)
-
-Use these for tooling. The source root, `src/ontology/caveat.ttl`, imports module IRIs that are not published individually, so tools that follow `owl:imports` will fail on it.
+For tooling, `caveat-full.ttl` is self-contained. The root `caveat.ttl` instead imports module IRIs under `https://w3id.org/intellicat/caveat/modules/`; tools that follow `owl:imports` need those IRIs to resolve.
 
 ## Usage
 
@@ -121,12 +118,12 @@ Install the development dependencies with `pip install -r requirements-dev.txt`.
 
 - `python scripts/validate.py` runs structural checks with rdflib: parsing, labels, definitions, default severities, evidence strengths, lexicon file references and lexicon schema conformance. It does not run an OWL reasoner.
 - `python scripts/resolve_vocabulary.py caveat:BiofieldEnergyHealing` prints a mode's merged, inherited vocabulary as JSON.
-- `python scripts/build_release.py` regenerates `docs/caveat.ttl` and `docs/caveat.owl`. Add `--check` to verify they are current.
-- `python -m pytest tests/` runs the test suite, including release-artifact freshness and a check that this README and `docs/` match the ontology.
+- `python scripts/build_artifacts.py OUT_DIR` builds the release artifacts into `OUT_DIR`.
+- `python -m pytest tests/` runs the test suite, including release-artifact build checks and a check that this README and `docs/` match the ontology.
 
 CI runs the validator, the test suite and a vocabulary-inheritance check on pushes and pull requests to `main` and `develop`.
 
-To browse the ontology, open `docs/caveat.ttl` in [Protégé](https://protege.stanford.edu/). For programmatic access, use [rdflib](https://rdflib.readthedocs.io/).
+To browse the ontology, open `caveat-full.ttl` from the documentation site in [Protégé](https://protege.stanford.edu/). For programmatic access, use [rdflib](https://rdflib.readthedocs.io/).
 
 ## License
 

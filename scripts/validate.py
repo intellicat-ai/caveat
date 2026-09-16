@@ -6,10 +6,11 @@ Checks:
 2. Every CAVEAT class has an rdfs:label
 3. Every UnreliabilityMode and DetectionMarker class has a caveat:definition
 4. Every UnreliabilityMode subclass has a caveat:defaultSeverity (warning only)
-5. Every DetectionMarker with caveat:evidenceFor has caveat:evidenceStrength
-6. caveat:lexiconFile and caveat:retractionAwareLexiconFile values point to
+5. Every evidence link has a marker and a strength; strengths appear only on links
+6. Subclass hierarchy: no cycles, no orphans, no undeclared CAVEAT parents
+7. caveat:lexiconFile and caveat:retractionAwareLexiconFile values point to
    files that exist under vocabularies/
-7. Every lexicon file conforms to vocabularies/_schema.yaml (required and
+8. Every lexicon file conforms to vocabularies/_schema.yaml (required and
    allowed top-level keys, enum values for classification, level and
    general_frequency)
 
@@ -75,14 +76,42 @@ def check_definitions(g: Graph):
                 errors.append(f"Missing caveat:definition on detection marker {cls}")
 
 
+ROOT_CLASSES = {
+    "UnreliabilityMode", "DetectionMarker", "CorpusFamily", "RetractionRecord",
+    "OpenAlexDomain", "OpenAlexField", "OpenAlexSubfield", "OpenAlexTopic",
+    "EvidenceStrength",
+}
+
+
+def check_hierarchy(g: Graph) -> list[str]:
+    out = []
+    ns = str(CAVEAT)
+    declared = {c for c in g.subjects(RDF.type, OWL.Class) if isinstance(c, URIRef)}
+    for c in sorted(declared, key=str):
+        if not str(c).startswith(ns):
+            continue
+        parents = [p for p in g.objects(c, RDFS.subClassOf) if isinstance(p, URIRef)]
+        if not parents and str(c)[len(ns):] not in ROOT_CLASSES:
+            out.append(f"Orphan class (no rdfs:subClassOf): {c}")
+        for p in parents:
+            if str(p).startswith(ns) and p not in declared:
+                out.append(f"Undeclared CAVEAT parent {p} of {c}")
+        if c in set(g.transitive_objects(c, RDFS.subClassOf)) - {c} or any(
+            c in set(g.transitive_objects(p, RDFS.subClassOf)) for p in parents
+        ):
+            out.append(f"Subclass cycle through {c}")
+    return out
+
+
 def check_evidence_links(g: Graph):
-    for s, p, o in g.triples((None, CAVEAT.evidenceFor, None)):
-        strength = g.value(s, CAVEAT.evidenceStrength)
-        if not strength:
-            errors.append(
-                f"Missing caveat:evidenceStrength on {s} "
-                f"(has evidenceFor {o})"
-            )
+    links = set(g.subjects(RDF.type, CAVEAT.EvidenceLink)) | set(
+        g.subjects(RDF.type, CAVEAT.StatedReasonEvidenceLink))
+    for n in links:
+        if g.value(n, CAVEAT.linkMarker) is None or g.value(n, CAVEAT.evidenceStrength) is None:
+            errors.append(f"Evidence link {n} lacks marker or strength")
+    for s in g.subjects(CAVEAT.evidenceStrength, None):
+        if s not in links:
+            errors.append(f"caveat:evidenceStrength on non-link {s}")
 
 
 def check_lexicon_files(g: Graph):
@@ -155,6 +184,9 @@ def main():
 
     print("Checking definitions and severity...", flush=True)
     check_definitions(g)
+
+    print("Checking hierarchy...", flush=True)
+    errors.extend(check_hierarchy(g))
 
     print("Checking evidence links...", flush=True)
     check_evidence_links(g)

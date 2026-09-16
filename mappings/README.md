@@ -4,8 +4,8 @@ This directory contains SKOS alignments between CAVEAT concepts and external con
 
 ## Files
 
-- `openalex-topics.ttl` — Generated SKOS alignment to OpenAlex topic hierarchy. Created by `scripts/import_openalex_topics.py`.
-- `openalex-siblings.ttl` — Sibling relationships between OpenAlex topics. Created by `scripts/import_openalex_siblings.py`.
+- `openalex-topics.ttl` — Generated SKOS alignment to OpenAlex topic hierarchy. Planned.
+- `openalex-siblings.ttl` — Sibling relationships between OpenAlex topics. Planned.
 - `mesh-alignment.ttl` — Manual SKOS alignment to MeSH terms where applicable.
 - `retraction-watch-alignment.ttl` — Informal alignment to Retraction Watch retraction reason categories.
 
@@ -20,11 +20,4 @@ OpenAlex data is actively maintained. Mappings are generated from snapshots:
 
 ## Regeneration
 
-To regenerate OpenAlex mappings:
-
-```bash
-python scripts/import_openalex_topics.py
-python scripts/import_openalex_siblings.py
-```
-
-These scripts require network access to the OpenAlex API.
+No generators exist yet.

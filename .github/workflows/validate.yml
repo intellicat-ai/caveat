@@ -27,6 +27,9 @@ jobs:
       - name: Validate ontology
         run: python scripts/validate.py
 
+      - name: Check caveat CURIEs
+        run: python scripts/check_curies.py . --allow .caveat-curie-allowlist
+
       - name: Run test suite
         run: python -m pytest tests/ -v
 

@@ -50,8 +50,11 @@ SELECT ?marker WHERE {
 
 ```sparql
 SELECT ?marker ?strength WHERE {
-  ?marker caveat:evidenceFor ?mode .
-  ?marker caveat:evidenceStrength ?strength .
+  ?link a caveat:EvidenceLink ;
+        caveat:linkMarker ?marker ;
+        caveat:linkMode ?mode ;
+        caveat:evidenceStrength ?s .
+  ?s rdfs:label ?strength .
   FILTER(?mode = caveat:PapermillOperation)
 }
 ```

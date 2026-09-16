@@ -20,7 +20,7 @@ Which unreliability mode(s) does this marker indicate?
 
 | Mode | Evidence Strength | Rationale |
 |------|-------------------|-----------|
-|      | definitive/strong/moderate/weak |  |
+|      | definitive/strong/moderate/weak/graded |  |
 
 ## Detection Method
 

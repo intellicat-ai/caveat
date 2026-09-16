@@ -1,0 +1,101 @@
+# Evidence model: how detection markers support unreliability modes.
+# tests/test_evidence_model.py checks the ontology against this file.
+# To change an expected value, change it here and in the ontology together.
+#
+#   * caveat:EvidenceStrength is a value partition with five individuals.
+#   * caveat:EvidenceLink is a named node: marker, mode, strength.
+#   * caveat:StatedReasonEvidenceLink has no fixed mode. The mode is whatever
+#     the observed notice states: a retraction notice that says "data were
+#     fabricated" is definitive for Fabrication. Mapping a source's reason
+#     vocabulary (for example Retraction Watch reasons) to modes is separate
+#     work (see ROADMAP.md).
+#   * GradedEvidence means the strength is read from the observation's
+#     intensity (0..1) using the bands below, for markers that are a matter
+#     of degree.
+#   * caveat:evidenceFor is a marker->mode shortcut. It equals the projection
+#     of the fixed-mode EvidenceLink nodes. Stated-reason links have none.
+
+version: "0.4.0"
+
+strength_class:
+  id: EvidenceStrength
+  label: evidence strength
+  definition: >-
+    A value partition expressing how strongly observing a detection marker
+    supports an unreliability mode.
+
+# rank: higher is stronger. intensity_lower_bound: for GradedEvidence, an
+# observation with intensity >= bound and < the next bound gets this strength.
+# Graded has no rank and no bound.
+strengths:
+  - {id: DefinitiveEvidence, label: definitive, rank: 4, intensity_lower_bound: "0.75",
+     definition: "An evidence strength at which the marker alone is sufficient to establish the mode."}
+  - {id: StrongEvidence, label: strong, rank: 3, intensity_lower_bound: "0.5",
+     definition: "An evidence strength at which the marker has high positive predictive value for the mode."}
+  - {id: ModerateEvidence, label: moderate, rank: 2, intensity_lower_bound: "0.25",
+     definition: "An evidence strength at which the marker suggests the mode but needs corroboration."}
+  - {id: WeakEvidence, label: weak, rank: 1, intensity_lower_bound: "0.0",
+     definition: "An evidence strength at which the marker is a possible indicator with a high false positive rate."}
+  - {id: GradedEvidence, label: graded,
+     definition: "An evidence strength that is not fixed for the link but is derived from the intensity reported with each observation of the marker, using the intensity lower bounds of the ranked strengths."}
+
+link_classes:
+  - id: EvidenceLink
+    parent_iri: http://purl.obolibrary.org/obo/IAO_0000030
+    label: evidence link
+    definition: >-
+      An information content entity asserting that observing a given
+      detection marker is evidence, of a stated strength, for an
+      unreliability mode.
+  - id: StatedReasonEvidenceLink
+    parent: EvidenceLink
+    label: stated-reason evidence link
+    definition: >-
+      An evidence link whose unreliability mode is not fixed but is the mode
+      stated by the observed marker itself, such as the reason given in a
+      retraction notice.
+
+properties:
+  - {id: linkMarker, kind: ObjectProperty, label: link marker, domain: EvidenceLink, range: DetectionMarker}
+  - {id: linkMode, kind: ObjectProperty, label: link mode, domain: EvidenceLink, range: UnreliabilityMode,
+     comment: "Absent on stated-reason evidence links."}
+  - {id: evidenceStrength, kind: ObjectProperty, label: evidence strength of link, domain: EvidenceLink, range: EvidenceStrength,
+     comment: "Replaces the v0.2.0 annotation property of the same IRI, which took string literals on markers."}
+  - {id: strengthRank, kind: AnnotationProperty, label: strength rank, range_iri: http://www.w3.org/2001/XMLSchema#integer}
+  - {id: intensityLowerBound, kind: AnnotationProperty, label: intensity lower bound, range_iri: http://www.w3.org/2001/XMLSchema#decimal}
+
+# Link node IRIs:
+#   fixed:          caveat:evidence_{marker}_{mode}
+#   stated reason:  caveat:evidence_{marker}_stated
+# Link nodes carry no rdfs:label.
+
+fixed_links:
+  - [TorturedPhrases, PapermillOperation, StrongEvidence]
+  - [BoilerplateTemplateText, PapermillOperation, ModerateEvidence]
+  - [BoilerplateTemplateText, DuplicatePublication, ModerateEvidence]
+  - [VerbatimOverlap, TextPlagiarism, StrongEvidence]
+  - [VerbatimOverlap, PapermillOperation, ModerateEvidence]
+  - [ClonedImages, Falsification, StrongEvidence]
+  - [ClonedImages, PapermillOperation, StrongEvidence]
+  - [ImageManipulationArtifacts, Falsification, StrongEvidence]
+  - [SyntheticSpectra, Fabrication, StrongEvidence]
+  - [ImpossibleStatistics, Fabrication, ModerateEvidence]
+  - [ImpossibleStatistics, Falsification, ModerateEvidence]
+  - [ImpossibleStatistics, StatisticalMalpractice, WeakEvidence]
+  - [SuspiciousDataRegularity, Fabrication, ModerateEvidence]
+  - [DuplicatedDataTables, PapermillOperation, StrongEvidence]
+  - [DuplicatedDataTables, Fabrication, ModerateEvidence]
+  - [PredatoryJournalIndexing, PredatoryJournalPublication, StrongEvidence]
+  - [AnomalousReviewTimeline, CompromisedPeerReview, ModerateEvidence]
+  - [AuthorClusterAnomaly, PapermillOperation, ModerateEvidence]
+  - [AuthorClusterAnomaly, CitationManipulation, ModerateEvidence]
+  - [CitationPatternAnomaly, CitationManipulation, GradedEvidence]
+  - [FailedIndependentReplication, Fabrication, ModerateEvidence]
+  - [FailedIndependentReplication, PathologicalScience, ModerateEvidence]
+  - [FailedIndependentReplication, StatisticalMalpractice, WeakEvidence]
+  - [NonResponsiveAuthors, Fabrication, WeakEvidence]
+  - [WithdrawnDataMethodology, Falsification, StrongEvidence]
+
+stated_reason_links:
+  - [RetractionNotice, DefinitiveEvidence]
+  - [ExpressionOfConcern, ModerateEvidence]

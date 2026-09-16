@@ -27,7 +27,7 @@ caveat:TextualMarker a owl:Class ;
 caveat:TorturedPhrases a owl:Class ;
     rdfs:subClassOf caveat:TextualMarker ;
     rdfs:label "tortured phrases"@en ;
-    caveat:definition "A textual marker characterized by systematic synonym substitution that produces nonsensical phrases, such as 'bosom movement' for 'breast cancer'. Near-pathognomonic for papermill products."@en ;
+    caveat:definition "A textual marker characterized by systematic synonym substitution that produces unexpected phrases in place of established scientific expressions, such as 'counterfeit consciousness' for 'artificial intelligence'. Near-pathognomonic for papermill products."@en ;
     caveat:definitionSource "Cabanac, G., Labbé, C., & Magazinov, A. (2021). Tortured phrases: A dubious writing style emerging in science. Evidence of critical issues affecting established journals. arXiv:2107.06751." .
 
 caveat:BoilerplateTemplateText a owl:Class ;

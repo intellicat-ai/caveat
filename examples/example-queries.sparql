@@ -35,17 +35,21 @@ SELECT ?severity WHERE {
   ?mode caveat:defaultSeverity ?severity .
 }
 
-# Expected: 0.95
+# Expected: 1.0
 
 
 # ============================================================
 # CQ5: What markers are evidence for papermill operation?
 # ============================================================
 PREFIX caveat: <https://w3id.org/intellicat/caveat#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?marker ?strength WHERE {
-  ?marker caveat:evidenceFor caveat:PapermillOperation .
-  ?marker caveat:evidenceStrength ?strength .
+  ?link a caveat:EvidenceLink ;
+        caveat:linkMarker ?marker ;
+        caveat:linkMode caveat:PapermillOperation ;
+        caveat:evidenceStrength ?s .
+  ?s rdfs:label ?strength .
 }
 
 # Expected:

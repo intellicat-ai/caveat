@@ -1,6 +1,6 @@
 # Magnetized water engagement vocabulary
-# Adds terms specific to this subtopic on top of parent
-# (magnetized-water.yaml) and grandparent (pseudoscience-base.yaml).
+# Adds terms specific to this subtopic on top of its parent's
+# vocabulary (pseudoscience-base.yaml).
 ---
 domain: "caveat:MagnetizedWater"
 inherits_from: "caveat:Pseudoscience"

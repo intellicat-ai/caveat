@@ -98,18 +98,16 @@ class TestHierarchy:
 
 class TestEvidenceLinks:
     def test_all_evidence_links_have_strength(self, graph):
-        for s, p, o in graph.triples((None, CAVEAT.evidenceFor, None)):
-            strength = graph.value(s, CAVEAT.evidenceStrength)
-            assert strength is not None, (
-                f"Missing evidenceStrength on {s} -> {o}"
-            )
+        links = set(graph.subjects(RDF.type, CAVEAT.EvidenceLink)) | set(
+            graph.subjects(RDF.type, CAVEAT.StatedReasonEvidenceLink))
+        assert links
+        for n in links:
+            assert graph.value(n, CAVEAT.evidenceStrength) is not None, n
 
     def test_evidence_strength_values_valid(self, graph):
-        valid = {"definitive", "strong", "moderate", "weak"}
         for s, p, o in graph.triples((None, CAVEAT.evidenceStrength, None)):
-            assert str(o) in valid, (
-                f"Invalid evidenceStrength '{o}' on {s}. "
-                f"Must be one of: {valid}"
+            assert (o, RDF.type, CAVEAT.EvidenceStrength) in graph, (
+                f"{o} on {s} is not a caveat:EvidenceStrength individual"
             )
 
 

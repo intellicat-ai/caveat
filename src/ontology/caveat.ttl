@@ -6,7 +6,7 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/intellicat/caveat> a owl:Ontology ;
-    owl:versionInfo "0.2.0" ;
+    owl:versionInfo "0.4.0" ;
     dcterms:title "CAVEAT: Controlled Annotation Vocabulary for Epistemic Aberration Types"@en ;
     dcterms:description "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."@en ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;

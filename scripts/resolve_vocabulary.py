@@ -41,33 +41,27 @@ def load_ontology() -> Graph:
 
 
 def get_ancestor_chain(g: Graph, mode_uri: URIRef) -> list[URIRef]:
-    """Walk rdfs:subClassOf from mode to root, collecting ancestors."""
-    chain = [mode_uri]
-    current = mode_uri
-    visited = set()
-    while current and current not in visited:
-        visited.add(current)
-        parents = list(g.objects(current, RDFS.subClassOf))
-        caveat_parents = [
-            p for p in parents
-            if isinstance(p, URIRef) and str(p).startswith(str(CAVEAT))
-        ]
-        if caveat_parents:
-            current = caveat_parents[0]
-            chain.append(current)
-        else:
-            break
-    return chain
+    """Breadth-first over all CAVEAT parents. Nearest first; ties by IRI."""
+    dist = {mode_uri: 0}
+    frontier = [mode_uri]
+    while frontier:
+        nxt = set()
+        for node in frontier:
+            for p in g.objects(node, RDFS.subClassOf):
+                if isinstance(p, URIRef) and str(p).startswith(str(CAVEAT)) and p not in dist:
+                    dist[p] = dist[node] + 1
+                    nxt.add(p)
+        frontier = sorted(nxt, key=str)
+    return sorted(dist, key=lambda u: (dist[u], str(u)))
 
 
 def resolve_lexicon_files(g: Graph, mode_uri: URIRef) -> list[str]:
-    """Get ordered list of lexicon files from mode to root."""
-    chain = get_ancestor_chain(g, mode_uri)
+    """Ordered lexicon files, nearest ancestor first, each once."""
     files = []
-    for ancestor in chain:
-        lexicon = g.value(ancestor, CAVEAT.lexiconFile)
-        if lexicon:
-            files.append(str(lexicon))
+    for ancestor in get_ancestor_chain(g, mode_uri):
+        for lexicon in sorted(str(o) for o in g.objects(ancestor, CAVEAT.lexiconFile)):
+            if lexicon not in files:
+                files.append(lexicon)
     return files
 
 

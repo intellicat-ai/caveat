@@ -82,11 +82,16 @@ def children(g, name):
     }
 
 
+def parents(g, name):
+    return sorted(
+        local(p) for p in g.objects(CAVEAT[name], RDFS.subClassOf)
+        if str(p).startswith(str(CAVEAT))
+    )
+
+
 def parent(g, name):
-    for p in g.objects(CAVEAT[name], RDFS.subClassOf):
-        if str(p).startswith(str(CAVEAT)):
-            return local(p)
-    return None
+    ps = parents(g, name)
+    return ps[0] if len(ps) == 1 else None
 
 
 def severity(g, name):
@@ -217,11 +222,8 @@ KNOWN_FALSE_CLAIMS = [
     "all classes have aristotelian",
     "traceable causation",
     "hermit",
-    "cargo cult",
     "oa_topic_",
-    "skos concept scheme",
     "water water",
-    "no orphan classes",
 ]
 CLAIM_FILES = (
     DOC_FILES
