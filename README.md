@@ -14,7 +14,7 @@ CAVEAT describes a paper along two independent dimensions.
 
 **Scientific domain.** What field does the paper claim to contribute to? CAVEAT maps the four-level OpenAlex hierarchy (domain, field, subfield, topic) to SKOS concepts under `caveatoa:` (`https://w3id.org/intellicat/caveat/modules/openalex#`), with the sibling lists OpenAlex publishes at each level. The taxonomy ships as two modules that the root ontology does not import, `modules/openalex` and `modules/openalex-siblings`; see [mappings/README.md](mappings/README.md).
 
-**Unreliability mode.** What kind of failure does the paper exhibit? Modes form a class hierarchy under `UnreliabilityMode`. Each of the four top-level categories carries a primary cause (`caveat:causation`) and a default severity (`caveat:defaultSeverity`):
+**Unreliability mode.** What kind of epistemic failure does the paper exhibit? Modes form a class hierarchy under `UnreliabilityMode`. Each of the four top-level categories carries a primary cause (`caveat:causation`) and a default severity (`caveat:defaultSeverity`):
 
 | Category | Cause | Default severity | Subclasses |
 |---|---|---|---|
@@ -136,8 +136,9 @@ This work is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/
 
 ## Citation
 
-CAVEAT is written by the [CAVEAT contributors](https://github.com/intellicat-ai/caveat/graphs/contributors) and maintained by Intellicat Citation metadata is in [CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button generates APA and BibTeX from it.
+CAVEAT is written by the [CAVEAT contributors](https://github.com/intellicat-ai/caveat/graphs/contributors) and maintained by Intellicat.
+Citation metadata is in [CITATION.cff](CITATION.cff); GitHub's "Cite this repository" button generates APA and BibTeX from it.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow, issue templates and review process.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow, issue templates, and review process.
