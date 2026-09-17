@@ -10,8 +10,8 @@ contact:
     website: "https://intellicat.ai"
 abstract: "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."
 license: CC-BY-4.0
-version: 0.2.0
-date-released: "2026-09-14"
+version: 0.4.0
+date-released: "2026-09-16"
 url: "https://w3id.org/intellicat/caveat"
 repository-code: "https://github.com/intellicat-ai/caveat"
 keywords:

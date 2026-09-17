@@ -4,7 +4,7 @@ All notable changes to this ontology will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
-## [0.4.0] - Unreleased
+## [0.4.0] - 2026-09-16
 
 ### Added
 - OpenAlex taxonomy import: `scripts/fetch_openalex_taxonomy.py` (API key read from the git-ignored `config/openalex.toml`, sent as a bearer token; paced requests, 100-record pages, backoff on 429), `scripts/build_openalex_mapping.py` (deterministic Turtle, `--check`)

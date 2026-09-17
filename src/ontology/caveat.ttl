@@ -11,7 +11,7 @@
     dcterms:description "An OWL 2 ontology for classifying unreliable scientific literature and the markers used to detect it."@en ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
     dcterms:created "2026-04-08"^^xsd:date ;
-    dcterms:modified "2026-09-14"^^xsd:date ;
+    dcterms:modified "2026-09-16"^^xsd:date ;
     rdfs:seeAlso <https://github.com/intellicat-ai/caveat> ;
     owl:imports <https://w3id.org/intellicat/caveat/imports/bfo-excerpt> ;
     owl:imports <https://w3id.org/intellicat/caveat/imports/iao-excerpt> ;
