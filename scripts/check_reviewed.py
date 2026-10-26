@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Check that agent-authored records carry a human review.
 
-A record passes when its annotator and reviewer are non-empty, the
-reviewer differs from the annotator, and the reviewer's initials are
-listed in .reviewers. Records checked:
+A record passes when its annotator and reviewer are non-empty and the
+reviewer's initials are listed in .reviewers. The reviewer must differ
+from the annotator unless the annotator is a listed person (self-review,
+allowed while CAVEAT has a single maintainer). Records checked:
 
 1. Lexicon files, vocabularies/**/*.yaml: top-level
    annotation: {annotator, reviewer}
@@ -51,7 +52,9 @@ def check_pair(where: str, annotator, reviewer, reviewers: set[str]) -> list[str
         return [f"{where}: annotator is empty"]
     if not reviewer:
         return [f"{where}: not reviewed (reviewer is empty)"]
-    if reviewer.casefold() == annotator.casefold():
+    # Self-review is allowed only for a listed person, while CAVEAT has a
+    # single maintainer. Revisit when a second reviewer joins.
+    if reviewer.casefold() == annotator.casefold() and annotator.casefold() not in reviewers:
         return [f"{where}: reviewer '{reviewer}' is also the annotator"]
     if reviewer.casefold() not in reviewers:
         return [f"{where}: reviewer '{reviewer}' is not listed in .reviewers"]

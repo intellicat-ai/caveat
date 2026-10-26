@@ -46,7 +46,7 @@ def test_reviewer_case_insensitive(root):
     ({"annotator": "agent", "reviewer": ""}, "not reviewed"),
     ({"annotator": "agent"}, "not reviewed"),
     ({"annotator": "", "reviewer": "vr"}, "annotator is empty"),
-    ({"annotator": "vr", "reviewer": "vr"}, "also the annotator"),
+    ({"annotator": "agent", "reviewer": "agent"}, "also the annotator"),
     ({"annotator": "agent", "reviewer": "zz"}, "not listed in .reviewers"),
 ])
 def test_bad_annotation(root, ann, expected):
@@ -55,6 +55,16 @@ def test_bad_annotation(root, ann, expected):
     write_lexicon(root, data)
     errors = check(root)
     assert len(errors) == 1 and expected in errors[0]
+
+
+def test_self_review_by_listed_person_passes(root):
+    write_lexicon(root, lexicon(annotator="vr", reviewer="VR"))
+    assert check(root) == []
+
+
+def test_self_review_by_unlisted_annotator_fails(root):
+    write_lexicon(root, lexicon(annotator="zz", reviewer="zz"))
+    assert "also the annotator" in check(root)[0]
 
 
 def test_missing_annotation_block(root):
