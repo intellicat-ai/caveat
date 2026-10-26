@@ -3,9 +3,9 @@
 # vocabulary (pseudoscience-base.yaml).
 ---
 domain: "caveat:MagnetizedWater"
-inherits_from: "caveat:Pseudoscience"
+inherits_from: "caveat:AnomalousWaterClaims"
 annotation:
-  annotator: "vr"
+  annotator: "agent"
   reviewer: "vr"
 extraction_method:
   source: "OpenAlex title/abstract search: magnetized water NOT (relaxation OR NMR OR resonance)"

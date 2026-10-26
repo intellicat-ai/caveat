@@ -75,15 +75,15 @@ Every class whose default severity is higher than one of its parents', with the 
 | `ConclusionsNotSupported` | 0.35 | `Overreach` | 0.3 | Not yet recorded. |
 | `DesignFailures` | 0.4 | `ExecutionLevelFailure` | 0.3 | Not yet recorded. |
 | `FailedReplication` | 0.4 | `ReproducibilityFailures` | 0.25 | Not yet recorded. |
-| `MagnetizedWater` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
 | `PHackingHARKing` | 0.4 | `StatisticalMalpractice` | 0.35 | Not yet recorded. |
 | `Parapsychology` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
 | `PathologicalScience` | 0.7 | `InterpretiveFailure` | 0.6 | Not yet recorded. |
 | `StatisticalMalpractice` | 0.35 | `ExecutionLevelFailure` | 0.3 | Not yet recorded. |
-| `UltraHighDilution` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
 | `UnfalsifiableDesign` | 0.5 | `DesignFailures` | 0.4 | Not yet recorded. |
 | `HomeopathicPharmacology` | 1.0 | `Homeopathy` | 0.95 | Mechanism claims require activity from dilutions that contain none of the original substance, which first principles exclude; clinical-efficacy papers under Homeopathy at least report real patient outcomes. |
 | `VitalistEnergyMedicine` | 1.0 | `ModernAlternativeMedicine` | 0.95 | Every instance rests on an energy with no physical existence, so no part of the central claim survives; the modern hub also holds doctrines whose papers can report real measurements around a false explanation. |
+| `AnomalousWaterClaims` | 1.0 | `Pseudoscience` | 0.95 | Every member claims a persistent property of liquid water that first principles exclude, so no part of the central claim survives; its existing members are all at 1.0. |
+| `AnomalousWaterClaims` | 1.0 | `UnphysicalMechanism` | 0.95 | Every member claims a persistent property of liquid water that first principles exclude, so no part of the central claim survives; its existing members are all at 1.0. |
 
 ## Consumer Overrides
 

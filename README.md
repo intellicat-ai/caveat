@@ -19,7 +19,7 @@ CAVEAT describes a paper along two independent dimensions.
 | Category | Cause | Default severity | Subclasses |
 |---|---|---|---|
 | `DeliberateMisconduct` | intentional | 1.0 | `DataMisconduct`, `AuthorshipMisconduct`, `PublicationProcessMisconduct`, `SystematicFraudulentProduction` |
-| `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism` |
+| `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism`, `UnphysicalMechanism` |
 | `InterpretiveFailure` | interpretive_error | 0.6 | `PathologicalScience`, `SystematicMisinterpretation` |
 | `ExecutionLevelFailure` | methodological_error | 0.3 | `DesignFailures`, `StatisticalMalpractice`, `ReproducibilityFailures`, `Overreach` |
 

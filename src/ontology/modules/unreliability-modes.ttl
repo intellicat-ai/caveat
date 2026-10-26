@@ -272,9 +272,9 @@ caveat:OrgoneEnergy a owl:Class ;
     caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 caveat:UltraHighDilution a owl:Class ;
-    rdfs:subClassOf caveat:Pseudoscience ;
+    rdfs:subClassOf caveat:AnomalousWaterClaims ;
     rdfs:label "ultra-high dilution or memory of water"@en ;
-    caveat:definition "A pseudoscience that claims substances retain biological or chemical activity at dilutions beyond Avogadro's limit, where no molecules of the original substance remain. Distinguished from other pseudosciences by the specific claim that water or other solvents retain a 'memory' of dissolved substances."@en ;
+    caveat:definition "An anomalous water claim that substances retain biological or chemical activity at dilutions beyond Avogadro's limit, where no molecules of the original substance remain. Distinguished from other anomalous water claims by the specific claim that water or other solvents retain a 'memory' of dissolved substances."@en ;
     caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 caveat:HomeopathicPharmacology a owl:Class ;
@@ -290,9 +290,9 @@ caveat:WaterMemory a owl:Class ;
     caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 caveat:MagnetizedWater a owl:Class ;
-    rdfs:subClassOf caveat:Pseudoscience ;
+    rdfs:subClassOf caveat:AnomalousWaterClaims ;
     rdfs:label "magnetized water"@en ;
-    caveat:definition "A pseudoscience that claims liquid water can be permanently or semi-permanently magnetized."@en ;
+    caveat:definition "An anomalous water claim that liquid water can be permanently or semi-permanently magnetized."@en ;
     caveat:defaultSeverity "1.0"^^xsd:decimal ;
     caveat:lexiconFile "engagement/magnetized-water.yaml" .
 
@@ -363,6 +363,12 @@ caveat:ModernAlternativeMedicine a owl:Class ;
     caveat:definition "An alternative medicine whose doctrine originated after 1900, typically justified by vocabulary taken from physics or biology, such as energy, field, frequency, quantum or toxin, used without its scientific meaning."@en ;
     caveat:defaultSeverity "0.95"^^xsd:decimal .
 
+caveat:AnomalousWaterClaims a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience, caveat:UnphysicalMechanism ;
+    rdfs:label "anomalous water claims"@en ;
+    caveat:definition "A pseudoscience and unphysical mechanism asserting that liquid water acquires a lasting structure, memory or activity from dilution, magnetic exposure or another treatment, although the hydrogen-bond network of liquid water reorganizes far too quickly to retain one. Applies whatever the field of application, whether medicine, agriculture or industry."@en ;
+    caveat:defaultSeverity "1.0"^^xsd:decimal .
+
 # --- Denialism ---
 
 caveat:Denialism a owl:Class ;
@@ -388,6 +394,12 @@ caveat:GermTheoryDenial a owl:Class ;
     rdfs:label "germ theory denial"@en ;
     caveat:definition "A denialism that rejects the established scientific consensus that specific microorganisms cause specific diseases."@en ;
     caveat:defaultSeverity "0.9"^^xsd:decimal .
+
+caveat:UnphysicalMechanism a owl:Class ;
+    rdfs:subClassOf caveat:PremiseLevelFailure ;
+    rdfs:label "unphysical mechanism"@en ;
+    caveat:definition "A premise-level failure whose central claim is excluded by first principles, such as conservation laws, quantum ground states or known relaxation timescales, whether or not the claim has been tested by experiment."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
 
 # =============================================================================
 # TOP-LEVEL CATEGORY 3: INTERPRETIVE FAILURE

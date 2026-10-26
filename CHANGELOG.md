@@ -25,6 +25,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Mode `ModernAlternativeMedicine` under `AlternativeMedicine` (proposal `cam-hubs`)
 - Mode `Homeopathy` under `HeritageMedicineTradition` (proposal `cam-hubs`)
 - Rebuttal link for `Homeopathy`: Reanalysis, https://doi.org/10.1046/j.1365-2125.2002.01699.x (proposal `cam-hubs`)
+- Mode `UnphysicalMechanism` under `PremiseLevelFailure` (proposal `anomalous-water`)
+- Mode `AnomalousWaterClaims` under `Pseudoscience`, `UnphysicalMechanism` (proposal `anomalous-water`)
 
 ### Changed
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)
@@ -39,6 +41,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Rewrote the definition of `DetoxPseudoscience` (proposal `cam-hubs`)
 - Moved `HomeopathicPharmacology`: `UltraHighDilution` → `Homeopathy`, `UltraHighDilution` (proposal `cam-hubs`)
 - Rewrote the definition of `HomeopathicPharmacology` (proposal `cam-hubs`)
+- Moved `UltraHighDilution`: `Pseudoscience` → `AnomalousWaterClaims` (proposal `anomalous-water`)
+- Rewrote the definition of `UltraHighDilution` (proposal `anomalous-water`)
+- Moved `MagnetizedWater`: `Pseudoscience` → `AnomalousWaterClaims` (proposal `anomalous-water`)
+- Rewrote the definition of `MagnetizedWater` (proposal `anomalous-water`)
 
 ## [0.4.0] - 2026-09-16
 

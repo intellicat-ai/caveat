@@ -1,0 +1,69 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: anomalous-water
+intent: reclassify
+decision: new_mode
+date: '2026-10-26'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: Adds an unphysical-mechanism class beside pseudoscience and denialism for claims excluded by
+  first principles, and an anomalous-water hub that sits under both pseudoscience and unphysical mechanism.
+  Moves ultra-high dilution and magnetized water under the hub, so that dilution, magnetic and other water-treatment
+  claims share one place whatever their field of application.
+classes:
+- name: UnphysicalMechanism
+  op: create
+  parents:
+  - PremiseLevelFailure
+  label: unphysical mechanism
+  definition: A premise-level failure whose central claim is excluded by first principles, such as conservation
+    laws, quantum ground states or known relaxation timescales, whether or not the claim has been tested
+    by experiment.
+  default_severity: '0.95'
+  placement:
+  - rule: R2
+    note: The differentia is exclusion by first principles, not the investigation of a construct (pseudoscience)
+      or opposition to a consensus (denialism).
+  - rule: R1
+    note: A new child of the premise-level category; the four categories are unchanged.
+- name: AnomalousWaterClaims
+  op: create
+  parents:
+  - Pseudoscience
+  - UnphysicalMechanism
+  label: anomalous water claims
+  definition: A pseudoscience and unphysical mechanism asserting that liquid water acquires a lasting
+    structure, memory or activity from dilution, magnetic exposure or another treatment, although the
+    hydrogen-bond network of liquid water reorganizes far too quickly to retain one. Applies whatever
+    the field of application, whether medicine, agriculture or industry.
+  default_severity: '1.0'
+  severity_rationale: Every member claims a persistent property of liquid water that first principles
+    exclude, so no part of the central claim survives; its existing members are all at 1.0.
+  placement:
+  - rule: R3
+    note: A mechanism-family hub on the pseudoscience side; the doctrines that use it (homeopathy) sit
+      on the doctrine axis.
+  - rule: R4
+    note: Every instance both advances its own construct (water memory, structured or magnetized water)
+      and is excluded by first principles, and the intersection has a literature of its own.
+- name: UltraHighDilution
+  op: update
+  parents:
+  - AnomalousWaterClaims
+  definition: An anomalous water claim that substances retain biological or chemical activity at dilutions
+    beyond Avogadro's limit, where no molecules of the original substance remain. Distinguished from other
+    anomalous water claims by the specific claim that water or other solvents retain a 'memory' of dissolved
+    substances.
+  placement:
+  - rule: R3
+    note: A member of the anomalous-water mechanism family.
+- name: MagnetizedWater
+  op: update
+  parents:
+  - AnomalousWaterClaims
+  definition: An anomalous water claim that liquid water can be permanently or semi-permanently magnetized.
+  placement:
+  - rule: R3
+    note: A member of the anomalous-water mechanism family; domain-neutral, so crop and industrial papers
+      fit.
