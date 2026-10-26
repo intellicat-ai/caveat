@@ -22,4 +22,7 @@ Planned work, in no fixed order. Nothing listed here exists yet.
 
 - New unreliability modes and detection markers, including classes with
   more than one parent.
+- **HIV/AIDS denialism.** A medical-denialism mode, beside the
+  anti-vaccination and germ theory denial modes, for work that rejects the
+  established evidence that HIV causes AIDS.
 - Expanded controlled vocabularies.
