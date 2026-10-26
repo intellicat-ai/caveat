@@ -523,6 +523,49 @@ def apply_severity_doc(prop: dict, text: str, g: Graph) -> str:
     return "\n".join(lines)
 
 
+# --------------------------------------------------------------------------- other docs tables
+
+DOC_TABLE_FIRST = {"Category", "Class", "Mode", "Family"}
+
+
+def doc_files(root: Path) -> list[Path]:
+    files = [Path("README.md")] + sorted(p.relative_to(root) for p in (root / "docs").glob("*.md"))
+    return [f for f in files if f != SEVERITY_DOC and (root / f).exists()]
+
+
+def refresh_doc_tables(text: str, g: Graph) -> str:
+    """Bring Subclasses and Default severity cells of class tables up to date.
+    Listed subclasses keep their order; new ones are appended."""
+    lines = text.split("\n")
+    i = 0
+    while i < len(lines) - 1:
+        if not (lines[i].startswith("|") and re.match(r"^\|[\s:|-]+\|$", lines[i + 1])):
+            i += 1
+            continue
+        header = [c.strip() for c in lines[i].strip("|").split("|")]
+        j = i + 2
+        while j < len(lines) and lines[j].startswith("|"):
+            if header[0] in DOC_TABLE_FIRST and ("Subclasses" in header or "Default severity" in header):
+                cells = [c.strip() for c in lines[j].strip("|").split("|")]
+                name = re.findall(r"`([^`]+)`", cells[0])
+                if len(name) == 1:
+                    cls = CAVEAT[name[0]]
+                    if "Subclasses" in header:
+                        k = header.index("Subclasses")
+                        kids = {te.local(c) for c in g.subjects(RDFS.subClassOf, cls) if str(c).startswith(str(CAVEAT))}
+                        listed = [n for n in re.findall(r"`([^`]+)`", cells[k]) if n in kids]
+                        listed += sorted(kids - set(listed))
+                        cells[k] = ", ".join(f"`{n}`" for n in listed)
+                    if "Default severity" in header:
+                        sev = g.value(cls, CAVEAT.defaultSeverity)
+                        if sev is not None:
+                            cells[header.index("Default severity")] = str(sev)
+                    lines[j] = "| " + " | ".join(cells) + " |"
+            j += 1
+        i = j
+    return "\n".join(lines)
+
+
 # --------------------------------------------------------------------------- changelog
 
 def changelog_lines(prop: dict, before: Graph, after: Graph) -> tuple[list, list]:
@@ -638,6 +681,11 @@ def apply(root: Path, proposal_path: Path, sources: Path | None, run_pytest: boo
                         write(rel, set_annotation(new, ann(prop)))
         after_g = merged_graph(root)
         write(SEVERITY_DOC, apply_severity_doc(prop, read(SEVERITY_DOC), after_g))
+        for rel in doc_files(root):
+            old = read(rel)
+            new = refresh_doc_tables(old, after_g)
+            if new != old:
+                write(rel, new)
         added, changed = changelog_lines(prop, before_g, after_g)
         if added or changed:
             write(CHANGELOG, apply_changelog(read(CHANGELOG), added, changed))

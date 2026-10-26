@@ -17,7 +17,7 @@ from apply_proposal import NOT_RECORDED, main  # noqa: E402
 
 CAVEAT = te.CAVEAT
 MODES = Path("src/ontology/modules/unreliability-modes.ttl")
-COPY = ["src", "vocabularies", "mappings", "docs", "design", "scripts", "CHANGELOG.md", ".reviewers"]
+COPY = ["src", "vocabularies", "mappings", "docs", "design", "scripts", "CHANGELOG.md", "README.md", ".reviewers"]
 
 
 def git(root, *args):
@@ -301,3 +301,10 @@ def test_preview_restores_and_needs_no_review(repo, tmp_path):
     text = patch.read_text()
     assert "+caveat:DemoWaterClaims a owl:Class ;" in text
     assert "+++ b/design/proposals/demo.yaml" in text
+
+
+def test_docs_subclass_cells_follow(repo, tmp_path):
+    prop = proposal(classes=demo_class(parents=["PremiseLevelFailure"]))
+    assert run(repo, tmp_path, prop) == 0
+    readme = (repo / "README.md").read_text()
+    assert "| `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism`, `DemoWaterClaims` |" in readme
