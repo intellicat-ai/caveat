@@ -1,0 +1,110 @@
+@prefix caveat: <https://w3id.org/intellicat/caveat#> .
+@prefix iao:    <http://purl.obolibrary.org/obo/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/intellicat/caveat/modules/mode-rebuttals> a owl:Ontology ;
+    rdfs:comment "Rebuttal links between unreliability modes and the sources that show the mode's claims to be unreliable, modelled as named nodes so that each link carries its own kind. Source metadata and review are recorded in mappings/rebuttals/manifest.jsonl."@en .
+
+# =============================================================================
+# REBUTTAL KINDS
+# =============================================================================
+#
+# What a source contains, not where it was published. Primary evidence is
+# preferred over secondary whatever the venue. The venue type is recorded in
+# the manifest and never ranked.
+
+caveat:RebuttalKind a owl:Class ;
+    rdfs:label "rebuttal kind"@en ;
+    caveat:definition "A value partition classifying a rebuttal source by the kind of evidence it contains."@en .
+
+caveat:PrimaryRebuttalKind a owl:Class ;
+    rdfs:subClassOf caveat:RebuttalKind ;
+    rdfs:label "primary rebuttal kind"@en ;
+    caveat:definition "A rebuttal kind whose sources contain evidence of their own: new data, a documented analysis, or a formal finding."@en .
+
+caveat:SecondaryRebuttalKind a owl:Class ;
+    rdfs:subClassOf caveat:RebuttalKind ;
+    rdfs:label "secondary rebuttal kind"@en ;
+    caveat:definition "A rebuttal kind whose sources assemble, summarize or state a position on evidence produced elsewhere."@en .
+
+caveat:Replication a owl:NamedIndividual, caveat:PrimaryRebuttalKind ;
+    rdfs:label "replication"@en ;
+    caveat:definition "A primary rebuttal kind: an independent attempt to reproduce the claimed effect that did not reproduce it."@en .
+
+caveat:ForensicAnalysis a owl:NamedIndividual, caveat:PrimaryRebuttalKind ;
+    rdfs:label "forensic analysis"@en ;
+    caveat:definition "A primary rebuttal kind: a documented reanalysis of the work's own data, images, text or code."@en .
+
+caveat:Reanalysis a owl:NamedIndividual, caveat:PrimaryRebuttalKind ;
+    rdfs:label "pooled reanalysis"@en ;
+    caveat:definition "A primary rebuttal kind: a pooled or meta-analytic reanalysis of the studies bearing on the claim, including systematic reviews."@en .
+
+caveat:FirstPrinciplesAnalysis a owl:NamedIndividual, caveat:PrimaryRebuttalKind ;
+    rdfs:label "first-principles analysis"@en ;
+    caveat:definition "A primary rebuttal kind: an analysis showing that the claim is excluded by established physical, chemical or biological principles."@en .
+
+caveat:InstitutionalFinding a owl:NamedIndividual, caveat:PrimaryRebuttalKind ;
+    rdfs:label "institutional finding"@en ;
+    caveat:definition "A primary rebuttal kind: a retraction, expression of concern or misconduct finding issued by a publisher, institution or regulator."@en .
+
+caveat:Investigation a owl:NamedIndividual, caveat:SecondaryRebuttalKind ;
+    rdfs:label "investigation"@en ;
+    caveat:definition "A secondary rebuttal kind: a journalistic or independent investigation that assembles primary evidence produced by others."@en .
+
+caveat:NarrativeReview a owl:NamedIndividual, caveat:SecondaryRebuttalKind ;
+    rdfs:label "narrative review"@en ;
+    caveat:definition "A secondary rebuttal kind: a review that discusses the evidence without a systematic or pooled analysis."@en .
+
+caveat:PositionStatement a owl:NamedIndividual, caveat:SecondaryRebuttalKind ;
+    rdfs:label "position statement"@en ;
+    caveat:definition "A secondary rebuttal kind: a statement by a professional or scientific body setting out its position on the claim."@en .
+
+caveat:Explainer a owl:NamedIndividual, caveat:SecondaryRebuttalKind ;
+    rdfs:label "explainer"@en ;
+    caveat:definition "A secondary rebuttal kind: an account written for a general audience that explains why the claim fails."@en .
+
+# =============================================================================
+# REBUTTAL LINKS
+# =============================================================================
+
+caveat:RebuttalLink a owl:Class ;
+    rdfs:subClassOf iao:IAO_0000030 ;
+    rdfs:label "rebuttal link"@en ;
+    caveat:definition "An information content entity asserting that a given source contains evidence, of a stated kind, that the claims characteristic of an unreliability mode are unreliable."@en .
+
+caveat:rebutsMode a owl:ObjectProperty ;
+    rdfs:label "rebuts mode"@en ;
+    rdfs:domain caveat:RebuttalLink ;
+    rdfs:range caveat:UnreliabilityMode .
+
+caveat:rebuttalSource a owl:ObjectProperty ;
+    rdfs:label "rebuttal source"@en ;
+    rdfs:domain caveat:RebuttalLink ;
+    rdfs:comment "The source document: its DOI IRI (https://doi.org/...) where one exists, otherwise its canonical URL."@en .
+
+caveat:rebuttalKind a owl:ObjectProperty ;
+    rdfs:label "rebuttal kind of link"@en ;
+    rdfs:domain caveat:RebuttalLink ;
+    rdfs:range caveat:RebuttalKind .
+
+caveat:rebuttalScope a owl:DatatypeProperty ;
+    rdfs:label "rebuttal scope"@en ;
+    rdfs:domain caveat:RebuttalLink ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Optional. The claims within the mode that the source addresses, when narrower than the whole mode."@en .
+
+caveat:archivedAt a owl:ObjectProperty ;
+    rdfs:label "archived at"@en ;
+    rdfs:domain caveat:RebuttalLink ;
+    rdfs:comment "An archived copy of the source. Required when the source has no DOI."@en .
+
+caveat:rebuttedBy a owl:ObjectProperty ;
+    rdfs:label "rebutted by"@en ;
+    rdfs:domain caveat:UnreliabilityMode ;
+    rdfs:comment "Shortcut: the mode is linked to the source by a caveat:RebuttalLink. Always equal to the projection of those links."@en .
+
+# Link node local names: rebuttal_{Mode}_{source id}, where the source id is
+# the row id in mappings/rebuttals/manifest.jsonl. Link nodes carry no
+# rdfs:label.

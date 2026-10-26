@@ -25,7 +25,7 @@ def artifacts(tmp_path_factory):
 
 
 def test_expected_files_exist(artifacts):
-    for rel in ("caveat.ttl", "caveat-full.ttl", "caveat.owl"):
+    for rel in ("caveat.ttl", "caveat-full.ttl", "caveat.owl", "modes.csv"):
         assert (artifacts / rel).exists(), f"missing {rel}"
     src = REPO_ROOT / "src" / "ontology"
     expected = {f.name for f in (src / "modules").glob("*.ttl")}

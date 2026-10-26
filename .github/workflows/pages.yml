@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - run: pip install rdflib
+      - run: pip install rdflib pyyaml
 
       - name: Overlay ontology artifacts
         run: |

@@ -19,7 +19,7 @@ caveat:definition a owl:AnnotationProperty ;
 
 caveat:definitionSource a owl:AnnotationProperty ;
     rdfs:label "definition source"@en ;
-    rdfs:comment "Citable source for the definition."@en .
+    rdfs:comment "Citable source for the definition: an IRI (a DOI IRI where one exists) or a literal citation."@en .
 
 caveat:defaultSeverity a owl:AnnotationProperty ;
     rdfs:label "default severity"@en ;
@@ -65,6 +65,21 @@ used in TRACES probe metadata for stratified reporting. Does not affect
 IS scoring (see TRACES spec: 'Why Not Severity-Weight the Headline
 Number'). Values: catastrophic, major, standard."""@en ;
     rdfs:range xsd:string .
+
+# --- Associations between modes ---
+#
+# Parentage says every instance of the child is an instance of the parent.
+# These annotations say less: papers showing one mode often show another.
+# Neither is inherited by subclasses.
+
+caveat:relatedMode a owl:AnnotationProperty ;
+    rdfs:label "related mode"@en ;
+    rdfs:comment "Associates two unreliability modes whose papers often co-occur or overlap without either subsuming the other. Symmetric by convention: asserted in both directions. Not inherited."@en .
+
+caveat:typicallyExhibits a owl:AnnotationProperty ;
+    rdfs:subPropertyOf caveat:relatedMode ;
+    rdfs:label "typically exhibits"@en ;
+    rdfs:comment "Directional. Points from a syndrome-level mode to a failure-kind mode that its papers commonly also show, so consumers screening for the first should screen for the second. Asserts nothing about every instance. Values are harvested from sampled papers, with the counts recorded in the committed proposal record. Not inherited."@en .
 
 # =============================================================================
 # ROOT CLASS

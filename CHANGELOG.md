@@ -10,6 +10,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Review gate for agent-authored records: `scripts/check_reviewed.py`, run as a `pre-push` hook (`.pre-commit-config.yaml`) and in CI; `.reviewers` initials allowlist; `pre-commit` in `requirements-dev.txt`
 - Lexicon schema: required `annotation` block (`annotator`, `reviewer`); existing lexicon files carry empty placeholders until reviewed
 - README acknowledgments; a new ROADMAP mapping entry
+- Mode domains: `caveat:candidateDomain` (abstract) with sub-properties `caveat:dedicatedDomain` and `caveat:hostDomain`; measured record `mappings/openalex/mode-domains.csv` (header only so far)
+- Mode associations: `caveat:relatedMode` and its directional sub-property `caveat:typicallyExhibits`
+- Rebuttal module `modules/mode-rebuttals.ttl`: `caveat:RebuttalLink` named nodes (`caveat:rebutsMode`, `caveat:rebuttalSource`, `caveat:rebuttalKind`, `caveat:rebuttalScope`, `caveat:archivedAt`) and the `caveat:rebuttedBy` shortcut; `caveat:RebuttalKind` value partition, split into primary and secondary kinds; source manifest `mappings/rebuttals/manifest.jsonl` with its JSON Schema (empty so far)
+- `modes.csv` release artifact: one row per mode, list-valued parents and categories, default severity, finding code, resolved lexicon term count, domains
+- Lexicon schema: optional term `variants`; the validator rejects a string listed twice in one file as a term or variant
+- Validator check that every rebuttal link has one mode, one source and one kind
+- `design/mode-links.yaml` and `tests/test_mode_links.py`
+- Docs: `docs/placement-rules.md`, `docs/review.md`, `docs/rebuttals.md`; mode domains and rebuttal sources in `mappings/README.md`
+
+### Changed
+- `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)
+- `docs/vocabulary-inheritance.md` describes the breadth-first, multi-parent resolution that `scripts/resolve_vocabulary.py` performs
+- The Pages workflow installs PyYAML, needed to build `modes.csv`
 
 ## [0.4.0] - 2026-09-16
 

@@ -7,12 +7,14 @@ Checks:
 3. Every UnreliabilityMode and DetectionMarker class has a caveat:definition
 4. Every UnreliabilityMode subclass has a caveat:defaultSeverity (warning only)
 5. Every evidence link has a marker and a strength; strengths appear only on links
+   Every rebuttal link has one mode, one source and one kind
 6. Subclass hierarchy: no cycles, no orphans, no undeclared CAVEAT parents
 7. caveat:lexiconFile and caveat:retractionAwareLexiconFile values point to
    files that exist under vocabularies/
 8. Every lexicon file conforms to vocabularies/_schema.yaml (required and
    allowed top-level keys, enum values for classification, level and
-   general_frequency)
+   general_frequency); term variants are strings, and no string appears
+   twice in a file as a term or variant
 
 Usage:
     python scripts/validate.py
@@ -78,7 +80,7 @@ def check_definitions(g: Graph):
 
 ROOT_CLASSES = {
     "UnreliabilityMode", "DetectionMarker", "CorpusFamily", "RetractionRecord",
-    "EvidenceStrength", "TopicRelation",
+    "EvidenceStrength", "TopicRelation", "RebuttalKind",
 }
 
 
@@ -111,6 +113,13 @@ def check_evidence_links(g: Graph):
     for s in g.subjects(CAVEAT.evidenceStrength, None):
         if s not in links:
             errors.append(f"caveat:evidenceStrength on non-link {s}")
+
+
+def check_rebuttal_links(g: Graph):
+    for n in g.subjects(RDF.type, CAVEAT.RebuttalLink):
+        for p in (CAVEAT.rebutsMode, CAVEAT.rebuttalSource, CAVEAT.rebuttalKind):
+            if len(list(g.objects(n, p))) != 1:
+                errors.append(f"Rebuttal link {n} needs exactly one {p}")
 
 
 def check_lexicon_files(g: Graph):
@@ -162,7 +171,17 @@ def check_lexicon_schema():
             errors.append(f"{f.name}: missing required key '{k}'")
         for k in sorted(set(data) - allowed_top):
             errors.append(f"{f.name}: undeclared top-level key '{k}'")
+        seen = set()
         for t in data.get("terms", []):
+            variants = t.get("variants", [])
+            if not isinstance(variants, list) or not all(isinstance(v, str) for v in variants):
+                errors.append(f"{f.name}: term '{t.get('term')}' variants must be a list of strings")
+                variants = []
+            for v in [t.get("term")] + variants:
+                key = str(v).casefold()
+                if key in seen:
+                    errors.append(f"{f.name}: '{v}' appears more than once as a term or variant")
+                seen.add(key)
             for field, allowed in enums.items():
                 if field == "classification" or field in t:
                     v = t.get(field)
@@ -189,6 +208,9 @@ def main():
 
     print("Checking evidence links...", flush=True)
     check_evidence_links(g)
+
+    print("Checking rebuttal links...", flush=True)
+    check_rebuttal_links(g)
 
     print("Checking lexicon file references...", flush=True)
     check_lexicon_files(g)

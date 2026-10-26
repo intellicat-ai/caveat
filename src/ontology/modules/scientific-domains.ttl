@@ -102,3 +102,26 @@ caveat:siblingDomain a owl:ObjectProperty, owl:SymmetricProperty ;
     rdfs:domain caveat:OpenAlexDomain ;
     rdfs:range caveat:OpenAlexDomain ;
     caveat:definition "Relates two OpenAlex domains that OpenAlex lists as siblings. The list is imported as published."@en .
+
+# =============================================================================
+# MODE DOMAINS
+# =============================================================================
+#
+# Link an unreliability mode to the OpenAlex topics or subfields where its
+# papers are found. The measurements behind each link (seed share,
+# contamination probes, reviewer) are in mappings/openalex/mode-domains.csv;
+# the ontology carries the IRIs only. Not inherited by subclasses.
+
+caveat:candidateDomain a owl:AnnotationProperty ;
+    rdfs:label "candidate domain"@en ;
+    rdfs:comment "Abstract. Not used directly; use dedicatedDomain or hostDomain. Not inherited."@en .
+
+caveat:dedicatedDomain a owl:AnnotationProperty ;
+    rdfs:subPropertyOf caveat:candidateDomain ;
+    rdfs:label "dedicated domain"@en ;
+    rdfs:comment "An OpenAlex topic or subfield that maps directly onto this mode: its label and characteristic keywords name the mode's constructs. A paper in a dedicated domain is presumed to belong to this mode or a descendant. At most one per mode; at most one mode per topic."@en .
+
+caveat:hostDomain a owl:AnnotationProperty ;
+    rdfs:subPropertyOf caveat:candidateDomain ;
+    rdfs:label "host domain"@en ;
+    rdfs:comment "An OpenAlex topic or subfield in which this mode's papers concentrate. The mode's share of the topic may be small or large; it is measured and recorded with the mapping, not asserted here. Membership alone is never evidence of the mode."@en .

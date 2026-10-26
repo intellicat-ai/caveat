@@ -1,0 +1,93 @@
+# Mode links: domains, associations and rebuttals of unreliability modes.
+# tests/test_mode_links.py checks the ontology and the mapping records
+# against this file. To change an expected value, change it here and in the
+# ontology together.
+#
+#   * candidateDomain is abstract; dedicatedDomain and hostDomain are its
+#     sub-properties. Values are OpenAlex topics or subfields from the pinned
+#     taxonomy (mappings/openalex/). A mode has at most one dedicated domain;
+#     a topic is dedicated to at most one mode. Every asserted domain has a
+#     reviewed row in mappings/openalex/mode-domains.csv, and every row has
+#     its assertion.
+#   * relatedMode is symmetric by convention (asserted both ways);
+#     typicallyExhibits is a directional sub-property. Neither links a mode
+#     to itself, and typicallyExhibits never links a mode to an ancestor or
+#     descendant: parentage already says that.
+#   * RebuttalLink is a named node: mode, source, kind, optional scope,
+#     archivedAt when the source has no DOI. rebuttedBy is the mode->source
+#     projection. Source metadata and review live in
+#     mappings/rebuttals/manifest.jsonl, one row per source.
+#   * None of these annotations is inherited by subclasses.
+
+version: "0.5.0"
+
+properties:
+  - {id: candidateDomain, kind: AnnotationProperty, label: candidate domain}
+  - {id: dedicatedDomain, kind: AnnotationProperty, label: dedicated domain, sub_property_of: candidateDomain}
+  - {id: hostDomain, kind: AnnotationProperty, label: host domain, sub_property_of: candidateDomain}
+  - {id: relatedMode, kind: AnnotationProperty, label: related mode}
+  - {id: typicallyExhibits, kind: AnnotationProperty, label: typically exhibits, sub_property_of: relatedMode}
+  - {id: rebutsMode, kind: ObjectProperty, label: rebuts mode, domain: RebuttalLink, range: UnreliabilityMode}
+  - {id: rebuttalSource, kind: ObjectProperty, label: rebuttal source, domain: RebuttalLink}
+  - {id: rebuttalKind, kind: ObjectProperty, label: rebuttal kind of link, domain: RebuttalLink, range: RebuttalKind}
+  - {id: rebuttalScope, kind: DatatypeProperty, label: rebuttal scope, domain: RebuttalLink}
+  - {id: archivedAt, kind: ObjectProperty, label: archived at, domain: RebuttalLink}
+  - {id: rebuttedBy, kind: ObjectProperty, label: rebutted by, domain: UnreliabilityMode}
+
+link_class:
+  id: RebuttalLink
+  parent_iri: http://purl.obolibrary.org/obo/IAO_0000030
+  label: rebuttal link
+
+kind_classes:
+  - {id: RebuttalKind, label: rebuttal kind}
+  - {id: PrimaryRebuttalKind, label: primary rebuttal kind, parent: RebuttalKind}
+  - {id: SecondaryRebuttalKind, label: secondary rebuttal kind, parent: RebuttalKind}
+
+# tier: the kind class each individual belongs to.
+kinds:
+  - {id: Replication, tier: PrimaryRebuttalKind, label: replication}
+  - {id: ForensicAnalysis, tier: PrimaryRebuttalKind, label: forensic analysis}
+  - {id: Reanalysis, tier: PrimaryRebuttalKind, label: pooled reanalysis}
+  - {id: FirstPrinciplesAnalysis, tier: PrimaryRebuttalKind, label: first-principles analysis}
+  - {id: InstitutionalFinding, tier: PrimaryRebuttalKind, label: institutional finding}
+  - {id: Investigation, tier: SecondaryRebuttalKind, label: investigation}
+  - {id: NarrativeReview, tier: SecondaryRebuttalKind, label: narrative review}
+  - {id: PositionStatement, tier: SecondaryRebuttalKind, label: position statement}
+  - {id: Explainer, tier: SecondaryRebuttalKind, label: explainer}
+
+venue_types: [journal, preprint, blog, pubpeer, database, institutional, news]
+
+# Taxonomy levels a domain value may belong to.
+domain_levels: [OpenAlexTopic, OpenAlexSubfield]
+
+mode_domains_columns:
+  - mode
+  - topic
+  - kind
+  - covered_keywords
+  - uncovered_keywords
+  - seed_n
+  - share_of_seed
+  - probe_random_n
+  - probe_random_hits
+  - probe_random_ci
+  - probe_topcited_n
+  - probe_topcited_hits
+  - probe_topcited_ci
+  - query
+  - taxonomy_version
+  - date
+  - annotator
+  - reviewer
+
+# modes.csv, built into the release artifacts. List cells are |-separated.
+modes_csv_columns:
+  - mode_curie
+  - parent_curies
+  - category_curies
+  - default_severity
+  - finding_code
+  - lexicon_terms_resolved
+  - dedicated_domain
+  - host_domains

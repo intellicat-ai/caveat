@@ -27,31 +27,33 @@ The effective vocabulary for BiofieldEnergyHealing is:
 
 ## Resolution Algorithm
 
+A mode may have more than one parent (see [placement-rules.md](placement-rules.md), R3 and R4). Resolution therefore walks every CAVEAT parent, breadth-first:
+
+1. Collect the mode and all its CAVEAT ancestors, each with its distance from the mode (the shortest path when an ancestor is reachable along several).
+2. Order them nearest first; ancestors at the same distance are ordered by IRI.
+3. Take each ancestor's `caveat:lexiconFile` in that order, listing each file once.
+
 ```python
-def resolve_vocabulary(mode_uri, graph):
-    """Collect all lexicon files from mode to root."""
-    lexicon_files = []
-    current = mode_uri
-    while current:
-        lexicon = graph.value(current, CAVEAT.lexiconFile)
-        if lexicon:
-            lexicon_files.append(str(lexicon))
-        parents = list(graph.objects(current, RDFS.subClassOf))
-        # Follow only the CAVEAT hierarchy (skip BFO parents)
-        current = next(
-            (p for p in parents
-             if (p, RDFS.subClassOf, CAVEAT.UnreliabilityMode) in graph
-             or p == CAVEAT.UnreliabilityMode),
-            None
-        )
-    return lexicon_files
+def get_ancestor_chain(g, mode_uri):
+    """Breadth-first over all CAVEAT parents. Nearest first; ties by IRI."""
+    dist = {mode_uri: 0}
+    frontier = [mode_uri]
+    while frontier:
+        nxt = set()
+        for node in frontier:
+            for p in g.objects(node, RDFS.subClassOf):
+                if str(p).startswith(str(CAVEAT)) and p not in dist:
+                    dist[p] = dist[node] + 1
+                    nxt.add(p)
+        frontier = sorted(nxt, key=str)
+    return sorted(dist, key=lambda u: (dist[u], str(u)))
 ```
 
-The script `scripts/resolve_vocabulary.py` implements this and outputs a flat merged vocabulary for any given mode.
+The script `scripts/resolve_vocabulary.py` implements this and outputs a flat merged vocabulary for any given mode. The release's `modes.csv` reports, for every mode, the number of terms its resolved vocabulary holds (`lexicon_terms_resolved`).
 
 ## Term Precedence
 
-When the same term appears at multiple levels (e.g., a term defined at the parent level and redefined at the child level), the more specific (child) definition takes precedence. In practice, this should be rare — child lexicons should add terms, not redefine parent terms.
+When the same term appears at multiple levels (e.g., a term defined at the parent level and redefined at the child level), the more specific (child) definition takes precedence: the file nearest the mode in the order above wins. In practice, this should be rare — child lexicons should add terms, not redefine parent terms.
 
 ## Design Rationale
 

@@ -18,6 +18,7 @@
     owl:imports <https://w3id.org/intellicat/caveat/modules/unreliability-modes> ;
     owl:imports <https://w3id.org/intellicat/caveat/modules/detection-markers> ;
     owl:imports <https://w3id.org/intellicat/caveat/modules/marker-evidence> ;
+    owl:imports <https://w3id.org/intellicat/caveat/modules/mode-rebuttals> ;
     owl:imports <https://w3id.org/intellicat/caveat/modules/scientific-domains> ;
     owl:imports <https://w3id.org/intellicat/caveat/modules/document-schema> ;
     owl:imports <https://w3id.org/intellicat/caveat/modules/assessment> .

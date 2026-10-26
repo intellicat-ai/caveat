@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CAVEAT rebuttal source manifest row",
+  "description": "One line of mappings/rebuttals/manifest.jsonl: a source cited by one or more caveat:RebuttalLink nodes. See docs/rebuttals.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "source", "title", "year", "venueType", "retrieved", "annotator", "reviewer"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$",
+      "description": "Stable key; the link node local name is rebuttal_{Mode}_{id}."
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "The caveat:rebuttalSource IRI: https://doi.org/{doi} when doi is set, otherwise the canonical URL."
+    },
+    "doi": {"type": "string", "pattern": "^10\\.[0-9]{4,9}/\\S+$"},
+    "is_retracted": {"type": "boolean", "description": "Retraction status of the DOI when retrieved."},
+    "archivedAt": {"type": "string", "pattern": "^https?://", "description": "Archived copy; required when there is no DOI."},
+    "openalex_id": {"type": "string", "pattern": "^W[0-9]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "year": {"type": "integer", "minimum": 1600},
+    "venueType": {
+      "enum": ["journal", "preprint", "blog", "pubpeer", "database", "institutional", "news"],
+      "description": "Where the source was posted. Recorded, never ranked."
+    },
+    "retrieved": {"type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "annotator": {"type": "string"},
+    "reviewer": {"type": "string"}
+  },
+  "allOf": [
+    {"if": {"required": ["doi"]}, "then": {"required": ["is_retracted"]}, "else": {"required": ["archivedAt"]}}
+  ]
+}

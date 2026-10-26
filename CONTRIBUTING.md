@@ -45,7 +45,7 @@ All ontology changes start as GitHub issues. Use the appropriate issue template:
 
 Reviewers should verify:
 
-- [ ] Classes are placed correctly in the hierarchy
+- [ ] Classes are placed correctly in the hierarchy, by the rules in [docs/placement-rules.md](docs/placement-rules.md)
 - [ ] Definitions follow Aristotelian pattern (genus + differentia)
 - [ ] Definitions are consistent with parent and sibling class definitions
 - [ ] BFO/IAO alignment is correct
@@ -67,6 +67,8 @@ Lexicon contributions follow a slightly different process:
 5. Submit via the "New lexicon term" issue template.
 
 ## Review of Agent-Authored Records
+
+The full rules are in [docs/review.md](docs/review.md). In short:
 
 Records written with an agent's help (lexicon files, and in later releases
 proposal records, rebuttal manifest rows and mode-domain rows) carry an

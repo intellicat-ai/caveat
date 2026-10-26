@@ -106,7 +106,7 @@ properties:
       must be listed in .reviewers and differ from the annotator, unless
       the annotator is a listed person; an agent-written file uses
       annotator "agent". Checked by
-      scripts/check_reviewed.py. See CONTRIBUTING.md.
+      scripts/check_reviewed.py. See docs/review.md.
     required:
       - annotator
       - reviewer
@@ -201,3 +201,13 @@ properties:
             as engagement when co-occurring with the specified
             context words (OR-separated).
             Example: "healing OR treatment OR therapy"
+        variants:
+          type: array
+          items:
+            type: string
+          description: >
+            Optional. Spellings, hyphenations, abbreviations or
+            inflections that count as this term. A variant takes the
+            term's classification, level and rationale. A string may
+            appear once per file, as a term or as a variant.
+            Example: term "qigong", variants ["qi gong", "chi kung"]

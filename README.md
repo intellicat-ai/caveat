@@ -36,6 +36,8 @@ Leaf modes include `Fabrication`, `Falsification`, `TextPlagiarism`, `PapermillO
 
 Each marker-to-mode link is a named `caveat:EvidenceLink` node with its own `caveat:evidenceStrength`: `caveat:DefinitiveEvidence`, `caveat:StrongEvidence`, `caveat:ModerateEvidence`, `caveat:WeakEvidence`, or `caveat:GradedEvidence`, where strength is read from the intensity reported with each observation. A `caveat:StatedReasonEvidenceLink` has no fixed mode: the observed notice names it, as a retraction notice does. `caveat:evidenceFor` remains as a direct marker-to-mode shortcut for fixed links. The relation is many-to-many. Not every marker is linked to a mode yet; see [`src/ontology/modules/marker-evidence.ttl`](src/ontology/modules/marker-evidence.ttl).
 
+**Mode links.** A mode can be linked to the OpenAlex topics where its papers are found (`caveat:dedicatedDomain`, `caveat:hostDomain`; measurements in [`mappings/openalex/mode-domains.csv`](mappings/openalex/mode-domains.csv)), to other modes its papers often show (`caveat:relatedMode`, `caveat:typicallyExhibits`), and to the sources that show it unreliable (`caveat:RebuttalLink`; see [docs/rebuttals.md](docs/rebuttals.md)). How modes are placed in the hierarchy is set out in [docs/placement-rules.md](docs/placement-rules.md).
+
 **Reporting.** Pipelines that score papers can explain a score in CAVEAT terms: which mode, which marker, which detector, and with what confidence. The assessment module defines `MarkerObservation`, `ModeAssessment` and `Detector`; the `caveat-assessment/1` JSON profile carries them as plain JSON that is also JSON-LD. See [docs/reporting-profile.md](docs/reporting-profile.md).
 
 **Controlled vocabularies.** YAML lexicons attached to modes through `caveat:lexiconFile`. A mode's effective vocabulary is its own lexicon plus the lexicons of all its ancestors. Each term is classified as engagement, rejection or sanewashing; see [docs/term-classifications.md](docs/term-classifications.md). Lexicons currently exist for these modes:
@@ -70,7 +72,7 @@ The ontology IRI is `https://w3id.org/intellicat/caveat`. Persistent identifiers
 
 ## Getting the Ontology
 
-Release artifacts are built at publish time by `scripts/build_artifacts.py` and served from the documentation site: `caveat-full.ttl` (merged Turtle), `caveat.owl` (merged RDF/XML), and the root `caveat.ttl` with its `modules/` and `imports/`.
+Release artifacts are built at publish time by `scripts/build_artifacts.py` and served from the documentation site: `caveat-full.ttl` (merged Turtle), `caveat.owl` (merged RDF/XML), the root `caveat.ttl` with its `modules/` and `imports/`, and `modes.csv`, one row per unreliability mode with its parents, categories, default severity, finding code and domains. List cells in `modes.csv` are `|`-separated, because a mode may have more than one parent.
 
 For tooling, `caveat-full.ttl` is self-contained. The root `caveat.ttl` instead imports module IRIs under `https://w3id.org/intellicat/caveat/modules/`; tools that follow `owl:imports` need those IRIs to resolve.
 

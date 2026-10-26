@@ -16,7 +16,7 @@ allowed while CAVEAT has a single maintainer). Records checked:
    annotator and reviewer columns on every row
 
 Files that do not exist yet are skipped. The check cannot tell initials
-typed by a person from initials typed by an agent; see CONTRIBUTING.md.
+typed by a person from initials typed by an agent; see docs/review.md.
 
 Usage:
     python scripts/check_reviewed.py [--root DIR]
