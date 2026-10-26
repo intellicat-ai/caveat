@@ -11,7 +11,7 @@ There are four categories: `DeliberateMisconduct`, `PremiseLevelFailure`, `Inter
 Four differentiae separate the premise-level classes from each other and from pathological science:
 
 - **Pseudoscience** (`Pseudoscience`): the work advances constructs of its own (energies, doctrines, entities) that have been investigated and found baseless.
-- **Unphysical mechanism**: the central claim is excluded by first principles (conservation laws, quantum ground states, known relaxation timescales), whether or not anyone ran the experiment.
+- **Unphysical mechanism** (`UnphysicalMechanism`): the central claim is excluded by first principles (conservation laws, quantum ground states, known relaxation timescales), whether or not anyone ran the experiment.
 - **Denialism** (`Denialism`): the claim is defined by its opposition to an established consensus and is pursued with the denialist toolkit: conspiracy, fake experts, selective citation, impossible expectations, misrepresentation.
 - **Pathological science** (`PathologicalScience`, interpretive, not premise-level): an effect at the limit of detection, championed by one school and defended by ad hoc excuses (Langmuir).
 
@@ -19,7 +19,7 @@ The test is construct versus consensus, not "asserts a false positive" versus "d
 
 ## R3. Doctrine axis and mechanism axis
 
-Inside `Pseudoscience`, an intermediate class is either a doctrine (who believes it, and on what authority, as with `Parapsychology`) or a mechanism family (which physical claim is false, as with `VitalistEnergyMedicine`). A leaf may have one parent on each axis.
+Inside `Pseudoscience`, an intermediate class is either a doctrine (who believes it, and on what authority, as with `AlternativeMedicine` and `Parapsychology`) or a mechanism family (which physical claim is false, as with `VitalistEnergyMedicine` and `AnomalousWaterClaims`). A leaf may have one parent on each axis: `HomeopathicPharmacology` sits under the doctrine `Homeopathy` and the mechanism family `UltraHighDilution`.
 
 ## R4. Polyhierarchy only for stable intersections
 
@@ -35,7 +35,7 @@ A topic gets a mode only if it has a published-science record: by default at lea
 
 ## R7. Heritage traditions are doctrines codified before 1900
 
-Within alternative medicine, a heritage tradition is a doctrine codified before 1900; a modern one originated later. The cutoff is genealogical, not epistemic, and carries no severity difference. It is fixed: a sliding age would move traditions between the two classes over time. A derivative practice inherits the tradition whose constructs it invokes; a derivative built on new constructs is modern. The heritage and modern classes are not declared disjoint, since a leaf can belong to a tradition and to a modern mechanism family at once (R3).
+Within `AlternativeMedicine`, a heritage tradition (`HeritageMedicineTradition`) is a doctrine codified before 1900; a modern one (`ModernAlternativeMedicine`) originated later. The cutoff is genealogical, not epistemic, and carries no severity difference. It is fixed: a sliding age would move traditions between the two classes over time. A derivative practice inherits the tradition whose constructs it invokes; a derivative built on new constructs is modern. The heritage and modern classes are not declared disjoint, since a leaf can belong to a tradition and to a modern mechanism family at once (R3).
 
 ## R8. Exclusions are in the definition
 
