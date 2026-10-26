@@ -166,6 +166,7 @@ def test_create_mode(repo, tmp_path):
 def test_move_keeps_block_in_place(repo, tmp_path):
     before = (repo / MODES).read_text()
     old_start = te.class_block(before, CAVEAT.MagnetizedWater).start
+    old_parents = sorted(te.local(p) for p in graph(repo).objects(CAVEAT.MagnetizedWater, RDFS.subClassOf))
     prop = proposal(slug="move", intent="reclassify", decision="reclassify", classes=[{
         "name": "MagnetizedWater", "op": "update", "parents": ["UltraHighDilution"],
         "placement": [{"rule": "R3", "note": "Mechanism family."}]}])
@@ -175,13 +176,16 @@ def test_move_keeps_block_in_place(repo, tmp_path):
     assert len(after.splitlines()) == len(before.splitlines())
     g = graph(repo)
     assert set(g.objects(CAVEAT.MagnetizedWater, RDFS.subClassOf)) == {CAVEAT.UltraHighDilution}
-    assert "- Moved `MagnetizedWater`: `Pseudoscience` → `UltraHighDilution` (proposal `move`)" in \
+    old = ", ".join(f"`{p}`" for p in old_parents)
+    assert f"- Moved `MagnetizedWater`: {old} → `UltraHighDilution` (proposal `move`)" in \
         (repo / "CHANGELOG.md").read_text()
     lex = yaml.safe_load((repo / "vocabularies/engagement/magnetized-water.yaml").read_text())
     assert lex["inherits_from"] == "caveat:UltraHighDilution"
     assert lex["annotation"] == {"annotator": "agent", "reviewer": "vr"}
-    # MagnetizedWater (1.0) is no longer above Pseudoscience (0.95); UltraHighDilution is 1.0
-    assert "`MagnetizedWater` | 1.0 | `Pseudoscience`" not in (repo / "docs/severity-defaults.md").read_text()
+    # MagnetizedWater (1.0) is not above its new parent UltraHighDilution (1.0), and no
+    # row remains for a parent it no longer has
+    doc = (repo / "docs/severity-defaults.md").read_text()
+    assert "| `MagnetizedWater` |" not in doc
 
 
 def test_second_parent_and_inversion_rationale(repo, tmp_path):
@@ -198,7 +202,8 @@ def test_second_parent_and_inversion_rationale(repo, tmp_path):
         CAVEAT.Parapsychology, CAVEAT.UltraHighDilution}
     doc = (repo / "docs/severity-defaults.md").read_text()
     assert "| `DemoWaterClaims` | 1.0 | `Denialism` | 0.9 | Every instance asserts the impossible. |" in doc
-    assert f"| `MagnetizedWater` | 1.0 | `Pseudoscience` | 0.95 | {NOT_RECORDED} |" in doc
+    # a recorded row the proposal does not touch keeps its rationale
+    assert f"| `CompromisedPeerReview` | 0.7 | `PublicationProcessMisconduct` | 0.6 | {NOT_RECORDED} |" in doc
 
 
 def test_domains_and_rebuttals(repo, tmp_path):
@@ -218,8 +223,9 @@ def test_domains_and_rebuttals(repo, tmp_path):
     node = CAVEAT.rebuttal_NRays_demo_source
     assert (node, RDF.type, CAVEAT.RebuttalLink) in g
     assert (CAVEAT.NRays, CAVEAT.rebuttedBy, URIRef("https://example.org/report")) in g
-    row = json.loads((repo / "mappings/rebuttals/manifest.jsonl").read_text())
-    assert row["id"] == "demo_source" and row["reviewer"] == "vr" and row["annotator"] == "agent"
+    rows = [json.loads(line) for line in (repo / "mappings/rebuttals/manifest.jsonl").read_text().splitlines()]
+    row = next(r for r in rows if r["id"] == "demo_source")
+    assert row["reviewer"] == "vr" and row["annotator"] == "agent"
     csv_text = (repo / "mappings/openalex/mode-domains.csv").read_text()
     assert "caveat:VitalistEnergyMedicine,caveatoa:T13044,dedicated,Biofield|Qigong,Biophoton" in csv_text
     assert csv_text.rstrip().endswith(",agent,vr")
@@ -306,5 +312,6 @@ def test_preview_restores_and_needs_no_review(repo, tmp_path):
 def test_docs_subclass_cells_follow(repo, tmp_path):
     prop = proposal(classes=demo_class(parents=["PremiseLevelFailure"]))
     assert run(repo, tmp_path, prop) == 0
-    readme = (repo / "README.md").read_text()
-    assert "| `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism`, `DemoWaterClaims` |" in readme
+    row = next(l for l in (repo / "README.md").read_text().splitlines() if l.startswith("| `PremiseLevelFailure` |"))
+    assert row.startswith("| `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism`")
+    assert row.endswith(", `DemoWaterClaims` |")
