@@ -17,7 +17,7 @@ from rdflib import Graph
 NS = "https://w3id.org/intellicat/caveat#"
 CURIE = re.compile(r"\bcaveat:([A-Za-z_][A-Za-z0-9_]*)")
 EXTS = {".md", ".ttl", ".sparql", ".yaml", ".yml", ".py", ".json", ".jsonld", ".txt", ".html", ".template"}
-SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "work"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv"}
 
 
 def declared_terms(ontology_dir: Path) -> set:
@@ -33,7 +33,9 @@ def iter_files(paths):
             yield p
             continue
         for f in sorted(p.rglob("*")):
-            if f.is_file() and f.suffix in EXTS and not SKIP_DIRS & set(f.parts):
+            # work/ at a scan root holds local, unpublished working files
+            if (f.is_file() and f.suffix in EXTS and not SKIP_DIRS & set(f.parts)
+                    and f.relative_to(p).parts[0] != "work"):
                 yield f
 
 

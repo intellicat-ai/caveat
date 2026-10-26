@@ -253,6 +253,15 @@ def test_curie_checker_clean_on_repo(g):
                      "--allow", str(ROOT / ".caveat-curie-allowlist")]) == 0
 
 
+def test_curie_checker_skips_top_level_work_only(tmp_path, g):
+    mod = load_script("check_curies")
+    for d in ("work", "sub/work"):
+        (tmp_path / d).mkdir(parents=True)
+        (tmp_path / d / "x.md").write_text("caveat:NotARealClass\n")
+    hits = mod.find_undeclared([tmp_path], ONT, allow=set())
+    assert [Path(h[0]).relative_to(tmp_path).as_posix() for h in hits] == ["sub/work/x.md"]
+
+
 def test_curie_checker_catches(tmp_path, g):
     mod = load_script("check_curies")
     f = tmp_path / "x.md"
