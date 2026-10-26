@@ -108,3 +108,10 @@ caveat:rebuttedBy a owl:ObjectProperty ;
 # Link node local names: rebuttal_{Mode}_{source id}, where the source id is
 # the row id in mappings/rebuttals/manifest.jsonl. Link nodes carry no
 # rdfs:label.
+
+caveat:rebuttal_Homeopathy_ernst_2002_homeopathy_reviews a owl:NamedIndividual, caveat:RebuttalLink ;
+    caveat:rebutsMode caveat:Homeopathy ;
+    caveat:rebuttalKind caveat:Reanalysis ;
+    caveat:rebuttalScope "clinical efficacy" ;
+    caveat:rebuttalSource <https://doi.org/10.1046/j.1365-2125.2002.01699.x> .
+caveat:Homeopathy caveat:rebuttedBy <https://doi.org/10.1046/j.1365-2125.2002.01699.x> .

@@ -82,7 +82,8 @@ Every class whose default severity is higher than one of its parents', with the 
 | `StatisticalMalpractice` | 0.35 | `ExecutionLevelFailure` | 0.3 | Not yet recorded. |
 | `UltraHighDilution` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
 | `UnfalsifiableDesign` | 0.5 | `DesignFailures` | 0.4 | Not yet recorded. |
-| `VitalistEnergyMedicine` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
+| `HomeopathicPharmacology` | 1.0 | `Homeopathy` | 0.95 | Mechanism claims require activity from dilutions that contain none of the original substance, which first principles exclude; clinical-efficacy papers under Homeopathy at least report real patient outcomes. |
+| `VitalistEnergyMedicine` | 1.0 | `ModernAlternativeMedicine` | 0.95 | Every instance rests on an energy with no physical existence, so no part of the central claim survives; the modern hub also holds doctrines whose papers can report real measurements around a false explanation. |
 
 ## Consumer Overrides
 

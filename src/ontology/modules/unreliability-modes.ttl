@@ -240,9 +240,9 @@ caveat:Pseudoscience a owl:Class ;
     caveat:lexiconFile "rejection/pseudoscience-base.yaml" .
 
 caveat:VitalistEnergyMedicine a owl:Class ;
-    rdfs:subClassOf caveat:Pseudoscience ;
+    rdfs:subClassOf caveat:ModernAlternativeMedicine ;
     rdfs:label "vitalist or energy medicine"@en ;
-    caveat:definition "A pseudoscience that claims a non-physical 'energy', 'vital force', or 'biofield' can be directed by practitioners to cause measurable biological or physical effects. Distinguished from other pseudosciences by the invocation of vitalist mechanisms."@en ;
+    caveat:definition "A modern alternative medicine that claims a non-physical 'energy', 'vital force', or 'biofield' can be directed by practitioners to cause measurable biological or physical effects. Distinguished from other modern alternative medicine by the invocation of vitalist mechanisms."@en ;
     caveat:defaultSeverity "1.0"^^xsd:decimal ;
     caveat:lexiconFile "engagement/vitalist-energy-medicine.yaml" .
 
@@ -278,9 +278,9 @@ caveat:UltraHighDilution a owl:Class ;
     caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 caveat:HomeopathicPharmacology a owl:Class ;
-    rdfs:subClassOf caveat:UltraHighDilution ;
+    rdfs:subClassOf caveat:Homeopathy, caveat:UltraHighDilution ;
     rdfs:label "homeopathic pharmacology"@en ;
-    caveat:definition "An ultra-high dilution pseudoscience that claims homeopathic preparations (produced by serial dilution and succussion) have pharmacological activity attributable to the original substance. Distinguished from clinical homeopathy studies by the assertion of specific pharmacological mechanisms."@en ;
+    caveat:definition "A homeopathy claim and ultra-high dilution claim that homeopathic preparations (produced by serial dilution and succussion) have pharmacological activity attributable to the original substance. Distinguished from claims of clinical efficacy by the assertion of specific pharmacological mechanisms."@en ;
     caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 caveat:WaterMemory a owl:Class ;
@@ -333,9 +333,34 @@ caveat:AntiVaxMechanismClaims a owl:Class ;
     caveat:defaultSeverity "0.95"^^xsd:decimal .
 
 caveat:DetoxPseudoscience a owl:Class ;
-    rdfs:subClassOf caveat:AntiEvidenceMedicine ;
+    rdfs:subClassOf caveat:ModernAlternativeMedicine ;
     rdfs:label "detoxification pseudoscience"@en ;
-    caveat:definition "An anti-evidence medicine pseudoscience that claims specific interventions (ionic foot baths, chelation for non-indicated conditions, juice cleanses, etc.) remove unnamed 'toxins' from the body through mechanisms that have no physiological basis."@en ;
+    caveat:definition "A modern alternative medicine that claims specific interventions (ionic foot baths, chelation for non-indicated conditions, juice cleanses, etc.) remove unnamed 'toxins' from the body through mechanisms that have no physiological basis."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
+
+caveat:AlternativeMedicine a owl:Class ;
+    rdfs:subClassOf caveat:Pseudoscience ;
+    rdfs:label "alternative medicine"@en ;
+    caveat:definition "A pseudoscience whose diagnostic or therapeutic claims derive from a doctrine of health and disease whose constructs have been investigated and found baseless. A paper belongs to this mode only when it explains or predicts an effect through the doctrine's constructs, or tests a claim specific to the doctrine as if its constructs were real. Excludes ethnopharmacology, phytochemistry, chemical fingerprinting, pharmacokinetics and toxicity studies of the materials a doctrine uses."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
+
+caveat:HeritageMedicineTradition a owl:Class ;
+    rdfs:subClassOf caveat:AlternativeMedicine ;
+    rdfs:label "heritage medicine tradition"@en ;
+    caveat:definition "An alternative medicine whose doctrine was codified before 1900 and is justified by a traditional canon or by the authority of its founder."@en ;
+    rdfs:comment "The 1900 cutoff is genealogical, not epistemic, and carries no difference in severity. It is fixed rather than a sliding age, so that a doctrine does not move between heritage and modern as time passes; a sliding age would eventually move Reiki, codified in 1922. A derivative practice belongs to the tradition whose constructs it invokes; one built on new constructs is modern. Not disjoint from modern alternative medicine."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
+
+caveat:Homeopathy a owl:Class ;
+    rdfs:subClassOf caveat:HeritageMedicineTradition ;
+    rdfs:label "homeopathy"@en ;
+    caveat:definition "A heritage medicine tradition holding that a substance which produces symptoms in a healthy person cures similar symptoms in the sick, and that serial dilution with succussion increases a remedy's potency. Covers claims that homeopathic remedies are clinically effective; claims about how the remedies act belong to homeopathic pharmacology. Excludes quality control and toxicity studies of the source materials."@en ;
+    caveat:defaultSeverity "0.95"^^xsd:decimal .
+
+caveat:ModernAlternativeMedicine a owl:Class ;
+    rdfs:subClassOf caveat:AlternativeMedicine ;
+    rdfs:label "modern alternative medicine"@en ;
+    caveat:definition "An alternative medicine whose doctrine originated after 1900, typically justified by vocabulary taken from physics or biology, such as energy, field, frequency, quantum or toxin, used without its scientific meaning."@en ;
     caveat:defaultSeverity "0.95"^^xsd:decimal .
 
 # --- Denialism ---

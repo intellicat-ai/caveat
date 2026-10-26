@@ -1,0 +1,150 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: cam-hubs
+intent: reclassify
+decision: new_mode
+date: '2026-10-26'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: Adds an alternative-medicine doctrine hub under Pseudoscience, split by the date its doctrine
+  was codified into heritage traditions (before 1900) and modern doctrines (after 1900), and a Homeopathy
+  class for clinical-efficacy claims. Moves vitalist energy medicine and detox claims under the modern
+  hub, and gives homeopathic pharmacology Homeopathy as a second parent beside ultra-high dilution.
+sources:
+- ref: https://doi.org/10.1046/j.1365-2125.2002.01699.x
+  role: rebuttal
+  title: A systematic review of systematic reviews of homeopathy
+  year: 2002
+  openalex_id: W1813387120
+classes:
+- name: AlternativeMedicine
+  op: create
+  parents:
+  - Pseudoscience
+  label: alternative medicine
+  definition: A pseudoscience whose diagnostic or therapeutic claims derive from a doctrine of health
+    and disease whose constructs have been investigated and found baseless. A paper belongs to this mode
+    only when it explains or predicts an effect through the doctrine's constructs, or tests a claim specific
+    to the doctrine as if its constructs were real. Excludes ethnopharmacology, phytochemistry, chemical
+    fingerprinting, pharmacokinetics and toxicity studies of the materials a doctrine uses.
+  default_severity: '0.95'
+  placement:
+  - rule: R2
+    note: The doctrines advance constructs of their own (vital energies, meridians, humours, potentization)
+      that have been investigated and found baseless.
+  - rule: R3
+    note: A doctrine-axis hub. Mechanism families such as vitalist energy medicine and anomalous water
+      claims sit on the other axis.
+  - rule: R8
+    note: The exclusions for studies of a tradition's materials are part of the definition, so the hub
+      does not claim phytochemistry or toxicology papers.
+- name: HeritageMedicineTradition
+  op: create
+  parents:
+  - AlternativeMedicine
+  label: heritage medicine tradition
+  definition: An alternative medicine whose doctrine was codified before 1900 and is justified by a traditional
+    canon or by the authority of its founder.
+  comment: The 1900 cutoff is genealogical, not epistemic, and carries no difference in severity. It is
+    fixed rather than a sliding age, so that a doctrine does not move between heritage and modern as time
+    passes; a sliding age would eventually move Reiki, codified in 1922. A derivative practice belongs
+    to the tradition whose constructs it invokes; one built on new constructs is modern. Not disjoint
+    from modern alternative medicine.
+  default_severity: '0.95'
+  placement:
+  - rule: R7
+    note: Heritage is defined by a fixed codification date, not by age.
+- name: ModernAlternativeMedicine
+  op: create
+  parents:
+  - AlternativeMedicine
+  label: modern alternative medicine
+  definition: An alternative medicine whose doctrine originated after 1900, typically justified by vocabulary
+    taken from physics or biology, such as energy, field, frequency, quantum or toxin, used without its
+    scientific meaning.
+  default_severity: '0.95'
+  placement:
+  - rule: R7
+    note: The post-1900 complement of the heritage hub. The two are not declared disjoint.
+- name: Homeopathy
+  op: create
+  parents:
+  - HeritageMedicineTradition
+  label: homeopathy
+  definition: A heritage medicine tradition holding that a substance which produces symptoms in a healthy
+    person cures similar symptoms in the sick, and that serial dilution with succussion increases a remedy's
+    potency. Covers claims that homeopathic remedies are clinically effective; claims about how the remedies
+    act belong to homeopathic pharmacology. Excludes quality control and toxicity studies of the source
+    materials.
+  default_severity: '0.95'
+  placement:
+  - rule: R7
+    note: The doctrine was codified in the nineteenth century, so it is a heritage tradition.
+  - rule: R5
+    note: Footprint far above the threshold (see checks).
+  - rule: R10
+    note: Separate from homeopathic pharmacology because the clinical-efficacy and mechanism literatures
+      use separable terms, and mechanism claims carry a higher severity.
+  checks:
+    footprint:
+      works: 21062
+      query: 'OpenAlex works, filter title_and_abstract.search: homeopathy OR homeopathic'
+      date: '2026-10-26'
+      author_groups: more than 3; the five largest institution lineages are distinct
+- name: VitalistEnergyMedicine
+  op: update
+  parents:
+  - ModernAlternativeMedicine
+  definition: A modern alternative medicine that claims a non-physical 'energy', 'vital force', or 'biofield'
+    can be directed by practitioners to cause measurable biological or physical effects. Distinguished
+    from other modern alternative medicine by the invocation of vitalist mechanisms.
+  severity_rationale: Every instance rests on an energy with no physical existence, so no part of the
+    central claim survives; the modern hub also holds doctrines whose papers can report real measurements
+    around a false explanation.
+  placement:
+  - rule: R7
+    note: Its member doctrines (biofield healing, Reiki, therapeutic touch, orgone) originated after 1900.
+  - rule: R3
+    note: Remains the mechanism family that qigong and other vitalist leaves will also join.
+- name: DetoxPseudoscience
+  op: update
+  parents:
+  - ModernAlternativeMedicine
+  definition: A modern alternative medicine that claims specific interventions (ionic foot baths, chelation
+    for non-indicated conditions, juice cleanses, etc.) remove unnamed 'toxins' from the body through
+    mechanisms that have no physiological basis.
+  placement:
+  - rule: R7
+    note: Justified by a misappropriated biological term, toxin, in the manner of the modern doctrines.
+  - rule: R2
+    note: It advances a construct of its own (unnamed toxins) rather than opposing a consensus, so it
+      is pseudoscience, not medical denialism.
+- name: HomeopathicPharmacology
+  op: update
+  parents:
+  - Homeopathy
+  - UltraHighDilution
+  definition: A homeopathy claim and ultra-high dilution claim that homeopathic preparations (produced
+    by serial dilution and succussion) have pharmacological activity attributable to the original substance.
+    Distinguished from claims of clinical efficacy by the assertion of specific pharmacological mechanisms.
+  severity_rationale: Mechanism claims require activity from dilutions that contain none of the original
+    substance, which first principles exclude; clinical-efficacy papers under Homeopathy at least report
+    real patient outcomes.
+  placement:
+  - rule: R4
+    note: Every homeopathic mechanism claim is both a homeopathy claim and an ultra-high dilution claim,
+      and the intersection has a literature of its own.
+rebuttals:
+- id: ernst_2002_homeopathy_reviews
+  mode: Homeopathy
+  kind: Reanalysis
+  scope: clinical efficacy
+  source: https://doi.org/10.1046/j.1365-2125.2002.01699.x
+  doi: 10.1046/j.1365-2125.2002.01699.x
+  is_retracted: false
+  openalex_id: W1813387120
+  title: A systematic review of systematic reviews of homeopathy
+  year: 2002
+  venueType: journal
+  retrieved: '2026-10-26'

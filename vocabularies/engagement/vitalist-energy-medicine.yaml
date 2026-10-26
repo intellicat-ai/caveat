@@ -3,9 +3,9 @@
 # Terms at this level are shared across the vitalist pseudoscience family.
 ---
 domain: "caveat:VitalistEnergyMedicine"
-inherits_from: "caveat:Pseudoscience"
+inherits_from: "caveat:ModernAlternativeMedicine"
 annotation:
-  annotator: "vr"
+  annotator: "agent"
   reviewer: "vr"
 extraction_method:
   source: "PubMed title/abstract search: 'energy healing' OR 'vital force' OR 'biofield' OR 'subtle energy', filtered to exclude legitimate biophysics"
