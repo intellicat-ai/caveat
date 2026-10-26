@@ -1,0 +1,74 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: denialism-r2
+intent: reclassify
+decision: reclassify
+date: '2026-10-26'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: 'Rewrites the clauses that separate pseudoscience from denialism: the test is whether the work
+  advances constructs of its own or is defined by opposition to an established consensus, not whether
+  it asserts or denies an effect. Moves anti-evidence medicine under denialism as medical denialism, with
+  the anti-vaccination node and germ theory denial below it.'
+sources:
+- ref: https://doi.org/10.1093/eurpub/ckn139
+  role: definition
+  title: 'Denialism: what is it and how should scientists respond?'
+  year: 2008
+  openalex_id: W2041004514
+classes:
+- name: Pseudoscience
+  op: update
+  definition: A premise-level failure in which the work advances constructs of its own, such as energies,
+    doctrines or entities, that have been specifically investigated and found baseless. Distinguished
+    from pathological science by the existence of positive evidence of absence, not merely absence of
+    evidence. Distinguished from denialism, which is defined by opposition to an established consensus,
+    and from unphysical mechanism, whose central claim is excluded by first principles.
+  placement:
+  - rule: R2
+    note: Construct versus consensus replaces "asserts false positives" versus "denies established positives",
+      a test that fails on anti-vaccination and abortion-breast cancer claims, which do both.
+- name: Denialism
+  op: update
+  definition: 'A premise-level failure in which the claim is defined by its opposition to an established
+    scientific consensus and is pursued with the denialist toolkit: conspiracy theories, fake experts,
+    selective citation, impossible expectations of evidence, and misrepresentation. Distinguished from
+    pseudoscience by its relation to the consensus, not by whether it asserts or denies an effect.'
+  definition_source: https://doi.org/10.1093/eurpub/ckn139
+  placement:
+  - rule: R2
+    note: The toolkit follows the cited source; the distinguishing clause is the construct-versus-consensus
+      test.
+- name: AntiEvidenceMedicine
+  op: update
+  parents:
+  - Denialism
+  label: medical denialism
+  definition: A denialism that rejects established medical evidence on the causes, harms or prevention
+    of disease.
+  severity_rationale: Medical denialism argues against treatments and preventive measures directly, so
+    the clinical claims of its papers are unreliable in full; the denialism hub also covers claims whose
+    papers can contain usable data alongside the denial.
+  placement:
+  - rule: R2
+    note: Defined by opposition to the medical consensus, so it is denialism. The IRI is unchanged (R9);
+      only the label changes.
+- name: AntiVaxMechanismClaims
+  op: update
+  label: anti-vaccination claims
+  definition: A medical denialism that asserts specific biological mechanisms by which vaccines cause
+    harms (such as autism) that have been extensively investigated and refuted.
+  placement:
+  - rule: R9
+    note: Kept as the general anti-vaccination node under its existing IRI rather than adding a new class
+      above it; leaves such as vaccine-autism claims come later.
+- name: GermTheoryDenial
+  op: update
+  parents:
+  - AntiEvidenceMedicine
+  definition: A medical denialism that rejects the established scientific consensus that specific microorganisms
+    cause specific diseases.
+  placement:
+  - rule: R2
+    note: A denial of medical evidence on the causes of disease, so it belongs under medical denialism.

@@ -45,6 +45,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Rewrote the definition of `UltraHighDilution` (proposal `anomalous-water`)
 - Moved `MagnetizedWater`: `Pseudoscience` → `AnomalousWaterClaims` (proposal `anomalous-water`)
 - Rewrote the definition of `MagnetizedWater` (proposal `anomalous-water`)
+- Rewrote the definition of `Pseudoscience` (proposal `denialism-r2`)
+- Rewrote the definition of `Denialism` (proposal `denialism-r2`)
+- Moved `AntiEvidenceMedicine`: `Pseudoscience` → `Denialism` (proposal `denialism-r2`)
+- Rewrote the definition of `AntiEvidenceMedicine` (proposal `denialism-r2`)
+- Relabelled `AntiEvidenceMedicine`: "anti-evidence medicine" → "medical denialism" (proposal `denialism-r2`)
+- Rewrote the definition of `AntiVaxMechanismClaims` (proposal `denialism-r2`)
+- Relabelled `AntiVaxMechanismClaims`: "anti-vaccination mechanism claims" → "anti-vaccination claims" (proposal `denialism-r2`)
+- Moved `GermTheoryDenial`: `Denialism` → `AntiEvidenceMedicine` (proposal `denialism-r2`)
+- Rewrote the definition of `GermTheoryDenial` (proposal `denialism-r2`)
 
 ## [0.4.0] - 2026-09-16
 

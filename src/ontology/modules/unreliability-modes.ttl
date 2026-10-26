@@ -235,7 +235,7 @@ caveat:PremiseLevelFailure a owl:Class ;
 caveat:Pseudoscience a owl:Class ;
     rdfs:subClassOf caveat:PremiseLevelFailure ;
     rdfs:label "pseudoscience"@en ;
-    caveat:definition "A premise-level failure in which the central claims invoke mechanisms or entities that have been specifically investigated and found baseless. Distinguished from pathological science by the existence of positive evidence of absence, not merely absence of evidence. Distinguished from denialism in that pseudoscience asserts false positives rather than denying established positives."@en ;
+    caveat:definition "A premise-level failure in which the work advances constructs of its own, such as energies, doctrines or entities, that have been specifically investigated and found baseless. Distinguished from pathological science by the existence of positive evidence of absence, not merely absence of evidence. Distinguished from denialism, which is defined by opposition to an established consensus, and from unphysical mechanism, whose central claim is excluded by first principles."@en ;
     caveat:defaultSeverity "0.95"^^xsd:decimal ;
     caveat:lexiconFile "rejection/pseudoscience-base.yaml" .
 
@@ -321,15 +321,15 @@ caveat:RemoteViewing a owl:Class ;
     caveat:defaultSeverity "1.0"^^xsd:decimal .
 
 caveat:AntiEvidenceMedicine a owl:Class ;
-    rdfs:subClassOf caveat:Pseudoscience ;
-    rdfs:label "anti-evidence medicine"@en ;
-    caveat:definition "A pseudoscience that asserts mechanisms for medical harms that have been specifically investigated and refuted, or that asserts therapeutic mechanisms for interventions demonstrated to be inert. Distinguished from other pseudosciences by the direct contradiction of established medical evidence."@en ;
+    rdfs:subClassOf caveat:Denialism ;
+    rdfs:label "medical denialism"@en ;
+    caveat:definition "A denialism that rejects established medical evidence on the causes, harms or prevention of disease."@en ;
     caveat:defaultSeverity "0.95"^^xsd:decimal .
 
 caveat:AntiVaxMechanismClaims a owl:Class ;
     rdfs:subClassOf caveat:AntiEvidenceMedicine ;
-    rdfs:label "anti-vaccination mechanism claims"@en ;
-    caveat:definition "An anti-evidence medicine pseudoscience that asserts specific biological mechanisms by which vaccines cause harms (such as autism) that have been extensively investigated and refuted."@en ;
+    rdfs:label "anti-vaccination claims"@en ;
+    caveat:definition "A medical denialism that asserts specific biological mechanisms by which vaccines cause harms (such as autism) that have been extensively investigated and refuted."@en ;
     caveat:defaultSeverity "0.95"^^xsd:decimal .
 
 caveat:DetoxPseudoscience a owl:Class ;
@@ -374,7 +374,8 @@ caveat:AnomalousWaterClaims a owl:Class ;
 caveat:Denialism a owl:Class ;
     rdfs:subClassOf caveat:PremiseLevelFailure ;
     rdfs:label "denialism"@en ;
-    caveat:definition "A premise-level failure characterized by rejection of established scientific consensus, typically through selective citation, manufactured doubt, conspiracy theories, or impossible demands for evidence. Distinguished from pseudoscience in that denialism denies established positives rather than asserting false positives."@en ;
+    caveat:definition "A premise-level failure in which the claim is defined by its opposition to an established scientific consensus and is pursued with the denialist toolkit: conspiracy theories, fake experts, selective citation, impossible expectations of evidence, and misrepresentation. Distinguished from pseudoscience by its relation to the consensus, not by whether it asserts or denies an effect."@en ;
+    caveat:definitionSource <https://doi.org/10.1093/eurpub/ckn139> ;
     caveat:defaultSeverity "0.9"^^xsd:decimal .
 
 caveat:ClimateScienceDenial a owl:Class ;
@@ -390,9 +391,9 @@ caveat:EvolutionDenial a owl:Class ;
     caveat:defaultSeverity "0.9"^^xsd:decimal .
 
 caveat:GermTheoryDenial a owl:Class ;
-    rdfs:subClassOf caveat:Denialism ;
+    rdfs:subClassOf caveat:AntiEvidenceMedicine ;
     rdfs:label "germ theory denial"@en ;
-    caveat:definition "A denialism that rejects the established scientific consensus that specific microorganisms cause specific diseases."@en ;
+    caveat:definition "A medical denialism that rejects the established scientific consensus that specific microorganisms cause specific diseases."@en ;
     caveat:defaultSeverity "0.9"^^xsd:decimal .
 
 caveat:UnphysicalMechanism a owl:Class ;

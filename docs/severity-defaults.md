@@ -64,6 +64,7 @@ Every class whose default severity is lower than its parent's. Per-class rationa
 | `InappropriateStatisticalTests` | 0.3 | `StatisticalMalpractice` | 0.35 |
 | `MultipleComparisonsUncorrected` | 0.3 | `StatisticalMalpractice` | 0.35 |
 | `UnderpoweredStudy` | 0.3 | `StatisticalMalpractice` | 0.35 |
+| `GermTheoryDenial` | 0.9 | `AntiEvidenceMedicine` | 0.95 |
 
 ### Classes above their parent
 
@@ -84,6 +85,7 @@ Every class whose default severity is higher than one of its parents', with the 
 | `VitalistEnergyMedicine` | 1.0 | `ModernAlternativeMedicine` | 0.95 | Every instance rests on an energy with no physical existence, so no part of the central claim survives; the modern hub also holds doctrines whose papers can report real measurements around a false explanation. |
 | `AnomalousWaterClaims` | 1.0 | `Pseudoscience` | 0.95 | Every member claims a persistent property of liquid water that first principles exclude, so no part of the central claim survives; its existing members are all at 1.0. |
 | `AnomalousWaterClaims` | 1.0 | `UnphysicalMechanism` | 0.95 | Every member claims a persistent property of liquid water that first principles exclude, so no part of the central claim survives; its existing members are all at 1.0. |
+| `AntiEvidenceMedicine` | 0.95 | `Denialism` | 0.9 | Medical denialism argues against treatments and preventive measures directly, so the clinical claims of its papers are unreliable in full; the denialism hub also covers claims whose papers can contain usable data alongside the denial. |
 
 ## Consumer Overrides
 
