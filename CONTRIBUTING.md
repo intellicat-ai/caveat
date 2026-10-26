@@ -36,6 +36,8 @@ All ontology changes start as GitHub issues. Use the appropriate issue template:
 2. Make changes in the appropriate module file under `src/ontology/modules/`.
 3. Run `python scripts/validate.py` to check consistency.
 4. Run `python -m pytest tests/` to verify competency questions still pass.
+   Install the pre-push hook once with `pip install -r requirements-dev.txt`
+   and `pre-commit install --hook-type pre-push`.
 5. Update CHANGELOG.md with the issue number and a brief description.
 6. Open a Pull Request referencing the issue (`closes #42`).
 
@@ -63,6 +65,20 @@ Lexicon contributions follow a slightly different process:
 3. Classify each term: engagement, rejection, or sanewashing.
 4. Provide rationale for the classification.
 5. Submit via the "New lexicon term" issue template.
+
+## Review of Agent-Authored Records
+
+Records written with an agent's help (lexicon files, and in later releases
+proposal records, rebuttal manifest rows and mode-domain rows) carry an
+`annotation` block with `annotator` and `reviewer` initials, as in TRACES.
+A record is complete only when a person has reviewed it and added their
+initials as `reviewer`. The reviewer must differ from the annotator and be
+listed in `.reviewers`. An agent never fills in the `reviewer` field.
+
+`scripts/check_reviewed.py` enforces this as a `pre-push` hook and again
+in CI, because local hooks can be skipped. The check catches a forgotten
+review. It cannot tell initials typed by a person from initials typed by
+an agent; that part rests on the rule above.
 
 ## Code of Conduct
 

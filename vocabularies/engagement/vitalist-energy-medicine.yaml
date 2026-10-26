@@ -4,6 +4,9 @@
 ---
 domain: "caveat:VitalistEnergyMedicine"
 inherits_from: "caveat:Pseudoscience"
+annotation:
+  annotator: ""
+  reviewer: ""
 extraction_method:
   source: "PubMed title/abstract search: 'energy healing' OR 'vital force' OR 'biofield' OR 'subtle energy', filtered to exclude legitimate biophysics"
   method: "Term extraction from source corpus, filtered by manual review for pseudoscience-specificity"

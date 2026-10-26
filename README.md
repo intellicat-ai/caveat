@@ -124,11 +124,16 @@ Install the development dependencies with `pip install -r requirements-dev.txt`.
 - `python scripts/fetch_openalex_taxonomy.py --source api` refreshes the OpenAlex data; `python scripts/build_openalex_mapping.py` rebuilds the Turtle from it (`--check` verifies it is current). The fetcher reads an API key from the git-ignored `config/openalex.toml`; copy `config/openalex.example.toml`.
 - `python scripts/check_assessment.py FILE.json` validates `caveat-assessment/1` payloads against `vocabularies/profiles/`.
 - `python scripts/build_artifacts.py OUT_DIR` builds the release artifacts into `OUT_DIR`.
+- `python scripts/check_reviewed.py` checks that every agent-authored record (lexicon files, and later proposal records and mapping rows) names a human reviewer listed in `.reviewers`. It also runs as a `pre-push` hook; install it with `pre-commit install --hook-type pre-push`.
 - `python -m pytest tests/` runs the test suite, including release-artifact build checks and a check that this README and `docs/` match the ontology.
 
-CI runs the validator, the CURIE check, the OpenAlex mapping and profile example checks, the test suite and a vocabulary-inheritance check on pushes and pull requests to `main` and `develop`. Planned work is listed in [ROADMAP.md](ROADMAP.md).
+CI runs the validator, the CURIE check, the OpenAlex mapping and profile example checks, the review check, the test suite and a vocabulary-inheritance check on pushes and pull requests to `main` and `develop`. Planned work is listed in [ROADMAP.md](ROADMAP.md).
 
 To browse the ontology, open `caveat-full.ttl` from the documentation site in [Protégé](https://protege.stanford.edu/). For programmatic access, use [rdflib](https://rdflib.readthedocs.io/).
+
+## Acknowledgments
+
+The Collection of Open Science Integrity Guides (COSIG) informed the initial structure of several execution-level and detection-marker subtrees. CAVEAT's definitions, sources and evidence links are its own.
 
 ## License
 

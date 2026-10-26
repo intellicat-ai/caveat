@@ -78,6 +78,7 @@ type: object
 required:
   - domain
   - inherits_from
+  - annotation
   - extraction_method
   - terms
 properties:
@@ -98,6 +99,21 @@ properties:
       Optional. Condition under which this vocabulary is activated, for
       cross-cutting vocabularies that do not participate in class
       inheritance. Example: "source paper retraction_status is not null"
+  annotation:
+    type: object
+    description: >
+      Who wrote this file and who reviewed it, as initials. The reviewer
+      must differ from the annotator and be listed in .reviewers; an
+      agent-written file uses annotator "agent". Checked by
+      scripts/check_reviewed.py. See CONTRIBUTING.md.
+    required:
+      - annotator
+      - reviewer
+    properties:
+      annotator:
+        type: string
+      reviewer:
+        type: string
   extraction_method:
     type: object
     description: "How the terms were identified."

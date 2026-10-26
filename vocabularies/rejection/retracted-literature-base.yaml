@@ -21,6 +21,9 @@
 domain: "caveat:UnreliabilityMode"
 inherits_from: "none"
 applies_when: "source paper retraction_status is not null"
+annotation:
+  annotator: ""
+  reviewer: ""
 extraction_method:
   source: "Retraction Watch database editorial language, COPE guidelines, ORI case summaries, institutional investigation reports"
   method: "Manual curation from retraction notices, investigative journalism, and regulatory findings"

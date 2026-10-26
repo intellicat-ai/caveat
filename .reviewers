@@ -1,0 +1,3 @@
+# Initials of human reviewers of agent-authored records, one per line.
+# scripts/check_reviewed.py accepts a reviewer only if listed here.
+vr

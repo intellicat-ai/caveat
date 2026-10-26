@@ -2,3 +2,4 @@ pytest
 rdflib
 pyyaml
 jsonschema>=4.18
+pre-commit

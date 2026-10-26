@@ -1,0 +1,13 @@
+# Install with: pre-commit install --hook-type pre-push
+default_install_hook_types: [pre-push]
+repos:
+  - repo: local
+    hooks:
+      - id: check-reviewed
+        name: agent-authored records are reviewed
+        entry: python scripts/check_reviewed.py
+        language: python
+        additional_dependencies: [pyyaml]
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]

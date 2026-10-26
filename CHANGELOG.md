@@ -4,6 +4,13 @@ All notable changes to this ontology will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.5.0] - Unreleased
+
+### Added
+- Review gate for agent-authored records: `scripts/check_reviewed.py`, run as a `pre-push` hook (`.pre-commit-config.yaml`) and in CI; `.reviewers` initials allowlist; `pre-commit` in `requirements-dev.txt`
+- Lexicon schema: required `annotation` block (`annotator`, `reviewer`); existing lexicon files carry empty placeholders until reviewed
+- README acknowledgments; a new ROADMAP mapping entry
+
 ## [0.4.0] - 2026-09-16
 
 ### Added

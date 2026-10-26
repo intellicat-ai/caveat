@@ -38,6 +38,11 @@ jobs:
       - name: Profile examples are valid
         run: python scripts/check_assessment.py vocabularies/profiles/examples/*.json --taxonomy mappings/openalex/openalex.ttl
 
+      # Also a pre-push hook (.pre-commit-config.yaml); repeated here because
+      # local hooks are skipped by git push --no-verify.
+      - name: Agent-authored records are reviewed
+        run: python scripts/check_reviewed.py
+
       - name: Run test suite
         run: python -m pytest tests/ -v
 

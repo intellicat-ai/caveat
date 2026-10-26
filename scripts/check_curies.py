@@ -17,7 +17,7 @@ from rdflib import Graph
 NS = "https://w3id.org/intellicat/caveat#"
 CURIE = re.compile(r"\bcaveat:([A-Za-z_][A-Za-z0-9_]*)")
 EXTS = {".md", ".ttl", ".sparql", ".yaml", ".yml", ".py", ".json", ".jsonld", ".txt", ".html", ".template"}
-SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "work"}
 
 
 def declared_terms(ontology_dir: Path) -> set:
