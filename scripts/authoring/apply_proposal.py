@@ -4,6 +4,11 @@
 Usage:
     python scripts/authoring/apply_proposal.py work/<slug>/proposal.yaml
         [--sources DIR] [--no-pytest] [--no-commit] [--trailer LINE ...]
+    python scripts/authoring/apply_proposal.py work/<slug>/proposal.yaml --preview PATCH
+
+--preview is for reviewers: it skips the review requirement, applies the
+proposal, runs the validator, writes the resulting diff to PATCH and
+restores every file. It never commits.
 
 Deterministic: the same proposal on the same tree gives the same files.
 The script refuses a proposal that is invalid, unreviewed, or that would
@@ -34,6 +39,7 @@ Steps:
 import argparse
 import copy
 import csv
+import difflib
 import io
 import json
 import re
@@ -583,9 +589,10 @@ def apply_changelog(text: str, added: list, changed: list) -> str:
 # --------------------------------------------------------------------------- main
 
 def apply(root: Path, proposal_path: Path, sources: Path | None, run_pytest: bool, commit: bool,
-          trailers: list[str]) -> list[Path]:
+          trailers: list[str], preview: Path | None = None) -> list[Path]:
     prop = load_proposal(root, proposal_path)
-    require_review(root, prop)
+    if preview is None:
+        require_review(root, prop)
     require_clean_branch(root)
     before_g = merged_graph(root)
     check_operations(prop, before_g)
@@ -642,22 +649,29 @@ def apply(root: Path, proposal_path: Path, sources: Path | None, run_pytest: boo
         if new_lex - referenced:
             raise Refused(f"new lexicon files no class references: {sorted(new_lex - referenced)}")
 
-        checks = [[sys.executable, "scripts/validate.py"], [sys.executable, "scripts/check_reviewed.py"]]
-        if run_pytest:
+        checks = [[sys.executable, "scripts/validate.py"]]
+        if preview is None:
+            checks.append([sys.executable, "scripts/check_reviewed.py"])
+        if run_pytest and preview is None:
             checks.append([sys.executable, "-m", "pytest", "tests/", "-q"])
         for cmd in checks:
             r = subprocess.run(cmd, cwd=root, capture_output=True, text=True)
             if r.returncode != 0:
                 raise Refused(f"{' '.join(cmd[1:])} failed after applying:\n{r.stdout[-2000:]}{r.stderr[-2000:]}")
     except Exception:
-        for rel, text in originals.items():
-            if text is None:
-                (root / rel).unlink(missing_ok=True)
-            else:
-                (root / rel).write_text(text)
+        restore(root, originals)
         raise
 
     touched = sorted(originals)
+    if preview is not None:
+        patch = []
+        for rel in touched:
+            old, new = originals[rel], (root / rel).read_text()
+            patch += difflib.unified_diff((old or "").splitlines(keepends=True), new.splitlines(keepends=True),
+                                          f"a/{rel}" if old is not None else "/dev/null", f"b/{rel}")
+        restore(root, originals)
+        preview.write_text("".join(patch))
+        return touched
     if commit:
         git(root, "add", "--", *map(str, touched))
         msg = f"{prop['decision']}: {prop['slug']}\n\n{prop['summary'].strip()}\n"
@@ -665,6 +679,14 @@ def apply(root: Path, proposal_path: Path, sources: Path | None, run_pytest: boo
             msg += "\n" + "\n".join(trailers) + "\n"
         subprocess.run(["git", "commit", "-q", "-F", "-"], cwd=root, input=msg, text=True, check=True)
     return touched
+
+
+def restore(root: Path, originals: dict) -> None:
+    for rel, text in originals.items():
+        if text is None:
+            (root / rel).unlink(missing_ok=True)
+        else:
+            (root / rel).write_text(text)
 
 
 def main(argv=None):
@@ -675,10 +697,11 @@ def main(argv=None):
     ap.add_argument("--no-pytest", action="store_true")
     ap.add_argument("--no-commit", action="store_true")
     ap.add_argument("--trailer", action="append", default=[])
+    ap.add_argument("--preview", type=Path, help="write the diff here, restore everything, never commit")
     a = ap.parse_args(argv)
     try:
         touched = apply(a.root.resolve(), a.proposal.resolve(), a.sources, not a.no_pytest,
-                        not a.no_commit, a.trailer)
+                        not a.no_commit and a.preview is None, a.trailer, a.preview)
     except Refused as e:
         print(f"refused: {e}", file=sys.stderr)
         return 1

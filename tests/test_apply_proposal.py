@@ -291,3 +291,13 @@ def test_committed_records_match_schema():
     schema = json.loads((ROOT / "design" / "proposal.schema.json").read_text())
     for f in sorted((ROOT / "design" / "proposals").glob("*.yaml")):
         jsonschema.validate(yaml.safe_load(f.read_text()), schema)
+
+
+def test_preview_restores_and_needs_no_review(repo, tmp_path):
+    patch = tmp_path / "demo.patch"
+    prop = proposal(annotation={"annotator": "agent", "reviewer": ""})
+    assert run(repo, tmp_path, prop, "--preview", str(patch)) == 0
+    assert clean_and_unchanged(repo)
+    text = patch.read_text()
+    assert "+caveat:DemoWaterClaims a owl:Class ;" in text
+    assert "+++ b/design/proposals/demo.yaml" in text
