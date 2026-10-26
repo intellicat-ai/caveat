@@ -10,7 +10,8 @@ exception. Records checked:
 1. Lexicon files, vocabularies/**/*.yaml: top-level
    annotation: {annotator, reviewer}
 2. Committed proposal records, design/proposals/*.yaml: the same
-   annotation block; every exemplar also needs a non-empty prior_record
+   annotation block; every exemplar also needs a prior_record (an existing
+   public critique) and its archivedAt
 3. Rebuttal manifest rows, mappings/rebuttals/manifest.jsonl:
    annotator and reviewer fields on every row
 4. Mode-domain rows, mappings/openalex/mode-domains.csv:
@@ -115,9 +116,10 @@ def check(root: Path) -> list[str]:
         data = yaml.safe_load(f.read_text())
         errors += check_annotation_block(str(rel), data, reviewers)
         for i, ex in enumerate(exemplars(data)):
-            if not (isinstance(ex, dict) and ex.get("prior_record")):
-                ref = ex.get("ref", i) if isinstance(ex, dict) else i
-                errors.append(f"{rel}: exemplar {ref} has no prior_record")
+            ref = ex.get("ref", i) if isinstance(ex, dict) else i
+            for field in ("prior_record", "archivedAt"):
+                if not (isinstance(ex, dict) and ex.get(field)):
+                    errors.append(f"{rel}: exemplar {ref} has no {field}")
 
     manifest = root / "mappings" / "rebuttals" / "manifest.jsonl"
     if manifest.exists():

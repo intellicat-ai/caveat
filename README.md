@@ -127,6 +127,7 @@ Install the development dependencies with `pip install -r requirements-dev.txt`.
 - `python scripts/check_assessment.py FILE.json` validates `caveat-assessment/1` payloads against `vocabularies/profiles/`.
 - `python scripts/build_artifacts.py OUT_DIR` builds the release artifacts into `OUT_DIR`.
 - `python scripts/check_reviewed.py` checks that every agent-authored record (lexicon files, and later proposal records and mapping rows) names a human reviewer listed in `.reviewers`. It also runs as a `pre-push` hook; install it with `pre-commit install --hook-type pre-push`.
+- `python scripts/authoring/apply_proposal.py work/<slug>/proposal.yaml` applies a reviewed mode proposal: it edits the ontology, lexicons, mappings and docs, runs the checks and commits on the current feature branch. See [docs/proposals.md](docs/proposals.md).
 - `python -m pytest tests/` runs the test suite, including release-artifact build checks and a check that this README and `docs/` match the ontology.
 
 CI runs the validator, the CURIE check, the OpenAlex mapping and profile example checks, the review check, the test suite and a vocabulary-inheritance check on pushes and pull requests to `main` and `develop`. Planned work is listed in [ROADMAP.md](ROADMAP.md).

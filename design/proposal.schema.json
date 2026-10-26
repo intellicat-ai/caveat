@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CAVEAT mode proposal",
+  "description": "A proposal to change the unreliability mode hierarchy, written as YAML. Drafted in work/<slug>/proposal.yaml, reviewed by a person, applied by scripts/authoring/apply_proposal.py, which commits the reviewed proposal, minus its unshipped parts, as design/proposals/<slug>.yaml. See docs/proposals.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "slug", "intent", "decision", "date", "annotation", "summary"],
+  "properties": {
+    "schema": {"const": "caveat-proposal/1"},
+    "slug": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "intent": {"enum": ["new_mode", "extend_mode", "lexicon_only", "reclassify"]},
+    "decision": {"enum": ["new_mode", "lexicon_only", "alias", "reclassify", "reject"]},
+    "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "annotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["annotator", "reviewer"],
+      "properties": {"annotator": {"type": "string"}, "reviewer": {"type": "string"}}
+    },
+    "summary": {"type": "string", "minLength": 1, "description": "What the proposal does and why. Ships."},
+    "guidance": {"type": "string", "description": "The requester's free-text guidance. Never ships."},
+    "probes": {"description": "Precision and contamination probe data, per paper. Never ships; only aggregates go into domains."},
+    "sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "classes": {
+      "type": "array",
+      "description": "Ontology operations, applied in order.",
+      "items": {"$ref": "#/$defs/class"}
+    },
+    "lexicons": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/lexicon"}
+    },
+    "domains": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/domain"}
+    },
+    "rebuttals": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/rebuttal"}
+    }
+  },
+  "$defs": {
+    "local_name": {"type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$"},
+    "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "decimal": {"type": "string", "pattern": "^(0(\\.[0-9]+)?|1(\\.0+)?)$"},
+    "url": {"type": "string", "pattern": "^https?://"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "role"],
+      "properties": {
+        "ref": {"type": "string", "description": "DOI IRI, URL, or local path under work/<slug>/."},
+        "role": {
+          "enum": ["exemplar", "counter_exemplar", "rebuttal", "definition", "background", "pointer"],
+          "description": "pointer: used only to find primary literature; never ships. counter_exemplar: never ships. exemplar: ships only with prior_record and archivedAt."
+        },
+        "title": {"type": "string"},
+        "year": {"type": "integer"},
+        "openalex_id": {"type": "string", "pattern": "^W[0-9]+$"},
+        "prior_record": {"$ref": "#/$defs/url", "description": "An existing public critique of the exemplar."},
+        "archivedAt": {"$ref": "#/$defs/url", "description": "Archived copy of the prior record."},
+        "note": {"type": "string"}
+      }
+    },
+    "class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "op"],
+      "properties": {
+        "name": {"$ref": "#/$defs/local_name"},
+        "op": {"enum": ["create", "update"]},
+        "parents": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/local_name"},
+          "description": "create: the parents. update: the complete new parent set."
+        },
+        "label": {"type": "string", "minLength": 1},
+        "definition": {"type": "string", "minLength": 1},
+        "definition_source": {"type": "string", "minLength": 1, "description": "An http(s) IRI, or a literal citation."},
+        "comment": {"type": "string", "minLength": 1, "description": "rdfs:comment, e.g. a scope note."},
+        "default_severity": {"$ref": "#/$defs/decimal"},
+        "severity_rationale": {"type": "string", "minLength": 1, "description": "Required when the severity is above a parent's."},
+        "lexicon_file": {"type": "string", "pattern": "^(engagement|rejection)/[a-z0-9-]+\\.yaml$"},
+        "related_modes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/local_name"}},
+        "typically_exhibits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["mode", "k", "n", "query", "date"],
+            "properties": {
+              "mode": {"$ref": "#/$defs/local_name"},
+              "k": {"type": "integer", "minimum": 0},
+              "n": {"type": "integer", "minimum": 1},
+              "query": {"type": "string"},
+              "date": {"$ref": "#/$defs/date"}
+            }
+          }
+        },
+        "placement": {
+          "type": "array",
+          "description": "The placement rules (R1-R11) that decided this placement, each with a note.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["rule", "note"],
+            "properties": {
+              "rule": {"type": "string", "pattern": "^R([1-9]|1[01])$"},
+              "note": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "checks": {"type": "object", "description": "Placement checks as recorded by the skill (genus, exemplars, siblings, footprint, nearest classes). Ships."}
+      }
+    },
+    "lexicon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "terms"],
+      "properties": {
+        "file": {"type": "string", "pattern": "^(engagement|rejection)/[a-z0-9-]+\\.yaml$"},
+        "domain": {"type": "string", "pattern": "^caveat:[A-Z][A-Za-z0-9]*$"},
+        "inherits_from": {"type": "string"},
+        "extraction_method": {"type": "object"},
+        "terms": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["term", "classification"]}}
+      }
+    },
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "topic", "kind", "query", "taxonomy_version", "date"],
+      "properties": {
+        "mode": {"$ref": "#/$defs/local_name"},
+        "topic": {"type": "string", "pattern": "^caveatoa:(T[0-9]+|subfield_[0-9]+)$"},
+        "kind": {"enum": ["dedicated", "host"]},
+        "covered_keywords": {"type": "array", "items": {"type": "string"}},
+        "uncovered_keywords": {"type": "array", "items": {"type": "string"}},
+        "seed_n": {"type": "integer", "minimum": 0},
+        "share_of_seed": {"type": "number", "minimum": 0, "maximum": 1},
+        "probe_random_n": {"type": "integer", "minimum": 0},
+        "probe_random_hits": {"type": "integer", "minimum": 0},
+        "probe_random_ci": {"type": "string"},
+        "probe_topcited_n": {"type": "integer", "minimum": 0},
+        "probe_topcited_hits": {"type": "integer", "minimum": 0},
+        "probe_topcited_ci": {"type": "string"},
+        "query": {"type": "string"},
+        "taxonomy_version": {"$ref": "#/$defs/date"},
+        "date": {"$ref": "#/$defs/date"}
+      }
+    },
+    "rebuttal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "mode", "kind", "source", "title", "year", "venueType", "retrieved"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$"},
+        "mode": {"$ref": "#/$defs/local_name"},
+        "kind": {"enum": ["Replication", "ForensicAnalysis", "Reanalysis", "FirstPrinciplesAnalysis", "InstitutionalFinding",
+                          "Investigation", "NarrativeReview", "PositionStatement", "Explainer"]},
+        "scope": {"type": "string", "minLength": 1},
+        "source": {"$ref": "#/$defs/url"},
+        "doi": {"type": "string"},
+        "is_retracted": {"type": "boolean"},
+        "archivedAt": {"$ref": "#/$defs/url"},
+        "openalex_id": {"type": "string"},
+        "title": {"type": "string"},
+        "year": {"type": "integer"},
+        "venueType": {"type": "string"},
+        "retrieved": {"$ref": "#/$defs/date"}
+      }
+    }
+  }
+}

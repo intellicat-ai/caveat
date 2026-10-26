@@ -106,7 +106,9 @@ def test_proposal_exemplars_need_prior_record(root):
     rec = {
         "annotation": {"annotator": "agent", "reviewer": "vr"},
         "sources": [
-            {"ref": "doi:10.1/a", "role": "exemplar", "prior_record": "https://example.org/a"},
+            {"ref": "doi:10.1/a", "role": "exemplar", "prior_record": "https://example.org/a",
+             "archivedAt": "https://archive.example.org/a"},
+            {"ref": "doi:10.1/e", "role": "exemplar", "prior_record": "https://example.org/e"},
             {"ref": "doi:10.1/b", "role": "exemplar"},
             {"ref": "doi:10.1/c", "role": "rebuttal"},
         ],
@@ -115,8 +117,11 @@ def test_proposal_exemplars_need_prior_record(root):
     (d / "p.yaml").write_text(yaml.safe_dump(rec))
     errors = check(root)
     assert sorted(errors) == [
+        "design/proposals/p.yaml: exemplar doi:10.1/b has no archivedAt",
         "design/proposals/p.yaml: exemplar doi:10.1/b has no prior_record",
+        "design/proposals/p.yaml: exemplar doi:10.1/d has no archivedAt",
         "design/proposals/p.yaml: exemplar doi:10.1/d has no prior_record",
+        "design/proposals/p.yaml: exemplar doi:10.1/e has no archivedAt",
     ]
 
 

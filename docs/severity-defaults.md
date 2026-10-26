@@ -65,6 +65,25 @@ Every class whose default severity is lower than its parent's. Per-class rationa
 | `MultipleComparisonsUncorrected` | 0.3 | `StatisticalMalpractice` | 0.35 |
 | `UnderpoweredStudy` | 0.3 | `StatisticalMalpractice` | 0.35 |
 
+### Classes above their parent
+
+Every class whose default severity is higher than one of its parents', with the reason. A class with two parents can appear twice. Rows added by a reviewed proposal carry the proposal's rationale; the reasons for the earlier values have not yet been recorded.
+
+| Class | Default severity | Parent | Parent default severity | Rationale |
+|---|---|---|---|---|
+| `CompromisedPeerReview` | 0.7 | `PublicationProcessMisconduct` | 0.6 | Not yet recorded. |
+| `ConclusionsNotSupported` | 0.35 | `Overreach` | 0.3 | Not yet recorded. |
+| `DesignFailures` | 0.4 | `ExecutionLevelFailure` | 0.3 | Not yet recorded. |
+| `FailedReplication` | 0.4 | `ReproducibilityFailures` | 0.25 | Not yet recorded. |
+| `MagnetizedWater` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
+| `PHackingHARKing` | 0.4 | `StatisticalMalpractice` | 0.35 | Not yet recorded. |
+| `Parapsychology` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
+| `PathologicalScience` | 0.7 | `InterpretiveFailure` | 0.6 | Not yet recorded. |
+| `StatisticalMalpractice` | 0.35 | `ExecutionLevelFailure` | 0.3 | Not yet recorded. |
+| `UltraHighDilution` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
+| `UnfalsifiableDesign` | 0.5 | `DesignFailures` | 0.4 | Not yet recorded. |
+| `VitalistEnergyMedicine` | 1.0 | `Pseudoscience` | 0.95 | Not yet recorded. |
+
 ## Consumer Overrides
 
 CAVEAT provides defaults. Downstream projects may override severity for their context:

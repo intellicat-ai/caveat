@@ -3,3 +3,5 @@ caveat:Name
 caveat:evidence_
 # Deliberate negative fixture
 test_evidence_model.py:caveat:NotARealClass
+# Class created by a proposal fixture
+test_apply_proposal.py:caveat:DemoWaterClaims

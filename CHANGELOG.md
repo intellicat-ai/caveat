@@ -17,10 +17,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Lexicon schema: optional term `variants`; the validator rejects a string listed twice in one file as a term or variant
 - Validator check that every rebuttal link has one mode, one source and one kind
 - `design/mode-links.yaml` and `tests/test_mode_links.py`
+- Mode proposals: `design/proposal.schema.json` (`caveat-proposal/1`) and `scripts/authoring/apply_proposal.py`, which applies a reviewed proposal deterministically (statement-level Turtle edits verified against the intended triples, lexicons, mapping rows, severity tables, changelog lines, a committed record in `design/proposals/`), runs the checks and commits; `docs/proposals.md`
+- `docs/severity-defaults.md`: table of classes above a parent, with a rationale column
 - Docs: `docs/placement-rules.md`, `docs/review.md`, `docs/rebuttals.md`; mode domains and rebuttal sources in `mappings/README.md`
 
 ### Changed
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)
+- The review check requires `archivedAt` alongside `prior_record` on every exemplar in a committed proposal record
+- The documentation test checks severity tables per (class, parent) pair, so classes with two parents are covered
 - `docs/vocabulary-inheritance.md` describes the breadth-first, multi-parent resolution that `scripts/resolve_vocabulary.py` performs
 - The Pages workflow installs PyYAML, needed to build `modes.csv`
 - Finding codes are published in `modes.csv`, which is their source of truth from this release on. An acronym followed by a lowercase "ing" or "s" is one word, so `PHackingHARKing` has the code `p_hacking_harking`, not `p_hacking_har_king` as a plain snake_case conversion of the local name gives. No other mode's code is affected.

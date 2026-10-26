@@ -13,14 +13,17 @@ Rules
      Cause                             == caveat:causation
      Subclasses                        == exact set of direct subclasses
      Examples                          subset of direct subclasses
-     Parent                            == direct CAVEAT superclass
-     Parent default severity           == parent's caveat:defaultSeverity
+     Parent                            one of the direct CAVEAT superclasses
+     Parent default severity           == that parent's caveat:defaultSeverity
      Lexicon file                      == caveat:lexiconFile
+     Rationale                         not empty
    and some tables must be complete:
      Category + Default severity       all direct children of UnreliabilityMode
      Family                            all direct children of DetectionMarker
      Mode + Lexicon file               all classes with caveat:lexiconFile
-     Class + Parent default severity   all classes below their parent
+     Class + Parent default severity   every (class, parent) pair with the class
+                                       below that parent; with a Rationale
+                                       column, every pair with the class above
 
 Write docs in these shapes and the facts are enforced. Write them any other
 way and they are not.
@@ -89,23 +92,18 @@ def parents(g, name):
     )
 
 
-def parent(g, name):
-    ps = parents(g, name)
-    return ps[0] if len(ps) == 1 else None
-
-
 def severity(g, name):
     v = g.value(CAVEAT[name], CAVEAT.defaultSeverity)
     return None if v is None else Decimal(str(v))
 
 
-def below_parent(g):
+def severity_pairs(g, above):
     out = set()
     for c in caveat_classes(g):
-        p = parent(g, c)
-        s, ps = severity(g, c), severity(g, p) if p else None
-        if s is not None and ps is not None and s < ps:
-            out.add(c)
+        for p in parents(g, c):
+            s, ps = severity(g, c), severity(g, p)
+            if s is not None and ps is not None and (s > ps if above else s < ps):
+                out.add((c, p))
     return out
 
 
@@ -170,7 +168,14 @@ def test_tables(g, path):
                 errors.append(f"bad class cell {row[header[0]]!r}")
                 continue
             c = ticked[0]
-            seen.add(c)
+            listed_parent = None
+            if "Parent" in cols:
+                listed = TICKED.findall(row["Parent"])
+                if len(listed) != 1 or listed[0] not in parents(g, c):
+                    errors.append(f"{c} parent {listed} not among {parents(g, c)}")
+                    continue
+                listed_parent = listed[0]
+            seen.add((c, listed_parent) if listed_parent else c)
             if "Default severity" in cols:
                 if severity(g, c) != Decimal(row["Default severity"]):
                     errors.append(f"{c} severity {row['Default severity']} != {severity(g, c)}")
@@ -186,14 +191,12 @@ def test_tables(g, path):
                 extra = set(TICKED.findall(row["Examples"])) - children(g, c)
                 if extra:
                     errors.append(f"{c} examples not direct subclasses: {sorted(extra)}")
-            if "Parent" in cols:
-                listed = TICKED.findall(row["Parent"])
-                if listed != [parent(g, c)]:
-                    errors.append(f"{c} parent {listed} != {parent(g, c)}")
             if "Parent default severity" in cols:
-                ps = severity(g, parent(g, c))
+                ps = severity(g, listed_parent)
                 if ps != Decimal(row["Parent default severity"]):
                     errors.append(f"{c} parent severity {row['Parent default severity']} != {ps}")
+            if "Rationale" in cols and not row["Rationale"].strip():
+                errors.append(f"{c} has no rationale")
             if "Lexicon file" in cols:
                 listed = TICKED.findall(row["Lexicon file"])
                 actual = str(g.value(CAVEAT[c], CAVEAT.lexiconFile))
@@ -208,7 +211,7 @@ def test_tables(g, path):
         elif header[0] == "Mode" and "Lexicon file" in cols:
             expected = {local(s) for s in g.subjects(CAVEAT.lexiconFile, None)}
         elif header[0] == "Class" and "Parent default severity" in cols:
-            expected = below_parent(g)
+            expected = severity_pairs(g, above="Rationale" in cols)
         if expected is not None and seen != expected:
             errors.append(
                 f"table {header} incomplete: missing {sorted(expected - seen)}, "

@@ -33,7 +33,7 @@ All ontology changes start as GitHub issues. Use the appropriate issue template:
 ## Implementing Changes
 
 1. Create a branch named `{issue-number}-{short-description}` (e.g., `42-add-crystal-healing`).
-2. Make changes in the appropriate module file under `src/ontology/modules/`.
+2. Make changes in the appropriate module file under `src/ontology/modules/`. Changes to the mode hierarchy go through a reviewed proposal applied by `scripts/authoring/apply_proposal.py` (see [docs/proposals.md](docs/proposals.md)), not through hand edits.
 3. Run `python scripts/validate.py` to check consistency.
 4. Run `python -m pytest tests/` to verify competency questions still pass.
    Install the pre-push hook once with `pip install -r requirements-dev.txt`
