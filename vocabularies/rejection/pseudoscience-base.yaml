@@ -6,8 +6,8 @@
 domain: "caveat:Pseudoscience"
 inherits_from: "none"
 annotation:
-  annotator: ""
-  reviewer: ""
+  annotator: "vr"
+  reviewer: "vr"
 extraction_method:
   source: "Cochrane systematic reviews, Science-Based Medicine editorial language, ORI guidance documents"
   method: "Manual curation from established critical and regulatory sources"
