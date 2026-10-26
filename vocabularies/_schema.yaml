@@ -103,9 +103,8 @@ properties:
     type: object
     description: >
       Who wrote this file and who reviewed it, as initials. The reviewer
-      must be listed in .reviewers and differ from the annotator, unless
-      the annotator is a listed person; an agent-written file uses
-      annotator "agent". Checked by
+      must be listed in .reviewers and differ from the annotator; an
+      agent-written file uses annotator "agent". Checked by
       scripts/check_reviewed.py. See docs/review.md.
     required:
       - annotator

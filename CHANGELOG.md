@@ -23,6 +23,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)
 - `docs/vocabulary-inheritance.md` describes the breadth-first, multi-parent resolution that `scripts/resolve_vocabulary.py` performs
 - The Pages workflow installs PyYAML, needed to build `modes.csv`
+- Finding codes are published in `modes.csv`, which is their source of truth from this release on. An acronym followed by a lowercase "ing" or "s" is one word, so `PHackingHARKing` has the code `p_hacking_harking`, not `p_hacking_har_king` as a plain snake_case conversion of the local name gives. No other mode's code is affected.
 
 ## [0.4.0] - 2026-09-16
 

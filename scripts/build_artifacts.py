@@ -49,8 +49,15 @@ def merged_graph() -> Graph:
 
 
 def finding_code(local: str) -> str:
-    """The snake_case local name shown to users, e.g. cold_fusion_lenr."""
-    s = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", local)
+    """The snake_case local name shown to users, e.g. cold_fusion_lenr.
+
+    An acronym followed by a lowercase "ing" or "s" is one word:
+    PHackingHARKing gives p_hacking_harking. modes.csv is the source of
+    truth for finding codes; consumers should read them from it.
+    """
+    s = re.sub(r"([A-Z]{2,})(ing|s)(?=[A-Z0-9]|$)",
+               lambda m: m.group(1).capitalize() + m.group(2), local)
+    s = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", s)
     s = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s)
     return s.lower()
 

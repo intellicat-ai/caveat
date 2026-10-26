@@ -16,7 +16,7 @@ An agent-written record uses `annotator: agent`. Proposal records also name thei
 ## Rules
 
 - `reviewer` is not empty, and the initials are listed in `.reviewers`.
-- `reviewer` differs from `annotator`. While CAVEAT has a single maintainer, a person listed in `.reviewers` may review their own records. Agent-authored records always need a listed reviewer who is not the annotator. This exception will be removed when a second reviewer joins.
+- `reviewer` differs from `annotator`. The only exception is the five lexicons written before the review gate existed, which their author reviewed; `scripts/check_reviewed.py` lists their paths. Every other record, including any new lexicon, needs a reviewer who is not its annotator.
 - An agent never fills in the `reviewer` field. Reviewing means reading the record and editing it where needed, then adding your initials.
 
 ## Enforcement

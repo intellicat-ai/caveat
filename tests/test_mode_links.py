@@ -241,6 +241,9 @@ def test_rebutted_by_is_projection(g):
     ("ColdFusionLENR", "cold_fusion_lenr"),
     ("ESPPrecognition", "esp_precognition"),
     ("NRays", "n_rays"),
+    ("PHackingHARKing", "p_hacking_harking"),
+    ("COVID19Misinformation", "covid19_misinformation"),
+    ("LLMConversationArticle", "llm_conversation_article"),
     ("UnreliabilityMode", "unreliability_mode"),
 ])
 def test_finding_code(local_name, code):

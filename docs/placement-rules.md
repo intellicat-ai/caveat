@@ -51,7 +51,7 @@ A class gets children only when the candidates differ in default severity, or wh
 
 ## R11. Finding codes read as failures
 
-A mode's finding code is its local name in snake_case (`ColdFusionLENR` becomes `cold_fusion_lenr`), and users see it. It must not read as an accusation against a legitimate method. Where the method itself is legitimate, the name carries the failure word: formulaic, unprovenanced, misapplication.
+A mode's finding code is its local name in snake_case (`ColdFusionLENR` becomes `cold_fusion_lenr`), as published in the release's `modes.csv`, and users see it. It must not read as an accusation against a legitimate method. Where the method itself is legitimate, the name carries the failure word: formulaic, unprovenanced, misapplication.
 
 ## Contrasts worth keeping
 

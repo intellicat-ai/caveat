@@ -75,9 +75,8 @@ proposal records, rebuttal manifest rows and mode-domain rows) carry an
 `annotation` block with `annotator` and `reviewer` initials, as in TRACES.
 A record is complete only when a person has reviewed it and added their
 initials as `reviewer`. The reviewer must be listed in `.reviewers` and
-must differ from the annotator, except that a listed person may review
-their own records while CAVEAT has a single maintainer. An agent never
-fills in the `reviewer` field.
+must differ from the annotator. An agent never fills in the `reviewer`
+field.
 
 `scripts/check_reviewed.py` enforces this as a `pre-push` hook and again
 in CI, because local hooks can be skipped. The check catches a forgotten

@@ -7,7 +7,7 @@ import pytest
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-from check_reviewed import check  # noqa: E402
+from check_reviewed import LEGACY_SELF_REVIEWED, check  # noqa: E402
 
 
 def lexicon(annotator="agent", reviewer="vr"):
@@ -57,14 +57,29 @@ def test_bad_annotation(root, ann, expected):
     assert len(errors) == 1 and expected in errors[0]
 
 
-def test_self_review_by_listed_person_passes(root):
-    write_lexicon(root, lexicon(annotator="vr", reviewer="VR"))
+def test_new_self_reviewed_record_fails(root):
+    """Self-review fails on any record that is not a legacy lexicon, even by a listed person."""
+    write_lexicon(root, lexicon(annotator="vr", reviewer="vr"))
+    errors = check(root)
+    assert len(errors) == 1 and "also the annotator" in errors[0]
+
+
+def test_legacy_lexicon_self_review_passes(root):
+    rel = "vocabularies/engagement/magnetized-water.yaml"
+    assert rel in LEGACY_SELF_REVIEWED
+    write_lexicon(root, lexicon(annotator="vr", reviewer="VR"), name="magnetized-water.yaml")
     assert check(root) == []
 
 
-def test_self_review_by_unlisted_annotator_fails(root):
-    write_lexicon(root, lexicon(annotator="zz", reviewer="zz"))
-    assert "also the annotator" in check(root)[0]
+def test_legacy_lexicon_still_needs_listed_reviewer(root):
+    write_lexicon(root, lexicon(annotator="zz", reviewer="zz"), name="magnetized-water.yaml")
+    assert "not listed in .reviewers" in check(root)[0]
+
+
+def test_legacy_list_matches_repo():
+    """Every legacy path exists; a stale entry fails here."""
+    repo = Path(__file__).resolve().parent.parent
+    assert all((repo / p).is_file() for p in LEGACY_SELF_REVIEWED)
 
 
 def test_missing_annotation_block(root):
