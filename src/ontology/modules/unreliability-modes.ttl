@@ -442,6 +442,12 @@ caveat:HormesisHealthClaims a owl:Class ;
     rdfs:comment "Scope note: the mode concerns benefits claimed from low doses. Whether low-dose risk follows a linear no-threshold model is a separate question of risk assessment on which this mode takes no side."@en ;
     caveat:defaultSeverity "0.7"^^xsd:decimal .
 
+caveat:MolecularHydrogenBioactivity a owl:Class ;
+    rdfs:subClassOf caveat:PathologicalScience ;
+    rdfs:label "molecular hydrogen bioactivity claims"@en ;
+    caveat:definition "A pathological science claiming that molecular hydrogen, given as hydrogen-rich water, gas or saline, protects against disease, treats it, or promotes growth and stress tolerance in humans, animals, plants or microorganisms, typically by selectively removing reactive oxygen species. The reported effects are small or inconsistent under controlled conditions and are defended by appeals to dual or context-dependent action. Applies whatever the organism. Excludes uses of hydrogen as a diagnostic marker in breath tests and the chemistry of hydrogen with radicals studied without a claim of biological benefit."@en ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
+
 caveat:SystematicMisinterpretation a owl:Class ;
     rdfs:subClassOf caveat:InterpretiveFailure ;
     rdfs:label "systematic misinterpretation"@en ;

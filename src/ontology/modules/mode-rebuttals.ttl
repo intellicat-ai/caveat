@@ -115,3 +115,10 @@ caveat:rebuttal_Homeopathy_ernst_2002_homeopathy_reviews a owl:NamedIndividual, 
     caveat:rebuttalScope "clinical efficacy" ;
     caveat:rebuttalSource <https://doi.org/10.1046/j.1365-2125.2002.01699.x> .
 caveat:Homeopathy caveat:rebuttedBy <https://doi.org/10.1046/j.1365-2125.2002.01699.x> .
+
+caveat:rebuttal_MolecularHydrogenBioactivity_li_2024_hydrogen_oxidative_stress a owl:NamedIndividual, caveat:RebuttalLink ;
+    caveat:rebutsMode caveat:MolecularHydrogenBioactivity ;
+    caveat:rebuttalKind caveat:Reanalysis ;
+    caveat:rebuttalScope "exercise-induced oxidative stress in healthy adults" ;
+    caveat:rebuttalSource <https://doi.org/10.3389/fnut.2024.1328705> .
+caveat:MolecularHydrogenBioactivity caveat:rebuttedBy <https://doi.org/10.3389/fnut.2024.1328705> .

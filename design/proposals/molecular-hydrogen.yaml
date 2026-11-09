@@ -1,0 +1,76 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: molecular-hydrogen
+intent: new_mode
+decision: new_mode
+date: '2026-11-09'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: Adds a pathological-science mode for claims that molecular hydrogen, given as hydrogen-rich water,
+  gas or saline, has broad protective, therapeutic or growth-promoting effects. One class covers medicine,
+  livestock and crops, because the same claim and vocabulary appear in all three.
+sources:
+- ref: https://doi.org/10.3389/fnut.2023.1094767
+  role: background
+  title: 'Effects of molecular hydrogen supplementation on fatigue and aerobic capacity in healthy adults:
+    A systematic review and meta-analysis'
+  year: 2023
+  openalex_id: W4318999747
+  note: Mixed result (small effects on perceived exertion and lactate, none on aerobic capacity); not
+    used as a rebuttal.
+classes:
+- name: MolecularHydrogenBioactivity
+  op: create
+  parents:
+  - PathologicalScience
+  label: molecular hydrogen bioactivity claims
+  definition: A pathological science claiming that molecular hydrogen, given as hydrogen-rich water, gas
+    or saline, protects against disease, treats it, or promotes growth and stress tolerance in humans,
+    animals, plants or microorganisms, typically by selectively removing reactive oxygen species. The
+    reported effects are small or inconsistent under controlled conditions and are defended by appeals
+    to dual or context-dependent action. Applies whatever the organism. Excludes uses of hydrogen as a
+    diagnostic marker in breath tests and the chemistry of hydrogen with radicals studied without a claim
+    of biological benefit.
+  default_severity: '0.7'
+  placement:
+  - rule: R2
+    note: Not an invented construct and not excluded by first principles; the failure is a claimed effect
+      that shrinks under control and is defended ad hoc, which is the pathological-science differentia.
+  - rule: R10
+    note: One class, not one per domain. The clinical, livestock and crop papers make the same claim with
+      the same vocabulary at the same severity.
+  - rule: R5
+    note: Footprint far above the threshold in each domain (see checks).
+  checks:
+    genus_holds: Both exemplars report benefits of hydrogen-rich water attributed to reduced oxidative
+      damage, one in patients and one in seedlings.
+    siblings_excluded:
+      ColdFusionLENR: a nuclear-physics claim
+      NRays: a perception artifact
+      HormesisHealthClaims: concerns low doses of harmful agents, not a supposedly inert antioxidant
+    footprint:
+      query: OpenAlex works, filter title_and_abstract.search:("hydrogen-rich water" OR "hydrogen rich
+        water" OR "molecular hydrogen" OR "hydrogen-rich saline" OR "hydrogen gas inhalation")
+      date: '2026-11-09'
+      clinical: 918
+      plants_and_crops: 439
+      livestock: 94
+      note: The unrestricted count (22062) is not precise, since "molecular hydrogen" also matches astrophysics.
+      author_groups: at least 200 institution lineages
+    rebuttal_gap: The argument that hydrogen reacts too slowly with hydroxyl radicals to compete with
+      cellular targets has no verified source yet.
+rebuttals:
+- id: li_2024_hydrogen_oxidative_stress
+  mode: MolecularHydrogenBioactivity
+  kind: Reanalysis
+  scope: exercise-induced oxidative stress in healthy adults
+  source: https://doi.org/10.3389/fnut.2024.1328705
+  doi: 10.3389/fnut.2024.1328705
+  is_retracted: false
+  openalex_id: W4393156543
+  title: Can molecular hydrogen supplementation reduce exercise-induced oxidative stress in healthy adults?
+    A systematic review and meta-analysis
+  year: 2024
+  venueType: journal
+  retrieved: '2026-11-09'

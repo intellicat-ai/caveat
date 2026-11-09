@@ -31,6 +31,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Mode `HormesisHealthClaims` under `PathologicalScience` (proposal `hormesis-health-claims`)
 - 13 terms in `vocabularies/rejection/denialism-base.yaml` (proposal `denialism-lexicon`)
 - 1 terms in `vocabularies/engagement/water-memory.yaml` (proposal `dna-teleportation`)
+- Mode `MolecularHydrogenBioactivity` under `PathologicalScience` (proposal `molecular-hydrogen`)
+- Rebuttal link for `MolecularHydrogenBioactivity`: Reanalysis, https://doi.org/10.3389/fnut.2024.1328705 (proposal `molecular-hydrogen`)
 
 ### Changed
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)
