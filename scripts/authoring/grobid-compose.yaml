@@ -1,0 +1,8 @@
+# Grobid for scripts/authoring/acquire.py (PDF -> TEI). CRF models only.
+#   docker compose -f scripts/authoring/grobid-compose.yaml up -d
+services:
+  grobid:
+    image: grobid/grobid:0.9.1-crf
+    ports:
+      - "127.0.0.1:8070:8070"
+    restart: "no"

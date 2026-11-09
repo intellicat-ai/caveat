@@ -127,6 +127,7 @@ Install the development dependencies with `pip install -r requirements-dev.txt`.
 - `python scripts/check_assessment.py FILE.json` validates `caveat-assessment/1` payloads against `vocabularies/profiles/`.
 - `python scripts/build_artifacts.py OUT_DIR` builds the release artifacts into `OUT_DIR`.
 - `python scripts/check_reviewed.py` checks that every agent-authored record (lexicon files, and later proposal records and mapping rows) names a human reviewer listed in `.reviewers`. It also runs as a `pre-push` hook; install it with `pre-commit install --hook-type pre-push`.
+- `scripts/authoring/` also holds the drafting tools that gather evidence for a proposal (sources, terms, domains, rebuttals); they need `requirements-authoring.txt` and a local Grobid service. See [docs/proposals.md](docs/proposals.md).
 - `python scripts/authoring/apply_proposal.py work/<slug>/proposal.yaml` applies a reviewed mode proposal: it edits the ontology, lexicons, mappings and docs, runs the checks and commits on the current feature branch. See [docs/proposals.md](docs/proposals.md).
 - `python -m pytest tests/` runs the test suite, including release-artifact build checks and a check that this README and `docs/` match the ontology.
 

@@ -19,6 +19,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - `design/mode-links.yaml` and `tests/test_mode_links.py`
 - Mode proposals: `design/proposal.schema.json` (`caveat-proposal/1`) and `scripts/authoring/apply_proposal.py`, which applies a reviewed proposal deterministically (statement-level Turtle edits verified against the intended triples, lexicons, mapping rows, severity tables, changelog lines, a committed record in `design/proposals/`), runs the checks and commits; `docs/proposals.md`
 - `docs/severity-defaults.md`: table of classes above a parent, with a rationale column
+- Drafting tools in `scripts/authoring/` (`acquire.py`, `terms.py`, `harvest.py`, `domains.py`, `rebuttals.py`, with a cached, paced OpenAlex client), `requirements-authoring.txt`, a pinned Grobid compose file, and `design/mode-request.schema.json`
 - Docs: `docs/placement-rules.md`, `docs/review.md`, `docs/rebuttals.md`; mode domains and rebuttal sources in `mappings/README.md`
 - Mode `AlternativeMedicine` under `Pseudoscience` (proposal `cam-hubs`)
 - Mode `HeritageMedicineTradition` under `AlternativeMedicine` (proposal `cam-hubs`)

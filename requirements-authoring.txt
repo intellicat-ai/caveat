@@ -1,0 +1,9 @@
+# Dependencies for scripts/authoring/ only. Ontology CI does not install these.
+# Grobid runs as a container: scripts/authoring/grobid-compose.yaml
+-r requirements-dev.txt
+requests
+requests-cache
+trafilatura
+lxml
+spacy
+scikit-learn

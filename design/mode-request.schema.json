@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CAVEAT mode request",
+  "description": "What a requester asks for, written to work/<slug>/request.yaml before drafting starts. The drafter turns it into a proposal (design/proposal.schema.json). See docs/proposals.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["slug", "intent", "guidance"],
+  "properties": {
+    "slug": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "intent": {"enum": ["new_mode", "extend_mode", "lexicon_only", "reclassify"]},
+    "proposed_name": {"type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$"},
+    "proposed_parents": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z][A-Za-z0-9]*$"}},
+    "guidance": {"type": "string", "minLength": 1, "description": "The requester's paragraph. Never ships."},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "role"],
+        "properties": {
+          "ref": {"type": "string", "description": "A DOI, an OpenAlex work id, a URL, or a local PDF path."},
+          "role": {"enum": ["exemplar", "rebuttal", "definition", "background", "pointer"]}
+        }
+      }
+    },
+    "counter_exemplars": {"type": "array", "items": {"type": "string"}},
+    "severity_override": {"type": "string", "pattern": "^(0(\\.[0-9]+)?|1(\\.0+)?)$"}
+  }
+}

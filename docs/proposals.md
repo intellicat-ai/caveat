@@ -14,6 +14,22 @@ Changes to the unreliability mode hierarchy (new modes, moves, second parents, r
 
    The script checks the proposal, writes every affected file, runs `scripts/validate.py`, `scripts/check_reviewed.py` and the test suite, and commits. It never pushes. If anything fails, it restores every file it touched and exits with the reason.
 
+## Drafting tools
+
+The scripts in `scripts/authoring/` gather the evidence a proposal records. They need `pip install -r requirements-authoring.txt`, and PDF conversion needs the local Grobid service (`docker compose -f scripts/authoring/grobid-compose.yaml up -d`). Settings, including the OpenAlex key and an optional `mailto`, come from the git-ignored `config/openalex.toml`; responses are cached under `work/`.
+
+| Script | Stage |
+|---|---|
+| `acquire.py` | Fetch source texts: open-access PDFs through Grobid, web pages through main-text extraction |
+| `terms.py` | Candidate terms from the exemplars, their OpenAlex counts, and 20-title precision probes that set each term's `level` |
+| `harvest.py` | Sample open-access full texts matching the terms, and count the other modes they show: a `typically_exhibits` candidate needs at least 5 works and 25% of those read |
+| `domains.py` | OpenAlex topics ranked by lift, and contamination probes of a host topic (a random and a most-cited stratum, with Wilson 95% intervals) |
+| `rebuttals.py` | Resolve and check rebuttal sources: Crossref metadata and retraction notices, OpenAlex ids, archived copies of pages without a DOI |
+
+The scripts collect and count; judgments stay with the drafter and the reviewer. Every label a drafter assigns to a sampled paper stays under `work/`, and only aggregates reach a proposal. Every identifier comes from one of these lookups; a source that does not resolve is not used.
+
+A request for a proposal can be written to `work/<slug>/request.yaml`, validated by `design/mode-request.schema.json`.
+
 ## Format
 
 A proposal is YAML validated by `design/proposal.schema.json` (`schema: caveat-proposal/1`).
