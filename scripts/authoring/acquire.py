@@ -10,7 +10,8 @@ mailto is configured), is converted to TEI by the local Grobid service
 (scripts/authoring/grobid-compose.yaml) and to plain text. A web page is
 reduced to its main text. When Grobid cannot convert a PDF, its text layer
 is extracted with pdftotext (poppler); a PDF without a text layer (an image
-scan) is recorded as image_only_pdf. Texts go to work/<slug>/sources/, metadata to
+scan) is run through OCRmyPDF in a container (OCR_IMAGE, no network) when
+Docker is available, and is otherwise recorded as image_only_pdf. Texts go to work/<slug>/sources/, metadata to
 work/<slug>/meta/, and one line per REF to work/<slug>/meta/acquired.jsonl.
 Unavailable texts are recorded as such; nothing is guessed.
 """
@@ -31,6 +32,7 @@ import openalex  # noqa: E402
 from net import ROOT, Client  # noqa: E402
 
 GROBID = "http://127.0.0.1:8070/api/processFulltextDocument"
+OCR_IMAGE = "jbarlow83/ocrmypdf:v17.13.0"
 TEI = "{http://www.tei-c.org/ns/1.0}"
 
 
@@ -56,8 +58,23 @@ def grobid(pdf: bytes, session) -> bytes:
     return r.content
 
 
+def text_layer(pdf: bytes) -> str:
+    with tempfile.NamedTemporaryFile(suffix=".pdf") as tmp:
+        tmp.write(pdf)
+        tmp.flush()
+        return subprocess.run(["pdftotext", "-layout", tmp.name, "-"], capture_output=True, text=True).stdout
+
+
+def ocr(pdf: bytes) -> bytes | None:
+    if not shutil.which("docker"):
+        return None
+    r = subprocess.run(["docker", "run", "--rm", "-i", "--network", "none", OCR_IMAGE, "--force-ocr", "-q", "-", "-"],
+                       input=pdf, capture_output=True, timeout=900)
+    return r.stdout if r.returncode == 0 and r.stdout.startswith(b"%PDF") else None
+
+
 def pdf_to_text(pdf: bytes, key: str, sources: Path, session) -> tuple[str, str]:
-    """(status, how): Grobid first, then the PDF's own text layer."""
+    """(status, how): Grobid first, then the PDF's own text layer, then OCR."""
     try:
         tei = grobid(pdf, session)
         (sources / f"{key}.tei.xml").write_bytes(tei)
@@ -65,16 +82,19 @@ def pdf_to_text(pdf: bytes, key: str, sources: Path, session) -> tuple[str, str]
         return "ok", "grobid"
     except Exception:
         pass
-    if shutil.which("pdftotext"):
-        with tempfile.NamedTemporaryFile(suffix=".pdf") as tmp:
-            tmp.write(pdf)
-            tmp.flush()
-            text = subprocess.run(["pdftotext", "-layout", tmp.name, "-"], capture_output=True, text=True).stdout
+    if not shutil.which("pdftotext"):
+        return "conversion_failed", "grobid failed and pdftotext is not installed"
+    text = text_layer(pdf)
+    if len(text.split()) > 50:
+        (sources / f"{key}.txt").write_text(text)
+        return "ok", "pdftotext"
+    scanned = ocr(pdf)
+    if scanned is not None:
+        text = text_layer(scanned)
         if len(text.split()) > 50:
             (sources / f"{key}.txt").write_text(text)
-            return "ok", "pdftotext"
-        return "image_only_pdf", "no text layer"
-    return "conversion_failed", "grobid failed and pdftotext is not installed"
+            return "ok", "ocr"
+    return "image_only_pdf", "no text layer; OCR unavailable or failed"
 
 
 def unpaywall_pdf(client: Client, doi: str) -> str | None:
