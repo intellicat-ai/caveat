@@ -30,6 +30,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Mode `AnomalousWaterClaims` under `Pseudoscience`, `UnphysicalMechanism` (proposal `anomalous-water`)
 - Mode `HormesisHealthClaims` under `PathologicalScience` (proposal `hormesis-health-claims`)
 - 13 terms in `vocabularies/rejection/denialism-base.yaml` (proposal `denialism-lexicon`)
+- 1 terms in `vocabularies/engagement/water-memory.yaml` (proposal `dna-teleportation`)
 
 ### Changed
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)

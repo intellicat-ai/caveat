@@ -287,7 +287,8 @@ caveat:WaterMemory a owl:Class ;
     rdfs:subClassOf caveat:UltraHighDilution ;
     rdfs:label "water memory"@en ;
     caveat:definition "An ultra-high dilution pseudoscience that claims water retains structural or informational properties of substances previously dissolved in it, even after dilution beyond molecular presence. Distinguished from homeopathic pharmacology by being the proposed underlying mechanism rather than an application."@en ;
-    caveat:defaultSeverity "1.0"^^xsd:decimal .
+    caveat:defaultSeverity "1.0"^^xsd:decimal ;
+    caveat:lexiconFile "engagement/water-memory.yaml" .
 
 caveat:MagnetizedWater a owl:Class ;
     rdfs:subClassOf caveat:AnomalousWaterClaims ;

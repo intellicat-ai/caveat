@@ -1,0 +1,55 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: dna-teleportation
+intent: new_mode
+decision: lexicon_only
+date: '2026-11-09'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: 'Evaluates the claim that DNA sequences in highly diluted water emit electromagnetic signals
+  that can be recorded, transmitted and used to rebuild the DNA, as a candidate child of water memory.
+  It falls short of the publication footprint for a mode of its own, so it is handled as vocabulary of
+  water memory: a new water-memory lexicon with the one term that reached the precision threshold.'
+sources: []
+classes:
+- name: WaterMemory
+  op: update
+  lexicon_file: engagement/water-memory.yaml
+  checks:
+    candidate: A child of water memory for the claim that diluted DNA emits electromagnetic signals from
+      which the DNA can be rebuilt elsewhere.
+    genus_holds: Yes. The claim is that water retains and passes on information about a substance no longer
+      present, which is the water-memory differentia.
+    r2_test: Advances constructs of its own (signal-emitting aqueous nanostructures) and is excluded by
+      first principles through its parent chain; it is neither defined by opposition to a consensus nor
+      a measurement at the detection limit.
+    footprint: Fails R5. An OpenAlex query on the claim's distinctive phrases found 11 works, mostly from
+      one research group and its commentators, against a default of 25 works from 3 independent author
+      groups.
+    footprint_query: title_and_abstract.search:("DNA teleportation" OR "aqueous nanostructures" OR "electromagnetic
+      signals from DNA" OR "DNA waves" OR "electromagnetic signals produced by"), title_and_abstract.search:(DNA
+      AND water), 2026-11-09
+    decision: No new class (R5, R10). The claim stays a clause of water memory, and its distinctive vocabulary
+      goes into a water-memory lexicon.
+    rebuttal: Gap. No replication, reanalysis or forensic critique was found in OpenAlex; news coverage
+      exists but its text was not available.
+lexicons:
+- file: engagement/water-memory.yaml
+  domain: caveat:WaterMemory
+  inherits_from: caveat:UltraHighDilution
+  extraction_method:
+    source: OpenAlex exact-phrase searches in titles and abstracts, with context words
+    method: Candidate phrases from open-access texts of the claim's papers; 20-title precision probes
+      labelled against the water-memory definition
+    date: '2026-11-09'
+    source_corpus_size: 11
+    source_corpus_method: OpenAlex count for the footprint query, 2026-11-09
+  terms:
+  - term: DNA waves
+    classification: engagement
+    level: domain_characteristic
+    general_frequency: specialized
+    context_required: water OR homeopathy OR homeopathic OR dilution
+    rationale: With one of the context words, 7 of 10 probed works assert DNA information carried by waves
+      in water (precision 0.7, Wilson 95% interval 0.40-0.89). Without context, 11 of 20 (0.55).
