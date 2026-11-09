@@ -433,6 +433,13 @@ caveat:NRays a owl:Class ;
     caveat:definitionSource "Wood, R.W. (1904). Nature 70:530-531." ;
     caveat:defaultSeverity "0.7"^^xsd:decimal .
 
+caveat:HormesisHealthClaims a owl:Class ;
+    rdfs:subClassOf caveat:PathologicalScience ;
+    rdfs:label "hormesis health claims"@en ;
+    caveat:definition "A pathological science claiming that low doses of ionizing radiation or of toxic agents benefit health or protect against disease, offered as grounds for treatment, health advice or reduced protection. The claimed benefits are small effects near the limit of detection, championed by one school and defended against null or contrary findings with ad hoc explanations. Excludes the study of biphasic dose-response curves, adaptive responses and preconditioning when no health or protection claim is made, and homeopathy argued through hormesis."@en ;
+    rdfs:comment "Scope note: the mode concerns benefits claimed from low doses. Whether low-dose risk follows a linear no-threshold model is a separate question of risk assessment on which this mode takes no side."@en ;
+    caveat:defaultSeverity "0.7"^^xsd:decimal .
+
 caveat:SystematicMisinterpretation a owl:Class ;
     rdfs:subClassOf caveat:InterpretiveFailure ;
     rdfs:label "systematic misinterpretation"@en ;

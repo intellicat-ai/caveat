@@ -27,6 +27,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - Rebuttal link for `Homeopathy`: Reanalysis, https://doi.org/10.1046/j.1365-2125.2002.01699.x (proposal `cam-hubs`)
 - Mode `UnphysicalMechanism` under `PremiseLevelFailure` (proposal `anomalous-water`)
 - Mode `AnomalousWaterClaims` under `Pseudoscience`, `UnphysicalMechanism` (proposal `anomalous-water`)
+- Mode `HormesisHealthClaims` under `PathologicalScience` (proposal `hormesis-health-claims`)
 
 ### Changed
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)

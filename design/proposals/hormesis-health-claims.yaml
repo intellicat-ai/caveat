@@ -1,0 +1,51 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: hormesis-health-claims
+intent: new_mode
+decision: new_mode
+date: '2026-11-08'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: 'Adds a pathological-science mode for hormesis offered as a health claim: low doses of ionizing
+  radiation or of toxic agents presented as beneficial to health or protective against disease. The study
+  of biphasic dose-response curves and adaptive responses, without such a claim, is out of scope, and
+  homeopathy argued through hormesis stays under Homeopathy.'
+classes:
+- name: HormesisHealthClaims
+  op: create
+  parents:
+  - PathologicalScience
+  label: hormesis health claims
+  definition: A pathological science claiming that low doses of ionizing radiation or of toxic agents
+    benefit health or protect against disease, offered as grounds for treatment, health advice or reduced
+    protection. The claimed benefits are small effects near the limit of detection, championed by one
+    school and defended against null or contrary findings with ad hoc explanations. Excludes the study
+    of biphasic dose-response curves, adaptive responses and preconditioning when no health or protection
+    claim is made, and homeopathy argued through hormesis.
+  comment: 'Scope note: the mode concerns benefits claimed from low doses. Whether low-dose risk follows
+    a linear no-threshold model is a separate question of risk assessment on which this mode takes no
+    side.'
+  default_severity: '0.7'
+  placement:
+  - rule: R2
+    note: The claim is not an invented construct (hormetic dose-response curves exist) and is not excluded
+      by first principles; what fails is the inference to a health benefit from effects at the detection
+      limit, which is the pathological-science differentia.
+  - rule: R5
+    note: Footprint far above the threshold (see checks).
+  - rule: R11
+    note: The name carries the claim framing, so the finding code does not read as an accusation against
+      dose-response research.
+  checks:
+    footprint:
+      works_title: 243
+      query_title: 'OpenAlex works, filter title.search: radiation hormesis'
+      works_framed: 1941
+      query_framed: 'OpenAlex works, filter title_and_abstract.search: (hormesis OR hormetic) AND ("health
+        benefit" OR beneficial OR protective OR therapy OR therapeutic)'
+      date: '2026-11-08'
+      author_groups: at least 10 distinct institution lineages in the title query
+    siblings_excluded:
+      ColdFusionLENR: a nuclear-physics claim, not a health claim
+      NRays: a measurement artifact, not a dose-response claim
