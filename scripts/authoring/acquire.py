@@ -8,7 +8,9 @@ A REF is a DOI, an OpenAlex work id (W...), an http(s) URL, or a local PDF.
 For a work, the open-access PDF comes from OpenAlex (or Unpaywall when a
 mailto is configured), is converted to TEI by the local Grobid service
 (scripts/authoring/grobid-compose.yaml) and to plain text. A web page is
-reduced to its main text. Texts go to work/<slug>/sources/, metadata to
+reduced to its main text. When Grobid cannot convert a PDF, its text layer
+is extracted with pdftotext (poppler); a PDF without a text layer (an image
+scan) is recorded as image_only_pdf. Texts go to work/<slug>/sources/, metadata to
 work/<slug>/meta/, and one line per REF to work/<slug>/meta/acquired.jsonl.
 Unavailable texts are recorded as such; nothing is guessed.
 """
@@ -17,7 +19,10 @@ import datetime
 import hashlib
 import json
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -51,6 +56,27 @@ def grobid(pdf: bytes, session) -> bytes:
     return r.content
 
 
+def pdf_to_text(pdf: bytes, key: str, sources: Path, session) -> tuple[str, str]:
+    """(status, how): Grobid first, then the PDF's own text layer."""
+    try:
+        tei = grobid(pdf, session)
+        (sources / f"{key}.tei.xml").write_bytes(tei)
+        (sources / f"{key}.txt").write_text(tei_to_text(tei))
+        return "ok", "grobid"
+    except Exception:
+        pass
+    if shutil.which("pdftotext"):
+        with tempfile.NamedTemporaryFile(suffix=".pdf") as tmp:
+            tmp.write(pdf)
+            tmp.flush()
+            text = subprocess.run(["pdftotext", "-layout", tmp.name, "-"], capture_output=True, text=True).stdout
+        if len(text.split()) > 50:
+            (sources / f"{key}.txt").write_text(text)
+            return "ok", "pdftotext"
+        return "image_only_pdf", "no text layer"
+    return "conversion_failed", "grobid failed and pdftotext is not installed"
+
+
 def unpaywall_pdf(client: Client, doi: str) -> str | None:
     mailto = client.config.get("mailto")
     if not mailto:
@@ -75,10 +101,9 @@ def acquire_work(client: Client, ref: str, sources: Path, meta: Path) -> dict:
     r = client.get(url)
     if r.status_code != 200 or not r.content.startswith(b"%PDF"):
         return rec | {"status": "pdf_unavailable", "pdf_url": url}
-    tei = grobid(r.content, client.session)
-    (sources / f"{key}.tei.xml").write_bytes(tei)
-    (sources / f"{key}.txt").write_text(tei_to_text(tei))
-    return rec | {"status": "ok", "pdf_url": url, "text": f"sources/{key}.txt"}
+    status, how = pdf_to_text(r.content, key, sources, client.session)
+    rec |= {"status": status, "pdf_url": url, "converted_by": how}
+    return rec | ({"text": f"sources/{key}.txt"} if status == "ok" else {})
 
 
 def acquire_url(client: Client, url: str, sources: Path) -> dict:
@@ -96,10 +121,9 @@ def acquire_url(client: Client, url: str, sources: Path) -> dict:
 
 def acquire_pdf(client: Client, path: Path, sources: Path) -> dict:
     key = key_for(path.name)
-    tei = grobid(path.read_bytes(), client.session)
-    (sources / f"{key}.tei.xml").write_bytes(tei)
-    (sources / f"{key}.txt").write_text(tei_to_text(tei))
-    return {"ref": str(path), "key": key, "status": "ok", "text": f"sources/{key}.txt"}
+    status, how = pdf_to_text(path.read_bytes(), key, sources, client.session)
+    rec = {"ref": str(path), "key": key, "status": status, "converted_by": how}
+    return rec | ({"text": f"sources/{key}.txt"} if status == "ok" else {})
 
 
 def main(argv=None):
