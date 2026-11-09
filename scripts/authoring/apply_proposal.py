@@ -189,7 +189,8 @@ def shingles(text: str) -> set:
 
 def shipped_prose(prop: dict) -> list[tuple[str, str]]:
     """(field, text) for every prose string the proposal ships. Titles and
-    citations are bibliographic and are not checked."""
+    citations are bibliographic, and search queries in checks are recorded
+    verbatim; neither is checked."""
     out = [("summary", prop["summary"])]
     for c in prop.get("classes", []):
         for k in ("definition", "comment", "severity_rationale"):
@@ -203,6 +204,8 @@ def shipped_prose(prop: dict) -> list[tuple[str, str]]:
                 out.append((prefix, v))
             elif isinstance(v, dict):
                 for k2, v2 in v.items():
+                    if k2 == "query" or k2.endswith("_query"):
+                        continue
                     walk(f"{prefix}.{k2}", v2)
             elif isinstance(v, list):
                 for i2, v2 in enumerate(v):

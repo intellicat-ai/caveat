@@ -315,3 +315,14 @@ def test_docs_subclass_cells_follow(repo, tmp_path):
     row = next(l for l in (repo / "README.md").read_text().splitlines() if l.startswith("| `PremiseLevelFailure` |"))
     assert row.startswith("| `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism`")
     assert row.endswith(", `DemoWaterClaims` |")
+
+
+def test_overlap_skips_queries_but_not_prose(repo, tmp_path):
+    sources = tmp_path / "sources"
+    sources.mkdir()
+    (sources / "paper.txt").write_text("search terms were water memory OR structured water OR magnetized water OR coherent water")
+    cls = demo_class(checks={"footprint": {"query": "water memory OR structured water OR magnetized water OR coherent water"}})
+    assert run(repo, tmp_path, proposal(classes=cls), "--sources", str(sources)) == 0
+    git(repo, "reset", "-q", "--hard", "HEAD~1")
+    cls = demo_class(checks={"note": "terms were water memory OR structured water OR magnetized water OR coherent water"})
+    assert run(repo, tmp_path, proposal(classes=cls), "--sources", str(sources)) == 1
