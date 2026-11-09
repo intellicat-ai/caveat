@@ -649,6 +649,8 @@ def apply(root: Path, proposal_path: Path, sources: Path | None, run_pytest: boo
 
     def write(rel: Path, text: str):
         p = root / rel
+        if p.exists() and p.read_text() == text:
+            return
         if rel not in originals:
             originals[rel] = p.read_text() if p.exists() else None
         p.parent.mkdir(parents=True, exist_ok=True)
