@@ -30,4 +30,4 @@ Thumbs.db
 # Local secrets (API keys)
 config/openalex.toml
 
-work/
+/work
