@@ -565,6 +565,13 @@ def refresh_doc_tables(text: str, g: Graph) -> str:
                             cells[header.index("Default severity")] = str(sev)
                     lines[j] = "| " + " | ".join(cells) + " |"
             j += 1
+        if header[0] == "Mode" and "Lexicon file" in header:
+            # Every mode with a lexicon has a row; new ones are appended.
+            listed = {n for row in lines[i + 2:j] for n in re.findall(r"^\| `([^`]+)`", row)}
+            rows = [f"| `{te.local(c)}` | `{f}` |" for c, f in sorted(g.subject_objects(CAVEAT.lexiconFile), key=str)
+                    if te.local(c) not in listed]
+            lines[j:j] = rows
+            j += len(rows)
         i = j
     return "\n".join(lines)
 

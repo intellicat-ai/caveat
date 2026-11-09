@@ -66,7 +66,7 @@ Dropped items stay in `work/<slug>/` and still count for drafting. CAVEAT names 
 - **Lexicons.** A new lexicon file is generated; terms for an existing file are appended. A lexicon the script edits takes the proposal's `annotation`. When a class with a lexicon moves, the lexicon's `inherits_from` follows its first new parent.
 - **Domains and rebuttals.** Annotations on the class, rows in `mappings/openalex/mode-domains.csv`, link nodes in `mode-rebuttals.ttl` and rows in `mappings/rebuttals/manifest.jsonl`, all carrying the proposal's annotation.
 - **Severity tables.** Both tables in [severity-defaults.md](severity-defaults.md) are brought up to date. A class newly above a parent needs a `severity_rationale`, which becomes its row's rationale.
-- **Other docs tables.** In `README.md` and `docs/*.md`, the Subclasses and Default severity cells of class tables are brought up to date; listed subclasses keep their order and new ones are appended.
+- **Other docs tables.** In `README.md` and `docs/*.md`, the Subclasses and Default severity cells of class tables are brought up to date, and a mode with a new lexicon gets a row in Mode and Lexicon file tables; existing entries keep their order and new ones are appended.
 - **Changelog.** Lines under the Unreleased section for every new mode, move, rewritten definition, relabelling, severity change, association, lexicon, domain and rebuttal.
 
 ## Refusals
