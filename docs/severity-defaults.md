@@ -86,6 +86,8 @@ Every class whose default severity is higher than one of its parents', with the 
 | `AnomalousWaterClaims` | 1.0 | `Pseudoscience` | 0.95 | Every member claims a persistent property of liquid water that first principles exclude, so no part of the central claim survives; its existing members are all at 1.0. |
 | `AnomalousWaterClaims` | 1.0 | `UnphysicalMechanism` | 0.95 | Every member claims a persistent property of liquid water that first principles exclude, so no part of the central claim survives; its existing members are all at 1.0. |
 | `AntiEvidenceMedicine` | 0.95 | `Denialism` | 0.9 | Medical denialism argues against treatments and preventive measures directly, so the clinical claims of its papers are unreliable in full; the denialism hub also covers claims whose papers can contain usable data alongside the denial. |
+| `CargoCultMethodology` | 0.5 | `ExecutionLevelFailure` | 0.3 | Every instance lacks the test that could have refuted its hypothesis, so its central claim is unsupported by design; a typical execution failure only weakens a claim through a flaw. |
+| `FormulaicResearch` | 0.6 | `CargoCultMethodology` | 0.5 | A template run many times over also selects which of its instances get published, so false findings accumulate beyond those of a single ritual study. |
 
 ## Consumer Overrides
 

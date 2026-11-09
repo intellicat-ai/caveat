@@ -33,6 +33,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/).
 - 1 terms in `vocabularies/engagement/water-memory.yaml` (proposal `dna-teleportation`)
 - Mode `MolecularHydrogenBioactivity` under `PathologicalScience` (proposal `molecular-hydrogen`)
 - Rebuttal link for `MolecularHydrogenBioactivity`: Reanalysis, https://doi.org/10.3389/fnut.2024.1328705 (proposal `molecular-hydrogen`)
+- Mode `CargoCultMethodology` under `ExecutionLevelFailure` (proposal `formulaic-open-health-data`)
+- Mode `FormulaicResearch` under `CargoCultMethodology` (proposal `formulaic-open-health-data`)
+- Mode `FormulaicDataMining` under `FormulaicResearch` (proposal `formulaic-open-health-data`)
+- Mode `FormulaicOpenHealthDataAssociation` under `FormulaicDataMining` (proposal `formulaic-open-health-data`)
+- Rebuttal link for `FormulaicOpenHealthDataAssociation`: ForensicAnalysis, https://doi.org/10.1371/journal.pbio.3003152 (proposal `formulaic-open-health-data`)
+- Rebuttal link for `FormulaicOpenHealthDataAssociation`: FirstPrinciplesAnalysis, https://doi.org/10.1186/s12874-025-02712-0 (proposal `formulaic-open-health-data`)
 
 ### Changed
 - `caveat:definitionSource` accepts an IRI or a literal citation (comment updated; no values changed)

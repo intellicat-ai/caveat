@@ -1,0 +1,139 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: formulaic-open-health-data
+intent: new_mode
+decision: new_mode
+date: '2026-11-09'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: Adds a cargo cult methodology hub under execution-level failure for work that reproduces the
+  outward form of an investigation without a test that could come out against its hypothesis, a formulaic
+  research class for template-produced papers, a formulaic data mining class for papers that mine a public
+  dataset for arbitrary associations, and a leaf for single-factor association papers built on open health
+  surveys.
+sources:
+- ref: https://doi.org/10.1371/journal.pbio.3003152
+  role: definition
+  title: Explosion of formulaic research articles, including inappropriate study designs and false discoveries,
+    based on the NHANES US national health database
+  year: 2025
+  openalex_id: W4410206242
+- ref: https://resolver.caltech.edu/CaltechES:37.7.CargoCult
+  role: definition
+  title: Cargo Cult Science
+  year: 1974
+  openalex_id: W2181283379
+  note: Engineering and Science 37(7), pp. 10-13, per the publisher's landing page. The PDF is an image
+    scan without a text layer and was not machine-read.
+classes:
+- name: CargoCultMethodology
+  op: create
+  parents:
+  - ExecutionLevelFailure
+  label: cargo cult methodology
+  definition: An execution-level failure in which the work reproduces the outward form of an investigation,
+    such as apparatus, controls, assay panels and statistics, without the features that would let its
+    result come out against its hypothesis. Defined by form, not by intent.
+  definition_source: https://resolver.caltech.edu/CaltechES:37.7.CargoCult
+  comment: A class belongs under this hub only if every one of its instances is form without a discriminating
+    test. Failure kinds that also have honest, non-ritual instances, such as missing controls or uncorrected
+    multiple comparisons, are linked from here by typicallyExhibits, not placed under it.
+  default_severity: '0.5'
+  severity_rationale: Every instance lacks the test that could have refuted its hypothesis, so its central
+    claim is unsupported by design; a typical execution failure only weakens a claim through a flaw.
+  placement:
+  - rule: R1
+    note: A new hub inside the execution-level category; the four categories are unchanged.
+  - rule: R4
+    note: Membership requires that every instance is form without a discriminating test, which is why
+      honest failure kinds stay where they are.
+- name: FormulaicResearch
+  op: create
+  parents:
+  - CargoCultMethodology
+  label: formulaic research
+  definition: A cargo cult methodology in which papers are produced from a fixed template and differ only
+    in the variables swapped into it, such as exposure, outcome, agent, target, geometry or dataset, so
+    that no paper poses a question its method could answer against it.
+  default_severity: '0.6'
+  severity_rationale: A template run many times over also selects which of its instances get published,
+    so false findings accumulate beyond those of a single ritual study.
+  placement:
+  - rule: R4
+    note: The template is the form; swapping a variable is not asking a question, so every instance meets
+      the hub's differentia.
+  - rule: R11
+    note: The failure word is in the name, so its finding code does not accuse the methods it borrows.
+- name: FormulaicDataMining
+  op: create
+  parents:
+  - FormulaicResearch
+  label: formulaic data mining
+  definition: A formulaic research in which a public dataset is searched for associations between an exposure
+    and an outcome chosen for availability rather than motivated by a prior hypothesis. Excludes studies
+    with a pre-specified, motivated hypothesis and corroborating evidence.
+  default_severity: '0.6'
+  placement:
+  - rule: R10
+    note: A parent for the dataset-mining templates (open health surveys, genetic summary statistics,
+      spontaneous-report systems), which share a template but use separable vocabularies.
+- name: FormulaicOpenHealthDataAssociation
+  op: create
+  parents:
+  - FormulaicDataMining
+  label: formulaic open health data association
+  definition: A formulaic data mining that relates a single factor to a health condition in an open health
+    survey, typically within an unexplained slice of survey cycles or participants, with the exposure
+    cut into quantiles or fitted with splines until an association appears, and without correction for
+    the many hypotheses the survey allows. Excludes multifactorial analyses with a pre-specified hypothesis,
+    a justified sample and control of false discoveries.
+  definition_source: https://doi.org/10.1371/journal.pbio.3003152
+  default_severity: '0.6'
+  placement:
+  - rule: R5
+    note: Footprint far above the threshold, and rising steeply (see checks).
+  - rule: R10
+    note: A leaf of its own because its terms (named surveys, cycles, single-factor association) separate
+      it from the other data-mining templates.
+  checks:
+    genus_holds: Each exemplar mines a public survey for one exposure-outcome pair chosen without a stated
+      prior hypothesis.
+    exemplars: Both exemplars relate one composite index to one condition in a subset of survey cycles.
+    siblings_excluded: Mendelian randomization and disproportionality templates are planned as separate
+      leaves with their own vocabularies.
+    footprint:
+      works: 2483
+      query: OpenAlex works, filter title.search:(NHANES AND association), title_and_abstract.search:"cross-sectional"
+      date: '2026-11-09'
+      note: Not precision-filtered; includes legitimate analyses. Works per year 2019-2025 rose from 32
+        to 813.
+      author_groups: at least 200 institution lineages
+    typically_exhibits: Not harvested in this run; the source reports missing false-discovery control
+      and selective data use, which a harvest should test against the threshold.
+rebuttals:
+- id: suchak_2025_nhanes_formulaic
+  mode: FormulaicOpenHealthDataAssociation
+  kind: ForensicAnalysis
+  scope: single-factor NHANES association papers
+  source: https://doi.org/10.1371/journal.pbio.3003152
+  doi: 10.1371/journal.pbio.3003152
+  is_retracted: false
+  openalex_id: W4410206242
+  title: Explosion of formulaic research articles, including inappropriate study designs and false discoveries,
+    based on the NHANES US national health database
+  year: 2025
+  venueType: journal
+  retrieved: '2026-11-09'
+- id: grimes_heathers_2025_dichotomisation
+  mode: FormulaicOpenHealthDataAssociation
+  kind: FirstPrinciplesAnalysis
+  scope: arbitrary cut points on continuous exposures
+  source: https://doi.org/10.1186/s12874-025-02712-0
+  doi: 10.1186/s12874-025-02712-0
+  is_retracted: false
+  openalex_id: W4416192634
+  title: “Cake causes herpes?” - promiscuous dichotomisation induces false positives
+  year: 2025
+  venueType: journal
+  retrieved: '2026-11-09'

@@ -122,3 +122,17 @@ caveat:rebuttal_MolecularHydrogenBioactivity_li_2024_hydrogen_oxidative_stress a
     caveat:rebuttalScope "exercise-induced oxidative stress in healthy adults" ;
     caveat:rebuttalSource <https://doi.org/10.3389/fnut.2024.1328705> .
 caveat:MolecularHydrogenBioactivity caveat:rebuttedBy <https://doi.org/10.3389/fnut.2024.1328705> .
+
+caveat:rebuttal_FormulaicOpenHealthDataAssociation_grimes_heathers_2025_dichotomisation a owl:NamedIndividual, caveat:RebuttalLink ;
+    caveat:rebutsMode caveat:FormulaicOpenHealthDataAssociation ;
+    caveat:rebuttalKind caveat:FirstPrinciplesAnalysis ;
+    caveat:rebuttalScope "arbitrary cut points on continuous exposures" ;
+    caveat:rebuttalSource <https://doi.org/10.1186/s12874-025-02712-0> .
+caveat:FormulaicOpenHealthDataAssociation caveat:rebuttedBy <https://doi.org/10.1186/s12874-025-02712-0> .
+
+caveat:rebuttal_FormulaicOpenHealthDataAssociation_suchak_2025_nhanes_formulaic a owl:NamedIndividual, caveat:RebuttalLink ;
+    caveat:rebutsMode caveat:FormulaicOpenHealthDataAssociation ;
+    caveat:rebuttalKind caveat:ForensicAnalysis ;
+    caveat:rebuttalScope "single-factor NHANES association papers" ;
+    caveat:rebuttalSource <https://doi.org/10.1371/journal.pbio.3003152> .
+caveat:FormulaicOpenHealthDataAssociation caveat:rebuttedBy <https://doi.org/10.1371/journal.pbio.3003152> .

@@ -21,7 +21,7 @@ CAVEAT describes a paper along two independent dimensions.
 | `DeliberateMisconduct` | intentional | 1.0 | `DataMisconduct`, `AuthorshipMisconduct`, `PublicationProcessMisconduct`, `SystematicFraudulentProduction` |
 | `PremiseLevelFailure` | premise_failure | 0.95 | `Pseudoscience`, `Denialism`, `UnphysicalMechanism` |
 | `InterpretiveFailure` | interpretive_error | 0.6 | `PathologicalScience`, `SystematicMisinterpretation` |
-| `ExecutionLevelFailure` | methodological_error | 0.3 | `DesignFailures`, `StatisticalMalpractice`, `ReproducibilityFailures`, `Overreach` |
+| `ExecutionLevelFailure` | methodological_error | 0.3 | `DesignFailures`, `StatisticalMalpractice`, `ReproducibilityFailures`, `Overreach`, `CargoCultMethodology` |
 
 Leaf modes include `Fabrication`, `Falsification`, `TextPlagiarism`, `PapermillOperation`, `PredatoryJournalPublication`, `CompromisedPeerReview`, `BiofieldEnergyHealing`, `HomeopathicPharmacology`, `ClimateScienceDenial`, `ColdFusionLENR`, `PHackingHARKing` and `FailedReplication`. The full tree is in [`src/ontology/modules/unreliability-modes.ttl`](src/ontology/modules/unreliability-modes.ttl).
 

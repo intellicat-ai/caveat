@@ -590,3 +590,30 @@ caveat:StatisticalClinicalConflation a owl:Class ;
     rdfs:label "conflation of statistical and clinical significance"@en ;
     caveat:definition "An overreach in which a statistically significant result is presented as clinically, practically, or scientifically meaningful without consideration of effect size or practical relevance."@en ;
     caveat:defaultSeverity "0.25"^^xsd:decimal .
+
+caveat:CargoCultMethodology a owl:Class ;
+    rdfs:subClassOf caveat:ExecutionLevelFailure ;
+    rdfs:label "cargo cult methodology"@en ;
+    caveat:definition "An execution-level failure in which the work reproduces the outward form of an investigation, such as apparatus, controls, assay panels and statistics, without the features that would let its result come out against its hypothesis. Defined by form, not by intent."@en ;
+    caveat:definitionSource <https://resolver.caltech.edu/CaltechES:37.7.CargoCult> ;
+    rdfs:comment "A class belongs under this hub only if every one of its instances is form without a discriminating test. Failure kinds that also have honest, non-ritual instances, such as missing controls or uncorrected multiple comparisons, are linked from here by typicallyExhibits, not placed under it."@en ;
+    caveat:defaultSeverity "0.5"^^xsd:decimal .
+
+caveat:FormulaicResearch a owl:Class ;
+    rdfs:subClassOf caveat:CargoCultMethodology ;
+    rdfs:label "formulaic research"@en ;
+    caveat:definition "A cargo cult methodology in which papers are produced from a fixed template and differ only in the variables swapped into it, such as exposure, outcome, agent, target, geometry or dataset, so that no paper poses a question its method could answer against it."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
+
+caveat:FormulaicDataMining a owl:Class ;
+    rdfs:subClassOf caveat:FormulaicResearch ;
+    rdfs:label "formulaic data mining"@en ;
+    caveat:definition "A formulaic research in which a public dataset is searched for associations between an exposure and an outcome chosen for availability rather than motivated by a prior hypothesis. Excludes studies with a pre-specified, motivated hypothesis and corroborating evidence."@en ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
+
+caveat:FormulaicOpenHealthDataAssociation a owl:Class ;
+    rdfs:subClassOf caveat:FormulaicDataMining ;
+    rdfs:label "formulaic open health data association"@en ;
+    caveat:definition "A formulaic data mining that relates a single factor to a health condition in an open health survey, typically within an unexplained slice of survey cycles or participants, with the exposure cut into quantiles or fitted with splines until an association appears, and without correction for the many hypotheses the survey allows. Excludes multifactorial analyses with a pre-specified hypothesis, a justified sample and control of false discoveries."@en ;
+    caveat:definitionSource <https://doi.org/10.1371/journal.pbio.3003152> ;
+    caveat:defaultSeverity "0.6"^^xsd:decimal .
