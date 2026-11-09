@@ -96,20 +96,25 @@ def acquire_work(client: Client, ref: str, sources: Path, meta: Path) -> dict:
            "year": w.get("publication_year"), "is_retracted": w.get("is_retracted")}
     doi = (w.get("doi") or "").replace("https://doi.org/", "")
     url = openalex.oa_pdf_url(w) or (unpaywall_pdf(client, doi) if doi else None)
-    if not url:
-        return rec | {"status": "no_open_access_pdf"}
-    r = client.get(url)
-    if r.status_code != 200 or not r.content.startswith(b"%PDF"):
-        return rec | {"status": "pdf_unavailable", "pdf_url": url}
+    r = client.get(url) if url else None
+    if r is None or r.status_code != 200 or not r.content.startswith(b"%PDF"):
+        # No usable PDF: an open-access landing page often carries the full text.
+        landing = ((w.get("best_oa_location") or {}).get("landing_page_url")
+                   if (w.get("open_access") or {}).get("is_oa") else None)
+        if landing:
+            page = acquire_url(client, landing, sources, key=key)
+            if page["status"] == "ok":
+                return rec | {"status": "ok", "converted_by": "landing_page", "url": landing, "text": page["text"]}
+        return rec | {"status": "pdf_unavailable" if url else "no_open_access_text", "pdf_url": url}
     status, how = pdf_to_text(r.content, key, sources, client.session)
     rec |= {"status": status, "pdf_url": url, "converted_by": how}
     return rec | ({"text": f"sources/{key}.txt"} if status == "ok" else {})
 
 
-def acquire_url(client: Client, url: str, sources: Path) -> dict:
+def acquire_url(client: Client, url: str, sources: Path, key: str | None = None) -> dict:
     import trafilatura
     r = client.get(url)
-    key = key_for(url)
+    key = key or key_for(url)
     if r.status_code != 200:
         return {"ref": url, "key": key, "status": f"http_{r.status_code}"}
     text = trafilatura.extract(r.text) or ""
