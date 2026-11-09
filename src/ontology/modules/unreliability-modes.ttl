@@ -376,7 +376,8 @@ caveat:Denialism a owl:Class ;
     rdfs:label "denialism"@en ;
     caveat:definition "A premise-level failure in which the claim is defined by its opposition to an established scientific consensus and is pursued with the denialist toolkit: conspiracy theories, fake experts, selective citation, impossible expectations of evidence, and misrepresentation. Distinguished from pseudoscience by its relation to the consensus, not by whether it asserts or denies an effect."@en ;
     caveat:definitionSource <https://doi.org/10.1093/eurpub/ckn139> ;
-    caveat:defaultSeverity "0.9"^^xsd:decimal .
+    caveat:defaultSeverity "0.9"^^xsd:decimal ;
+    caveat:lexiconFile "rejection/denialism-base.yaml" .
 
 caveat:ClimateScienceDenial a owl:Class ;
     rdfs:subClassOf caveat:Denialism ;

@@ -48,6 +48,7 @@ Each marker-to-mode link is a named `caveat:EvidenceLink` node with its own `cav
 | `VitalistEnergyMedicine` | `engagement/vitalist-energy-medicine.yaml` |
 | `BiofieldEnergyHealing` | `engagement/biofield-energy-healing.yaml` |
 | `MagnetizedWater` | `engagement/magnetized-water.yaml` |
+| `Denialism` | `rejection/denialism-base.yaml` |
 
 A separate retraction-aware lexicon, `rejection/retracted-literature-base.yaml`, is attached to `UnreliabilityMode` through `caveat:retractionAwareLexiconFile`. It is not inherited. Consumers activate it per probe when the source paper has been retracted.
 

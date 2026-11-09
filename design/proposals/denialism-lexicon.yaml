@@ -1,0 +1,100 @@
+# Reviewed proposal, applied by scripts/authoring/apply_proposal.py.
+schema: caveat-proposal/1
+slug: denialism-lexicon
+intent: lexicon_only
+decision: lexicon_only
+date: '2026-11-09'
+annotation:
+  annotator: agent
+  reviewer: vr
+summary: Adds a base rejection vocabulary for denialism, inherited by every denialism subtopic. Medical
+  denialism and its children lost the pseudoscience rejection vocabulary when they moved under Denialism;
+  this lexicon gives them terms that name opposition to a consensus and its toolkit, and the framings
+  that present a settled question as open.
+sources:
+- ref: https://doi.org/10.1093/eurpub/ckn139
+  role: definition
+  title: 'Denialism: what is it and how should scientists respond?'
+  year: 2008
+  openalex_id: W2041004514
+  note: Not open access; terms follow the toolkit named in the Denialism definition, not the article's
+    text.
+classes:
+- name: Denialism
+  op: update
+  lexicon_file: rejection/denialism-base.yaml
+lexicons:
+- file: rejection/denialism-base.yaml
+  domain: caveat:Denialism
+  inherits_from: none
+  extraction_method:
+    source: The denialist toolkit named in the Denialism definition and its definition source; the classification
+      scheme of rejection/pseudoscience-base.yaml
+    method: Manual curation by the drafter. Rejection terms describe how a text treats a claim, so no
+      title precision probe applies, and general_frequency is omitted as for other rejection terms.
+    date: '2026-11-09'
+  terms:
+  - term: science denial
+    classification: categorical_rejection
+    variants:
+    - science denialism
+    rationale: Names the claim as opposition to established science.
+  - term: denialism
+    classification: categorical_rejection
+    variants:
+    - denialist
+    - denialists
+    rationale: The category label itself.
+  - term: misinformation
+    classification: categorical_rejection
+    variants:
+    - disinformation
+    rationale: Classifies the claim as false information in circulation.
+  - term: conspiracy theory
+    classification: categorical_rejection
+    variants:
+    - conspiracy theories
+    rationale: Names the first tool of the denialist toolkit when a claim depends on a supposed cover-up.
+  - term: contrary to the scientific consensus
+    classification: categorical_rejection
+    variants:
+    - contradicts the scientific consensus
+    - rejects the scientific consensus
+    rationale: States the defining relation of denialism to the consensus.
+  - term: fake experts
+    classification: categorical_rejection
+    rationale: Names a tool of the toolkit; used when a claim rests on authorities without standing in
+      the field.
+  - term: has been refuted
+    classification: evidence_absence
+    variants:
+    - repeatedly refuted
+    - thoroughly refuted
+    - repeatedly disproven
+    rationale: Asserts that the claim was tested and failed.
+  - term: cherry-picked
+    classification: evidence_absence
+    variants:
+    - cherry-picking
+    - selective citation
+    rationale: Asserts that the supporting evidence is a selection against the full record.
+  - term: both sides
+    classification: sanewashing
+    variants:
+    - both sides of the debate
+    rationale: Presents a settled question as a two-sided debate.
+  - term: scientists are divided
+    classification: sanewashing
+    rationale: Implies a split in the field where the consensus is settled.
+  - term: skeptics
+    classification: sanewashing_mild
+    rationale: Calling those who deny a consensus skeptics lends them the standing of ordinary scientific
+      doubt.
+  - term: the science is not settled
+    classification: sanewashing_strong
+    rationale: Actively asserts that the consensus is open.
+  - term: suppressed research
+    classification: sanewashing_strong
+    variants:
+    - mainstream science ignores
+    rationale: Adopts the conspiracy framing, presenting the denial as evidence kept from view.
